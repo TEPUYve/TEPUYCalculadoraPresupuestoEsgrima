@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Presupuesto Esgrima | TEPUY</title>
+    <meta name="description"
+        content="Herramienta TEPUY para planificación financiera de competencias de esgrima en Venezuela. Calcula presupuestos en USD, Bolívares y Euros con tasas BCV actualizadas.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .tepuy-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .card-transition {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input:focus {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Animación de carga */
+        @keyframes shimmer {
+            0% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.4;
+            }
+        }
+
+        .loading-shimmer {
+            animation: shimmer 1.5s ease-in-out infinite;
+        }
+
+        /* Pulse verde para el status */
+        @keyframes pulse-green {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+            }
+        }
+
+        .pulse-green {
+            animation: pulse-green 2s infinite;
+        }
+
+        /* Ajustes responsivos */
+        @media (max-width: 640px) {
+            .total-text {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Toast de notificación */
+        #toast {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bcv-rate-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 0.6rem 1rem;
+            min-width: 120px;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen pb-20">
+
+    <!-- Toast de notificación -->
+    <div id="toast"
+        class="fixed top-4 right-4 z-[100] bg-green-600 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl opacity-0 pointer-events-none flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        <span id="toastMsg"></span>
+    </div>
+
+    <!-- Header / Branding -->
+    <header class="tepuy-gradient text-white py-5 px-4 shadow-xl mb-8 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+
+            <!-- Logo + Título -->
+            <div class="flex items-center gap-4">
+                <a href="https://tepuy.site" target="_blank" rel="noopener">
+                    <img src="https://tepuy.site/images/logo.png" alt="TEPUY Logo" class="h-12 w-auto drop-shadow-lg">
+                </a>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-extrabold tracking-tighter leading-none">
+                        <span class="text-blue-400">TEPUY</span> <span class="text-slate-200 uppercase">Calculadora de
+                            Presupuesto</span>
+                    </h1>
+                    <p class="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mt-1">
+                        Planificación Inteligente de Inversión Deportiva</p>
+                </div>
+            </div>
+
+            <!-- Widget de Tasas BCV: USD + EUR -->
+            <div class="flex flex-row flex-wrap gap-2 items-center justify-center md:justify-end">
+                <!-- Estado general -->
+                <div class="flex flex-col items-center gap-1">
+                    <div id="apiStatus" class="w-2.5 h-2.5 rounded-full bg-yellow-500 animate-pulse"></div>
+                    <p id="fechaActualizacion"
+                        class="text-[8px] text-slate-500 font-medium italic text-center max-w-[90px]">Sincronizando…</p>
+                </div>
+
+                <!-- Tasa USD -->
+                <div class="bcv-rate-box">
+                    <p class="text-[8px] uppercase font-black text-blue-400 tracking-widest mb-1">BCV · USD</p>
+                    <div class="flex items-center gap-1">
+                        <span class="text-white/50 font-bold text-xs">Bs.</span>
+                        <input type="number" id="globalTasa" step="0.01" value="0.00" oninput="actualizarTodo()"
+                            class="bg-transparent w-full text-lg font-black text-white focus:outline-none border-b border-transparent focus:border-blue-400 transition-colors"
+                            title="Tasa BCV USD - editable manualmente">
+                    </div>
+                </div>
+
+                <!-- Tasa EUR (solo lectura, referencial) -->
+                <div class="bcv-rate-box">
+                    <p class="text-[8px] uppercase font-black text-emerald-400 tracking-widest mb-1">BCV · EUR</p>
+                    <div class="flex items-center gap-1">
+                        <span class="text-white/50 font-bold text-xs">Bs.</span>
+                        <span id="tasaEurDisplay" class="text-lg font-black text-white loading-shimmer">—</span>
+                    </div>
+                </div>
+
+                <!-- Botón refrescar -->
+                <button onclick="fetchTasaBCV(true)" title="Refrescar tasas BCV"
+                    class="bg-white/10 hover:bg-white/20 border border-white/10 text-white p-2.5 rounded-xl transition-all active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Configuraciones Izquierda -->
+        <div class="lg:col-span-4 space-y-6">
+
+            <!-- Costos de Competencia -->
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 card-transition hover:shadow-md">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="16" />
+                            <line x1="8" y1="12" x2="16" y2="12" />
+                        </svg>
+                    </div>
+                    <h2 class="text-sm font-black uppercase tracking-tight text-slate-700">Costos Base</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Inscripción por Arma
+                            ($)</label>
+                        <input type="number" id="costoPrueba" value="0" oninput="actualizarTodo()"
+                            class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500 transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Aporte Asociación /
+                            Atleta ($)</label>
+                        <input type="number" id="aporteAsoc" value="0" oninput="actualizarTodo()"
+                            class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500">
+                        <p class="text-[8px] text-slate-400 mt-1 italic">* Pago único por atleta</p>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Viáticos Entrenador
+                            ($)</label>
+                        <input type="number" id="viaticosEntr" value="0" oninput="actualizarTodo()"
+                            class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logística -->
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 card-transition hover:shadow-md">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path
+                                d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+                            <circle cx="7" cy="17" r="2" />
+                            <path d="M9 17h6" />
+                            <circle cx="17" cy="17" r="2" />
+                        </svg>
+                    </div>
+                    <h2 class="text-sm font-black uppercase tracking-tight text-slate-700">Logística de Viaje</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Transporte / Gasolina
+                            ($)</label>
+                        <input type="number" id="viajeTrans" value="0" oninput="actualizarTodo()"
+                            class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Alojamiento
+                            ($)</label>
+                        <input type="number" id="viajeHotel" value="0" oninput="actualizarTodo()"
+                            class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Comidas / Otros
+                            ($)</label>
+                        <input type="number" id="viajeComida" value="0" oninput="actualizarTodo()"
+                            class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Atletas y Resumen Derecha -->
+        <div class="lg:col-span-8 space-y-6">
+
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <h2 class="text-xl font-extrabold text-slate-800 uppercase tracking-tight flex items-center gap-2">
+                    <span class="w-2 h-6 bg-blue-600 rounded-full"></span>
+                    Presupuesto por Atleta
+                </h2>
+                <button onclick="agregarAtleta()"
+                    class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl text-sm font-black flex items-center justify-center gap-2 transition-all shadow-lg active:scale-95 uppercase tracking-tighter">
+                    <span>+ Añadir Atleta</span>
+                </button>
+            </div>
+
+            <div id="listaAtletas" class="space-y-4">
+                <!-- Dinámico -->
+            </div>
+
+            <!-- Gran Total con Detallado -->
+            <div
+                class="bg-slate-900 rounded-[2.5rem] p-6 md:p-10 text-white shadow-2xl relative overflow-hidden border border-white/5">
+                <!-- Branding sutil de fondo -->
+                <div class="absolute -bottom-4 -right-4 opacity-[0.03]">
+                    <img src="https://tepuy.site/images/logo.png" alt="" class="w-64">
+                </div>
+
+                <div class="relative z-10">
+                    <h3
+                        class="text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-8 border-b border-white/10 pb-4">
+                        Inversión Total del Proyecto Deportivo</h3>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-10">
+                        <!-- Columna de Números Grandes -->
+                        <div class="lg:col-span-2 flex flex-col justify-center">
+                            <div class="mb-6">
+                                <p class="text-[10px] uppercase text-slate-400 font-black mb-1">Total en Divisas (USD)
+                                </p>
+                                <p class="text-5xl md:text-6xl font-black font-mono tracking-tighter text-white"
+                                    id="totalGeneralUSD">$0.00</p>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="bg-blue-600/20 p-4 rounded-2xl border border-blue-500/30">
+                                    <p class="text-[9px] font-black text-blue-400 uppercase tracking-widest mb-1">
+                                        Estimado en Bolívares</p>
+                                    <p class="text-2xl font-mono font-bold text-white" id="totalGeneralBs">Bs. 0,00</p>
+                                    <p class="text-[8px] text-blue-300/60 mt-1" id="infoTasaUSD"></p>
+                                </div>
+                                <div class="bg-emerald-600/20 p-4 rounded-2xl border border-emerald-500/30">
+                                    <p class="text-[9px] font-black text-emerald-400 uppercase tracking-widest mb-1">
+                                        Estimado en Euros</p>
+                                    <p class="text-2xl font-mono font-bold text-white" id="totalGeneralEur">€ 0,00</p>
+                                    <p class="text-[8px] text-emerald-300/60 mt-1" id="infoTasaEUR"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Columna de Detalle -->
+                        <div
+                            class="lg:col-span-3 bg-white/5 rounded-[2rem] p-6 border border-white/10 backdrop-blur-sm">
+                            <h4
+                                class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 text-center lg:text-left">
+                                Análisis de la Inversión:</h4>
+                            <div id="desgloseDetallado" class="space-y-3">
+                                <!-- Se genera con JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-center text-slate-400 text-[10px] font-medium px-4">
+                Herramienta de planificación financiera de <a href="https://tepuy.site" target="_blank"
+                    class="text-blue-400 hover:underline font-bold">TEPUY</a> para familias esgrimistas de Venezuela.
+                Las tasas se obtienen de la API pública BCV vía <a href="https://bcv.justcarlux.dev" target="_blank"
+                    class="text-blue-400 hover:underline">bcv.justcarlux.dev</a>.
+            </p>
+        </div>
+    </main>
+
+    <script>
+        // ─── Estado ────────────────────────────────────────────────────────────
+        let atletas = [
+            { id: Date.now(), nombre: '', pruebas: 0, licencia: 0 }
+        ];
+
+        let tasaUsdBcv = 0;
+        let tasaEuroBcv = 0;
+
+        // ─── API BCV ───────────────────────────────────────────────────────────
+        /**
+         * Obtiene tasas de cambio desde https://bcv.justcarlux.dev/api/v1/rates
+         * Respuesta esperada: { "rates": { "usd": 425.67, "eur": 491.49, ... }, "updatedAt": 1772624316006 }
+         *
+         * Nota sobre CORS local: cuando se abre el archivo desde file:// en local,
+         * algunos navegadores por defecto bloquean fetch a dominios externos.
+         * Soluciones para pruebas locales:
+         *   - Chrome: lanzar con --disable-web-security (solo tests)
+         *   - Firefox: acepta por defecto si la API tiene CORS abierto
+         *   - Usar un servidor local simple: npx serve .
+         *
+         * En producción (GitHub Pages, tepuy.site) funciona sin restricciones.
+         */
+        async function fetchTasaBCV(manual = false) {
+            const apiStatus = document.getElementById('apiStatus');
+            const fechaTxt = document.getElementById('fechaActualizacion');
+            const inputTasaUsd = document.getElementById('globalTasa');
+            const tasaEurEl = document.getElementById('tasaEurDisplay');
+
+            // Estado: cargando
+            apiStatus.className = 'w-2.5 h-2.5 rounded-full bg-yellow-500 animate-pulse';
+            tasaEurEl.classList.add('loading-shimmer');
+
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000); // timeout 8s
+
+                const response = await fetch('https://bcv.justcarlux.dev/api/v1/rates', {
+                    signal: controller.signal,
+                    cache: 'no-cache'
+                });
+                clearTimeout(timeoutId);
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const data = await response.json();
+
+                // Validar estructura esperada
+                if (!data.rates || typeof data.rates.usd !== 'number' || typeof data.rates.eur !== 'number') {
+                    throw new Error('Formato de respuesta inesperado');
+                }
+
+                tasaUsdBcv = data.rates.usd;
+                tasaEuroBcv = data.rates.eur;
+
+                const fecha = new Date(data.updatedAt);
+                const fechaStr = fecha.toLocaleDateString('es-VE', { day: '2-digit', month: '2-digit', year: '2-digit' });
+                const horaStr = fecha.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' });
+
+                // Actualizar UI
+                inputTasaUsd.value = tasaUsdBcv.toFixed(2);
+                tasaEurEl.textContent = tasaEuroBcv.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                tasaEurEl.classList.remove('loading-shimmer');
+
+                apiStatus.className = 'w-2.5 h-2.5 rounded-full bg-green-400 pulse-green';
+                fechaTxt.textContent = `BCV ${fechaStr} ${horaStr}`;
+
+                if (manual) mostrarToast('✅ Tasas BCV actualizadas');
+
+                actualizarTodo();
+
+            } catch (error) {
+                console.warn('[TEPUY] Error al obtener tasas BCV:', error.message);
+
+                apiStatus.className = 'w-2.5 h-2.5 rounded-full bg-red-500';
+                tasaEurEl.textContent = 'N/D';
+                tasaEurEl.classList.remove('loading-shimmer');
+
+                if (error.name === 'AbortError') {
+                    fechaTxt.textContent = 'Tiempo de espera agotado. Ingrese tasas manualmente.';
+                } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    fechaTxt.textContent = 'Sin conexión. Puede ingresar la tasa USD manualmente.';
+                } else {
+                    fechaTxt.textContent = 'Error API. Ingrese tasa USD manualmente.';
+                }
+
+                if (manual) mostrarToast('⚠️ No se pudo actualizar. Verifique su conexión.', true);
+            }
+        }
+
+        // ─── Toast ─────────────────────────────────────────────────────────────
+        function mostrarToast(msg, esError = false) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toast.textContent = '';
+            toastMsg.textContent = msg;
+            toast.className = `fixed top-4 right-4 z-[100] text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 transition-all ${esError ? 'bg-red-600' : 'bg-green-600'}`;
+            toast.style.opacity = '1';
+            toast.style.pointerEvents = 'auto';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.pointerEvents = 'none';
+            }, 3500);
+        }
+
+        // ─── Atletas ───────────────────────────────────────────────────────────
+        function agregarAtleta() {
+            atletas.push({ id: Date.now(), nombre: '', pruebas: 0, licencia: 0 });
+            renderizarAtletas();
+            actualizarTodo();
+        }
+
+        function eliminarAtleta(id) {
+            if (atletas.length > 1) {
+                atletas = atletas.filter(a => a.id !== id);
+                renderizarAtletas();
+                actualizarTodo();
+            }
+        }
+
+        function updateAtletaData(id, campo, valor) {
+            const index = atletas.findIndex(a => a.id === id);
+            if (index !== -1) {
+                atletas[index][campo] = campo === 'nombre' ? valor : parseFloat(valor) || 0;
+                actualizarTodo();
+            }
+        }
+
+        function renderizarAtletas() {
+            const container = document.getElementById('listaAtletas');
+            container.innerHTML = atletas.map((atleta, idx) => `
+                <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-6 items-center card-transition hover:border-blue-200">
+                    <div class="flex-1 w-full">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-1.5 h-6 bg-blue-600 rounded-full"></div>
+                            <input type="text"
+                                placeholder="Nombre del atleta ${idx + 1}"
+                                value="${atleta.nombre ? atleta.nombre.replace(/"/g, '&quot;') : ''}"
+                                oninput="updateAtletaData(${atleta.id}, 'nombre', this.value)"
+                                class="text-lg font-extrabold bg-transparent border-b border-slate-100 focus:border-blue-500 outline-none w-full py-1">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-slate-50 p-3 rounded-2xl">
+                                <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Nº Armas / Pruebas</label>
+                                <input type="number" value="${atleta.pruebas}"
+                                    oninput="updateAtletaData(${atleta.id}, 'pruebas', this.value)"
+                                    class="w-full bg-transparent font-black text-slate-800 focus:outline-none">
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-2xl">
+                                <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Licencia FVE ($)</label>
+                                <input type="number" value="${atleta.licencia}"
+                                    oninput="updateAtletaData(${atleta.id}, 'licencia', this.value)"
+                                    class="w-full bg-transparent font-black text-slate-800 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center sm:text-right min-w-[140px] border-t sm:border-t-0 sm:border-l border-slate-100 pt-4 sm:pt-0 sm:pl-6">
+                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Subtotal Inversión</p>
+                        <p class="text-2xl font-mono font-black text-blue-600" id="subtotal-${atleta.id}">$0.00</p>
+                        <button onclick="eliminarAtleta(${atleta.id})"
+                            class="text-slate-300 hover:text-red-500 text-[9px] mt-3 font-bold uppercase transition-colors">
+                            Remover
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ─── Cálculos ──────────────────────────────────────────────────────────
+        function actualizarTodo() {
+            const tasaUsd = parseFloat(document.getElementById('globalTasa').value) || 0;
+            const cPrueba = parseFloat(document.getElementById('costoPrueba').value) || 0;
+            const cAporte = parseFloat(document.getElementById('aporteAsoc').value) || 0;
+            const cViaticos = parseFloat(document.getElementById('viaticosEntr').value) || 0;
+            const lTrans = parseFloat(document.getElementById('viajeTrans').value) || 0;
+            const lHotel = parseFloat(document.getElementById('viajeHotel').value) || 0;
+            const lComida = parseFloat(document.getElementById('viajeComida').value) || 0;
+
+            let sumaInscripciones = 0;
+            let sumaAportesUnicos = 0;
+            let sumaLicencias = 0;
+            let totalAtletasUSD = 0;
+
+            atletas.forEach(atleta => {
+                const montoInsc = (atleta.pruebas || 0) * cPrueba;
+                const sub = montoInsc + cAporte + (atleta.licencia || 0);
+
+                sumaInscripciones += montoInsc;
+                sumaAportesUnicos += cAporte;
+                sumaLicencias += (atleta.licencia || 0);
+
+                const subElement = document.getElementById(`subtotal-${atleta.id}`);
+                if (subElement) subElement.innerText = `$${sub.toFixed(2)}`;
+                totalAtletasUSD += sub;
+            });
+
+            const totalGeneralUSD = totalAtletasUSD + cViaticos + lTrans + lHotel + lComida;
+            const totalGeneralBs = totalGeneralUSD * tasaUsd;
+
+            // EUR: convertimos desde Bs usando la tasa EUR/Bs del BCV
+            // La API devuelve cuántos Bs vale 1 EUR, entonces: EUR = Bs / tasaEurBcv
+            const tasaEurActual = tasaEuroBcv > 0 ? tasaEuroBcv : 0;
+            const totalGeneralEur = tasaEurActual > 0 ? (totalGeneralBs / tasaEurActual) : 0;
+
+            document.getElementById('totalGeneralUSD').innerText = `$${totalGeneralUSD.toFixed(2)}`;
+            document.getElementById('totalGeneralBs').innerText =
+                `Bs. ${totalGeneralBs.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('totalGeneralEur').innerText =
+                `€ ${totalGeneralEur.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+            // Info de tasas usadas
+            document.getElementById('infoTasaUSD').textContent =
+                tasaUsd > 0 ? `@ Bs. ${tasaUsd.toFixed(2)} / USD` : 'Obtén la tasa con el botón ↺';
+            document.getElementById('infoTasaEUR').textContent =
+                tasaEurActual > 0 ? `@ Bs. ${tasaEurActual.toFixed(2)} / EUR` : 'Tasa EUR no disponible';
+
+            // Análisis detallado
+            const items = [
+                { nombre: `Inscripciones (${atletas.reduce((a, b) => a + (b.pruebas || 0), 0)} arma(s))`, monto: sumaInscripciones },
+                { nombre: `Aporte Único Asoc. (${atletas.length} atleta(s))`, monto: sumaAportesUnicos },
+                { nombre: `Licencias Federativas`, monto: sumaLicencias },
+                { nombre: `Viáticos de Cuerpo Técnico`, monto: cViaticos },
+                { nombre: `Gastos de Transporte`, monto: lTrans },
+                { nombre: `Alojamiento Seleccionado`, monto: lHotel },
+                { nombre: `Alimentación e Imprevistos`, monto: lComida }
+            ];
+
+            const containerDesglose = document.getElementById('desgloseDetallado');
+            const itemsValidos = items.filter(i => i.monto > 0);
+
+            if (itemsValidos.length === 0) {
+                containerDesglose.innerHTML = `<p class="text-xs text-slate-500 italic text-center py-4">Ingrese montos para ver el desglose.</p>`;
+            } else {
+                // Calcular porcentajes para visualización
+                const maxMonto = Math.max(...itemsValidos.map(i => i.monto));
+                containerDesglose.innerHTML = itemsValidos.map(item => {
+                    const pct = totalGeneralUSD > 0 ? ((item.monto / totalGeneralUSD) * 100).toFixed(1) : 0;
+                    const barW = maxMonto > 0 ? ((item.monto / maxMonto) * 100).toFixed(0) : 0;
+                    return `
+                    <div class="border-b border-white/5 pb-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs text-slate-300 font-medium">${item.nombre}</span>
+                            <span class="font-mono font-bold text-blue-300 text-xs ml-2 whitespace-nowrap">$${item.monto.toFixed(2)}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-1 bg-white/5 rounded-full h-1.5">
+                                <div class="bg-blue-500/70 h-1.5 rounded-full transition-all duration-500" style="width:${barW}%"></div>
+                            </div>
+                            <span class="text-[9px] text-slate-500 font-bold w-8 text-right">${pct}%</span>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+        }
+
+        // ─── Init ──────────────────────────────────────────────────────────────
+        window.onload = function () {
+            renderizarAtletas();
+            fetchTasaBCV();
+        };
+    </script>
+</body>
+
+</html>
