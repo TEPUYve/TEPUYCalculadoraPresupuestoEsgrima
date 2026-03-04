@@ -191,7 +191,7 @@
 
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Inscripción por Arma
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Inscripción por Prueba
                             ($)</label>
                         <input type="number" id="costoPrueba" value="0" oninput="actualizarTodo()"
                             class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500 transition-all">
@@ -203,12 +203,7 @@
                             class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500">
                         <p class="text-[8px] text-slate-400 mt-1 italic">* Pago único por atleta</p>
                     </div>
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Viáticos Entrenador
-                            ($)</label>
-                        <input type="number" id="viaticosEntr" value="0" oninput="actualizarTodo()"
-                            class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500">
-                    </div>
+
                 </div>
             </div>
 
@@ -324,8 +319,10 @@
             <p class="text-center text-slate-400 text-[10px] font-medium px-4">
                 Herramienta de planificación financiera de <a href="https://tepuy.site" target="_blank"
                     class="text-blue-400 hover:underline font-bold">TEPUY</a> para familias esgrimistas de Venezuela.
-                Las tasas se obtienen de la API pública BCV vía <a href="https://bcv.justcarlux.dev" target="_blank"
-                    class="text-blue-400 hover:underline">bcv.justcarlux.dev</a>.
+                Las tasas provienen de <a href="https://bcv.justcarlux.dev" target="_blank"
+                    class="text-blue-400 hover:underline">bcv.justcarlux.dev</a> (primaria) o de
+                <a href="https://ve.dolarapi.com" target="_blank"
+                    class="text-blue-400 hover:underline">ve.dolarapi.com</a> (respaldo oficial BCV).
             </p>
         </div>
     </main>
@@ -333,7 +330,7 @@
     <script>
         // ─── Estado ────────────────────────────────────────────────────────────
         let atletas = [
-            { id: Date.now(), nombre: '', pruebas: 0, licencia: 0 }
+            { id: Date.now(), nombre: '', pruebas: 0, licencia: 0, viaticos: 0 }
         ];
 
         let tasaUsdBcv = 0;
@@ -341,18 +338,36 @@
 
         // ─── API BCV ───────────────────────────────────────────────────────────
         /**
-         * Obtiene tasas de cambio desde https://bcv.justcarlux.dev/api/v1/rates
-         * Respuesta esperada: { "rates": { "usd": 425.67, "eur": 491.49, ... }, "updatedAt": 1772624316006 }
+         * Estrategia de obtención de tasas (en orden de prioridad):
+         *   1. API primaria: https://bcv.justcarlux.dev/api/v1/rates  (USD + EUR en un solo request)
+         *   2. API de respaldo USD: https://ve.dolarapi.com/v1/dolares/oficial
+         *   3. API de respaldo EUR: https://ve.dolarapi.com/v1/euros/oficial
          *
-         * Nota sobre CORS local: cuando se abre el archivo desde file:// en local,
-         * algunos navegadores por defecto bloquean fetch a dominios externos.
-         * Soluciones para pruebas locales:
-         *   - Chrome: lanzar con --disable-web-security (solo tests)
-         *   - Firefox: acepta por defecto si la API tiene CORS abierto
-         *   - Usar un servidor local simple: npx serve .
-         *
-         * En producción (GitHub Pages, tepuy.site) funciona sin restricciones.
+         * Si se usa el respaldo, se muestra la fecha de actualización de cada tasa.
          */
+
+        async function fetchWithTimeout(url, timeoutMs = 8000) {
+            const ctrl = new AbortController();
+            const id = setTimeout(() => ctrl.abort(), timeoutMs);
+            try {
+                const res = await fetch(url, { signal: ctrl.signal, cache: 'no-cache' });
+                clearTimeout(id);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return await res.json();
+            } catch (e) {
+                clearTimeout(id);
+                throw e;
+            }
+        }
+
+        function formatFecha(dateValue) {
+            // Acepta timestamp (number) o string ISO
+            const d = new Date(dateValue);
+            const fechaStr = d.toLocaleDateString('es-VE', { day: '2-digit', month: '2-digit', year: '2-digit' });
+            const horaStr = d.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' });
+            return `${fechaStr} ${horaStr}`;
+        }
+
         async function fetchTasaBCV(manual = false) {
             const apiStatus = document.getElementById('apiStatus');
             const fechaTxt = document.getElementById('fechaActualizacion');
@@ -363,61 +378,97 @@
             apiStatus.className = 'w-2.5 h-2.5 rounded-full bg-yellow-500 animate-pulse';
             tasaEurEl.classList.add('loading-shimmer');
 
+            let usdOk = false;
+            let eurOk = false;
+            let fuenteLabel = '';
+            let fechaUsdStr = '';
+            let fechaEurStr = '';
+
+            // ── 1. Intentar API primaria (justcarlux) ────────────────────────────
             try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 8000); // timeout 8s
+                const data = await fetchWithTimeout('https://bcv.justcarlux.dev/api/v1/rates');
 
-                const response = await fetch('https://bcv.justcarlux.dev/api/v1/rates', {
-                    signal: controller.signal,
-                    cache: 'no-cache'
-                });
-                clearTimeout(timeoutId);
+                if (data.rates && typeof data.rates.usd === 'number' && typeof data.rates.eur === 'number') {
+                    tasaUsdBcv = data.rates.usd;
+                    tasaEuroBcv = data.rates.eur;
+                    usdOk = true;
+                    eurOk = true;
+                    fuenteLabel = `BCV ${formatFecha(data.updatedAt)}`;
+                } else {
+                    throw new Error('Estructura inesperada en API primaria');
+                }
+            } catch (errPrimaria) {
+                console.warn('[TEPUY] API primaria falló:', errPrimaria.message);
 
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-                const data = await response.json();
-
-                // Validar estructura esperada
-                if (!data.rates || typeof data.rates.usd !== 'number' || typeof data.rates.eur !== 'number') {
-                    throw new Error('Formato de respuesta inesperado');
+                // ── 2. Respaldo USD: dolarapi.com ───────────────────────────────
+                try {
+                    const dataUsd = await fetchWithTimeout('https://ve.dolarapi.com/v1/dolares/oficial');
+                    const valorUsd = typeof dataUsd.promedio === 'number' ? dataUsd.promedio
+                        : typeof dataUsd.venta === 'number' ? dataUsd.venta
+                            : null;
+                    if (valorUsd !== null && valorUsd > 0) {
+                        tasaUsdBcv = valorUsd;
+                        usdOk = true;
+                        fechaUsdStr = dataUsd.fechaActualizacion ? formatFecha(dataUsd.fechaActualizacion) : '';
+                    }
+                } catch (errUsd) {
+                    console.warn('[TEPUY] Respaldo USD (dolarapi) falló:', errUsd.message);
                 }
 
-                tasaUsdBcv = data.rates.usd;
-                tasaEuroBcv = data.rates.eur;
+                // ── 3. Respaldo EUR: dolarapi.com ───────────────────────────────
+                try {
+                    const dataEur = await fetchWithTimeout('https://ve.dolarapi.com/v1/euros/oficial');
+                    const valorEur = typeof dataEur.promedio === 'number' ? dataEur.promedio
+                        : typeof dataEur.venta === 'number' ? dataEur.venta
+                            : null;
+                    if (valorEur !== null && valorEur > 0) {
+                        tasaEuroBcv = valorEur;
+                        eurOk = true;
+                        fechaEurStr = dataEur.fechaActualizacion ? formatFecha(dataEur.fechaActualizacion) : '';
+                    }
+                } catch (errEur) {
+                    console.warn('[TEPUY] Respaldo EUR (dolarapi) falló:', errEur.message);
+                }
 
-                const fecha = new Date(data.updatedAt);
-                const fechaStr = fecha.toLocaleDateString('es-VE', { day: '2-digit', month: '2-digit', year: '2-digit' });
-                const horaStr = fecha.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' });
+                // Construir etiqueta de fecha para el respaldo
+                if (usdOk || eurOk) {
+                    if (fechaUsdStr && fechaEurStr && fechaUsdStr === fechaEurStr) {
+                        fuenteLabel = `Respaldo BCV · ${fechaUsdStr}`;
+                    } else {
+                        const partes = [];
+                        if (usdOk && fechaUsdStr) partes.push(`USD ${fechaUsdStr}`);
+                        if (eurOk && fechaEurStr) partes.push(`EUR ${fechaEurStr}`);
+                        fuenteLabel = partes.length ? `Respaldo · ${partes.join(' · ')}` : 'Respaldo BCV';
+                    }
+                }
+            }
 
-                // Actualizar UI
+            // ── Actualizar UI ─────────────────────────────────────────────────────
+            if (usdOk) {
                 inputTasaUsd.value = tasaUsdBcv.toFixed(2);
+            }
+
+            if (eurOk) {
                 tasaEurEl.textContent = tasaEuroBcv.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 tasaEurEl.classList.remove('loading-shimmer');
-
-                apiStatus.className = 'w-2.5 h-2.5 rounded-full bg-green-400 pulse-green';
-                fechaTxt.textContent = `BCV ${fechaStr} ${horaStr}`;
-
-                if (manual) mostrarToast('✅ Tasas BCV actualizadas');
-
-                actualizarTodo();
-
-            } catch (error) {
-                console.warn('[TEPUY] Error al obtener tasas BCV:', error.message);
-
-                apiStatus.className = 'w-2.5 h-2.5 rounded-full bg-red-500';
+            } else {
                 tasaEurEl.textContent = 'N/D';
                 tasaEurEl.classList.remove('loading-shimmer');
+            }
 
-                if (error.name === 'AbortError') {
-                    fechaTxt.textContent = 'Tiempo de espera agotado. Ingrese tasas manualmente.';
-                } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                    fechaTxt.textContent = 'Sin conexión. Puede ingresar la tasa USD manualmente.';
-                } else {
-                    fechaTxt.textContent = 'Error API. Ingrese tasa USD manualmente.';
-                }
-
+            if (usdOk || eurOk) {
+                apiStatus.className = usdOk && eurOk
+                    ? 'w-2.5 h-2.5 rounded-full bg-green-400 pulse-green'
+                    : 'w-2.5 h-2.5 rounded-full bg-yellow-400';
+                fechaTxt.textContent = fuenteLabel;
+                if (manual) mostrarToast(usdOk && eurOk ? '✅ Tasas BCV actualizadas' : '⚠️ Tasas parcialmente actualizadas', !eurOk);
+            } else {
+                apiStatus.className = 'w-2.5 h-2.5 rounded-full bg-red-500';
+                fechaTxt.textContent = 'Sin conexión. Ingrese las tasas manualmente.';
                 if (manual) mostrarToast('⚠️ No se pudo actualizar. Verifique su conexión.', true);
             }
+
+            actualizarTodo();
         }
 
         // ─── Toast ─────────────────────────────────────────────────────────────
@@ -437,7 +488,7 @@
 
         // ─── Atletas ───────────────────────────────────────────────────────────
         function agregarAtleta() {
-            atletas.push({ id: Date.now(), nombre: '', pruebas: 0, licencia: 0 });
+            atletas.push({ id: Date.now(), nombre: '', pruebas: 0, licencia: 0, viaticos: 0 });
             renderizarAtletas();
             actualizarTodo();
         }
@@ -471,9 +522,9 @@
                                 oninput="updateAtletaData(${atleta.id}, 'nombre', this.value)"
                                 class="text-lg font-extrabold bg-transparent border-b border-slate-100 focus:border-blue-500 outline-none w-full py-1">
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-3 gap-3">
                             <div class="bg-slate-50 p-3 rounded-2xl">
-                                <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Nº Armas / Pruebas</label>
+                                <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Nº Pruebas</label>
                                 <input type="number" value="${atleta.pruebas}"
                                     oninput="updateAtletaData(${atleta.id}, 'pruebas', this.value)"
                                     class="w-full bg-transparent font-black text-slate-800 focus:outline-none">
@@ -482,6 +533,12 @@
                                 <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Licencia FVE ($)</label>
                                 <input type="number" value="${atleta.licencia}"
                                     oninput="updateAtletaData(${atleta.id}, 'licencia', this.value)"
+                                    class="w-full bg-transparent font-black text-slate-800 focus:outline-none">
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-2xl">
+                                <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Viáticos Entr. ($)</label>
+                                <input type="number" value="${atleta.viaticos}"
+                                    oninput="updateAtletaData(${atleta.id}, 'viaticos', this.value)"
                                     class="w-full bg-transparent font-black text-slate-800 focus:outline-none">
                             </div>
                         </div>
@@ -503,7 +560,6 @@
             const tasaUsd = parseFloat(document.getElementById('globalTasa').value) || 0;
             const cPrueba = parseFloat(document.getElementById('costoPrueba').value) || 0;
             const cAporte = parseFloat(document.getElementById('aporteAsoc').value) || 0;
-            const cViaticos = parseFloat(document.getElementById('viaticosEntr').value) || 0;
             const lTrans = parseFloat(document.getElementById('viajeTrans').value) || 0;
             const lHotel = parseFloat(document.getElementById('viajeHotel').value) || 0;
             const lComida = parseFloat(document.getElementById('viajeComida').value) || 0;
@@ -511,22 +567,25 @@
             let sumaInscripciones = 0;
             let sumaAportesUnicos = 0;
             let sumaLicencias = 0;
+            let sumaViaticos = 0;
             let totalAtletasUSD = 0;
 
             atletas.forEach(atleta => {
                 const montoInsc = (atleta.pruebas || 0) * cPrueba;
-                const sub = montoInsc + cAporte + (atleta.licencia || 0);
+                const montoViaticos = atleta.viaticos || 0;
+                const sub = montoInsc + cAporte + (atleta.licencia || 0) + montoViaticos;
 
                 sumaInscripciones += montoInsc;
                 sumaAportesUnicos += cAporte;
                 sumaLicencias += (atleta.licencia || 0);
+                sumaViaticos += montoViaticos;
 
                 const subElement = document.getElementById(`subtotal-${atleta.id}`);
                 if (subElement) subElement.innerText = `$${sub.toFixed(2)}`;
                 totalAtletasUSD += sub;
             });
 
-            const totalGeneralUSD = totalAtletasUSD + cViaticos + lTrans + lHotel + lComida;
+            const totalGeneralUSD = totalAtletasUSD + lTrans + lHotel + lComida;
             const totalGeneralBs = totalGeneralUSD * tasaUsd;
 
             // EUR: convertimos desde Bs usando la tasa EUR/Bs del BCV
@@ -548,10 +607,10 @@
 
             // Análisis detallado
             const items = [
-                { nombre: `Inscripciones (${atletas.reduce((a, b) => a + (b.pruebas || 0), 0)} arma(s))`, monto: sumaInscripciones },
+                { nombre: `Inscripciones (${atletas.reduce((a, b) => a + (b.pruebas || 0), 0)} prueba(s))`, monto: sumaInscripciones },
                 { nombre: `Aporte Único Asoc. (${atletas.length} atleta(s))`, monto: sumaAportesUnicos },
                 { nombre: `Licencias Federativas`, monto: sumaLicencias },
-                { nombre: `Viáticos de Cuerpo Técnico`, monto: cViaticos },
+                { nombre: `Viáticos Entrenadores`, monto: sumaViaticos },
                 { nombre: `Gastos de Transporte`, monto: lTrans },
                 { nombre: `Alojamiento Seleccionado`, monto: lHotel },
                 { nombre: `Alimentación e Imprevistos`, monto: lComida }
