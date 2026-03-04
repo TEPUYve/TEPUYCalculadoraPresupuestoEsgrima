@@ -7,10 +7,28 @@
     <title>Calculadora de Presupuesto Esgrima | TEPUY</title>
     <meta name="description"
         content="Herramienta TEPUY para planificación financiera de competencias de esgrima en Venezuela. Calcula presupuestos en USD, Bolívares y Euros con tasas BCV actualizadas.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
+    <!-- Fuente: preconnect primero, luego link async para no bloquear render -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    </noscript>
+
+    <!-- Tailwind CDN: ocultamos body hasta que procese clases para evitar FOUC -->
+    <style>
+        body {
+            visibility: hidden
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>document.addEventListener('DOMContentLoaded', function () { document.body.style.visibility = 'visible' });</script>
+
+    <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f8fafc;
@@ -116,7 +134,8 @@
             <!-- Logo + Título -->
             <div class="flex items-center gap-4">
                 <a href="https://tepuy.site" target="_blank" rel="noopener">
-                    <img src="https://tepuy.site/images/logo.png" alt="TEPUY Logo" class="h-12 w-auto drop-shadow-lg">
+                    <img src="https://tepuy.site/images/logo.png" alt="TEPUY Logo" width="48" height="48"
+                        class="h-12 w-auto drop-shadow-lg" loading="eager" fetchpriority="high">
                 </a>
                 <div>
                     <h1 class="text-xl md:text-2xl font-extrabold tracking-tighter leading-none">
