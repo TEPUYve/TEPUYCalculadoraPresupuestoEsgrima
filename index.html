@@ -23,11 +23,7 @@
             href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
     </noscript>
 
-    <style>
-        body {
-            visibility: hidden
-        }
-    </style>
+    <style>body { visibility: hidden }</style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>document.addEventListener('DOMContentLoaded', function () { document.body.style.visibility = 'visible' });</script>
 
@@ -36,60 +32,29 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f8fafc;
         }
-
         input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+        input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        .tepuy-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        .card-transition { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        input:focus { box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
 
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
-
-        .tepuy-gradient {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        }
-
-        .card-transition {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        input:focus {
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-        }
-
-        @keyframes shimmer {
-            0% { opacity: .4 }
-            50% { opacity: 1 }
-            100% { opacity: .4 }
-        }
-
-        .loading-shimmer {
-            animation: shimmer 1.5s ease-in-out infinite;
-        }
+        @keyframes shimmer { 0%{opacity:.4} 50%{opacity:1} 100%{opacity:.4} }
+        .loading-shimmer { animation: shimmer 1.5s ease-in-out infinite; }
 
         @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, .7); }
-            70%       { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+            0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,.7); }
+            70%      { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
         }
+        .pulse-green { animation: pulse-green 2s infinite; }
 
-        .pulse-green {
-            animation: pulse-green 2s infinite;
-        }
-
-        @media (max-width:640px) {
-            .total-text { font-size: 2.5rem; }
-        }
-
-        #toast {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        @media (max-width:640px) { .total-text { font-size:2.5rem; } }
+        #toast { transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
 
         .bcv-rate-box {
-            background: rgba(255, 255, 255, .05);
+            background: rgba(255,255,255,.05);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255,255,255,.1);
             border-radius: 1rem;
             padding: .6rem 1rem;
             min-width: 120px;
@@ -106,211 +71,161 @@
             transition: background .15s;
             cursor: pointer;
         }
-
-        .cl-row:hover {
-            background: #f1f5f9;
-        }
+        .cl-row:hover { background: #f1f5f9; }
 
         .cl-row input[type="checkbox"] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 1.2rem;
-            height: 1.2rem;
-            min-width: 1.2rem;
-            border: 2px solid #cbd5e1;
-            border-radius: .3rem;
-            background: white;
-            cursor: pointer;
-            position: relative;
-            margin-top: 1px;
-            transition: all .2s;
-            box-shadow: none;
+            appearance: none; -webkit-appearance: none;
+            width: 1.2rem; height: 1.2rem; min-width: 1.2rem;
+            border: 2px solid #cbd5e1; border-radius: .3rem;
+            background: white; cursor: pointer; position: relative;
+            margin-top: 1px; transition: all .2s; box-shadow: none;
         }
-
-        .cl-row input[type="checkbox"]:checked {
-            background: #2563eb;
-            border-color: #2563eb;
-        }
-
+        .cl-row input[type="checkbox"]:checked { background:#2563eb; border-color:#2563eb; }
         .cl-row input[type="checkbox"]:checked::after {
-            content: '';
-            position: absolute;
-            left: 3px;
-            top: 0;
-            width: 6px;
-            height: 10px;
-            border: 2.5px solid white;
-            border-top: none;
-            border-left: none;
-            transform: rotate(45deg);
+            content:''; position:absolute; left:3px; top:0;
+            width:6px; height:10px;
+            border:2.5px solid white; border-top:none; border-left:none;
+            transform:rotate(45deg);
         }
+        .cl-row.is-checked .item-label { text-decoration:line-through; color:#94a3b8; }
 
-        .cl-row.is-checked .item-label {
-            text-decoration: line-through;
-            color: #94a3b8;
-        }
-
-        /* Columna cantidad: input inline */
         .qty-input {
-            width: 100%;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: .5rem;
-            padding: .25rem .5rem;
-            font-size: .8rem;
-            font-weight: 700;
-            color: #334155;
-            text-align: center;
+            width:100%; background:#f8fafc; border:1px solid #e2e8f0;
+            border-radius:.5rem; padding:.25rem .5rem;
+            font-size:.8rem; font-weight:700; color:#334155; text-align:center;
         }
-
-        .qty-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            background: white;
-        }
+        .qty-input:focus { outline:none; border-color:#3b82f6; background:white; }
 
         /* Arma-only visibility */
-        .cl-row.is-sable-only {
-            display: none;
-        }
+        .cl-row.is-sable-only   { display:none; }
+        .cl-row.is-florete-only { display:none; }
+        body[data-arma="sable"]   .cl-row.is-sable-only   { display:grid; }
+        body[data-arma="florete"] .cl-row.is-florete-only { display:grid; }
+        body[data-arma="ambas"]   .cl-row.is-sable-only,
+        body[data-arma="ambas"]   .cl-row.is-florete-only { display:grid; }
 
-        .cl-row.is-florete-only {
-            display: none;
-        }
-
-        body[data-arma="sable"] .cl-row.is-sable-only {
-            display: grid;
-        }
-
-        body[data-arma="florete"] .cl-row.is-florete-only {
-            display: grid;
-        }
-
-        body[data-arma="ambas"] .cl-row.is-sable-only,
-        body[data-arma="ambas"] .cl-row.is-florete-only {
-            display: grid;
-        }
-
-        .progress-bar-fill {
-            transition: width .4s cubic-bezier(.4, 0, .2, 1);
-        }
+        .progress-bar-fill { transition: width .4s cubic-bezier(.4,0,.2,1); }
 
         /* Weapon toggle */
         .weapon-btn {
-            padding: .45rem 1.1rem;
-            border-radius: 9999px;
-            font-size: .7rem;
-            font-weight: 800;
-            letter-spacing: .05em;
-            text-transform: uppercase;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all .2s;
+            padding:.45rem 1.1rem; border-radius:9999px;
+            font-size:.7rem; font-weight:800; letter-spacing:.05em;
+            text-transform:uppercase; border:2px solid transparent;
+            cursor:pointer; transition:all .2s;
         }
-
-        .weapon-btn.active-sable {
-            background: #0f172a;
-            color: #fbbf24;
-            border-color: #0f172a;
-        }
-
-        .weapon-btn.active-florete {
-            background: #0f172a;
-            color: #a78bfa;
-            border-color: #0f172a;
-        }
-
-        .weapon-btn.active-ambas {
-            background: #2563eb;
-            color: white;
-            border-color: #2563eb;
-        }
-
+        .weapon-btn.active-sable   { background:#0f172a; color:#fbbf24; border-color:#0f172a; }
+        .weapon-btn.active-florete { background:#0f172a; color:#a78bfa; border-color:#0f172a; }
+        .weapon-btn.active-ambas   { background:#2563eb; color:white;   border-color:#2563eb; }
         .weapon-btn:not(.active-sable):not(.active-florete):not(.active-ambas) {
-            background: white;
-            color: #64748b;
-            border-color: #e2e8f0;
+            background:white; color:#64748b; border-color:#e2e8f0;
         }
-
         .weapon-btn:hover:not(.active-sable):not(.active-florete):not(.active-ambas) {
-            border-color: #94a3b8;
-            color: #334155;
+            border-color:#94a3b8; color:#334155;
         }
 
-        /* Cat header col labels */
         .cl-header {
-            display: grid;
-            grid-template-columns: 1fr 80px 52px;
-            gap: .5rem;
-            padding: .4rem .75rem;
-            font-size: .6rem;
-            font-weight: 900;
-            letter-spacing: .12em;
-            text-transform: uppercase;
+            display:grid; grid-template-columns:1fr 80px 52px;
+            gap:.5rem; padding:.4rem .75rem;
+            font-size:.6rem; font-weight:900;
+            letter-spacing:.12em; text-transform:uppercase;
         }
 
-        /* ── PRINT ──────────────────────────────────────────────────── */
-        @media print {
-            body * {
-                visibility: hidden !important;
-            }
+        .checklist-print-header { display:none; }
 
-            #checklist-section,
-            #checklist-section * {
+        /* ════════════════════════════════════════════════════════════
+           PRINT STYLES — flujo normal, sin position:fixed
+        ════════════════════════════════════════════════════════════ */
+        @media print {
+
+            /* Ocultar TODO excepto la sección del checklist */
+            body > *:not(#checklist-section) { display:none !important; }
+            #checklist-section { display:block !important; }
+
+            /* Reset de body para impresión */
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
                 visibility: visible !important;
             }
 
+            /* La sección fluye normalmente — NO fixed, NO absolute */
             #checklist-section {
-                position: fixed !important;
-                top: 0 !important;
-                left: 0 !important;
+                position: static !important;
                 width: 100% !important;
-                background: white !important;
-                padding: 18px !important;
                 margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
             }
 
-            .no-print {
-                display: none !important;
+            /* Ocultar elementos de UI que no van en impresión */
+            .no-print,
+            .weapon-selector,
+            .progress-section { display:none !important; }
+
+            /* Mostrar la cabecera de impresión */
+            .checklist-print-header { display:block !important; }
+
+            /* Grid: 1 columna en impresión para que fluya sin solapamiento */
+            #checklist-grid {
+                display: block !important;
+                columns: 2 !important;
+                column-gap: 12px !important;
             }
 
-            .cl-row:hover {
-                background: transparent !important;
+            /* Cada tarjeta de categoría ocupa su espacio */
+            #checklist-grid > div {
+                break-inside: avoid !important;
+                margin-bottom: 10px !important;
+                border: 1px solid #e2e8f0 !important;
+                border-radius: 8px !important;
+                overflow: hidden !important;
+                display: inline-block !important;
+                width: 100% !important;
             }
 
-            .checklist-print-header {
+            /* Cabeceras de categoría: colores planos (sin gradiente para impresoras B&N) */
+            #checklist-grid > div > div:first-child {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Filas del checklist */
+            .cl-row { break-inside: avoid; padding: .3rem .5rem; }
+            .cl-row:hover { background: transparent !important; }
+
+            /* Checkbox limpio para imprimir */
+            .cl-row input[type="checkbox"] {
+                border: 1.5px solid #444 !important;
+                background: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .cl-row input[type="checkbox"]:checked {
+                background: #2563eb !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Campo cantidad */
+            .qty-input {
+                border: 1px solid #999 !important;
+                background: white !important;
+            }
+
+            /* Nota al pie */
+            #checklist-section > div:last-child {
                 display: block !important;
             }
 
-            .weapon-selector {
-                display: none !important;
-            }
-
-            .progress-section {
-                display: none !important;
-            }
-
-            .cl-row input[type="checkbox"] {
-                border: 1.5px solid #555 !important;
-                background: white !important;
-            }
-
-            .cl-row input[type="checkbox"]:checked {
-                background: #2563eb !important;
-            }
-
-            .qty-input {
-                border: 1px solid #aaa !important;
-                background: white !important;
-            }
+            /* Fuente levemente más pequeña para caber mejor */
+            .item-label { font-size: 0.75rem !important; }
+            .cl-header  { font-size: 0.55rem !important; }
 
             @page {
                 margin: 1.2cm;
+                size: A4 portrait;
             }
-        }
-
-        .checklist-print-header {
-            display: none;
         }
     </style>
 </head>
@@ -320,9 +235,8 @@
     <!-- Toast -->
     <div id="toast"
         class="fixed top-4 right-4 z-[100] bg-green-600 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl opacity-0 pointer-events-none flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-            stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
         </svg>
         <span id="toastMsg"></span>
     </div>
@@ -343,12 +257,10 @@
                         Presupuesto de Competencia de Esgrima</p>
                 </div>
             </div>
-
             <div class="flex flex-row flex-wrap gap-2 items-center justify-center md:justify-end">
                 <div class="flex flex-col items-center gap-1">
                     <div id="apiStatus" class="w-2.5 h-2.5 rounded-full bg-yellow-500 animate-pulse"></div>
-                    <p id="fechaActualizacion"
-                        class="text-[8px] text-slate-500 font-medium italic text-center max-w-[90px]">Sincronizando…</p>
+                    <p id="fechaActualizacion" class="text-[8px] text-slate-500 font-medium italic text-center max-w-[90px]">Sincronizando…</p>
                 </div>
                 <div class="bcv-rate-box">
                     <p class="text-[8px] uppercase font-black text-blue-400 tracking-widest mb-1">BCV · USD</p>
@@ -368,10 +280,8 @@
                 </div>
                 <button onclick="fetchTasaBCV(true)" title="Refrescar tasas BCV"
                     class="bg-white/10 hover:bg-white/20 border border-white/10 text-white p-2.5 rounded-xl transition-all active:scale-95">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                     </svg>
                 </button>
             </div>
@@ -380,8 +290,7 @@
 
     <!-- Nav interno -->
     <div class="max-w-6xl mx-auto px-4 mb-6 no-print">
-        <div
-            class="flex gap-3 text-[11px] font-black uppercase tracking-widest text-slate-400 border-b border-slate-200 pb-3">
+        <div class="flex gap-3 text-[11px] font-black uppercase tracking-widest text-slate-400 border-b border-slate-200 pb-3">
             <a href="#presupuesto" class="hover:text-blue-600 transition-colors">💰 Presupuesto</a>
             <span class="text-slate-200">·</span>
             <a href="#checklist-section" class="hover:text-blue-600 transition-colors">🎒 Checklist de Bolso</a>
@@ -392,29 +301,23 @@
     <main id="presupuesto" class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8">
 
         <div class="lg:col-span-4 space-y-6">
-            <!-- Costos Base -->
             <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 card-transition hover:shadow-md">
                 <div class="flex items-center gap-3 mb-5">
                     <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <line x1="12" y1="8" x2="12" y2="16" />
-                            <line x1="8" y1="12" x2="16" y2="12" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
                         </svg>
                     </div>
                     <h2 class="text-sm font-black uppercase tracking-tight text-slate-700">Costos Base</h2>
                 </div>
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Inscripción por Prueba
-                            ($)</label>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Inscripción por Prueba ($)</label>
                         <input type="number" id="costoPrueba" value="0" oninput="actualizarTodo()"
                             class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500 transition-all">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Aporte Asociación /
-                            Atleta ($)</label>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Aporte Asociación / Atleta ($)</label>
                         <input type="number" id="aporteAsoc" value="0" oninput="actualizarTodo()"
                             class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500">
                         <p class="text-[8px] text-slate-400 mt-1 italic">* Pago único por atleta</p>
@@ -422,37 +325,29 @@
                 </div>
             </div>
 
-            <!-- Logística -->
             <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 card-transition hover:shadow-md">
                 <div class="flex items-center gap-3 mb-5">
                     <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2.5">
-                            <path
-                                d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
-                            <circle cx="7" cy="17" r="2" />
-                            <path d="M9 17h6" />
-                            <circle cx="17" cy="17" r="2" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
+                            <circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/>
                         </svg>
                     </div>
                     <h2 class="text-sm font-black uppercase tracking-tight text-slate-700">Logística de Viaje</h2>
                 </div>
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Transporte / Gasolina
-                            ($)</label>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Transporte / Gasolina ($)</label>
                         <input type="number" id="viajeTrans" value="0" oninput="actualizarTodo()"
                             class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Alojamiento
-                            ($)</label>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Alojamiento ($)</label>
                         <input type="number" id="viajeHotel" value="0" oninput="actualizarTodo()"
                             class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Comidas / Otros
-                            ($)</label>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Comidas / Otros ($)</label>
                         <input type="number" id="viajeComida" value="0" oninput="actualizarTodo()"
                             class="w-full bg-slate-50 p-3 rounded-xl border border-slate-200 font-bold focus:outline-none focus:border-blue-500">
                     </div>
@@ -460,7 +355,6 @@
             </div>
         </div>
 
-        <!-- Atletas + Resumen -->
         <div class="lg:col-span-8 space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
                 <h2 class="text-xl font-extrabold text-slate-800 uppercase tracking-tight flex items-center gap-2">
@@ -474,44 +368,34 @@
             </div>
             <div id="listaAtletas" class="space-y-4"></div>
 
-            <!-- Gran Total -->
-            <div
-                class="bg-slate-900 rounded-[2.5rem] p-6 md:p-10 text-white shadow-2xl relative overflow-hidden border border-white/5">
+            <div class="bg-slate-900 rounded-[2.5rem] p-6 md:p-10 text-white shadow-2xl relative overflow-hidden border border-white/5">
                 <div class="absolute -bottom-4 -right-4 opacity-[0.03]">
                     <img src="https://tepuy.site/images/logo.png" alt="" class="w-64">
                 </div>
                 <div class="relative z-10">
-                    <h3
-                        class="text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-8 border-b border-white/10 pb-4">
+                    <h3 class="text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-8 border-b border-white/10 pb-4">
                         Inversión Total del Proyecto Deportivo</h3>
                     <div class="grid grid-cols-1 lg:grid-cols-5 gap-10">
                         <div class="lg:col-span-2 flex flex-col justify-center">
                             <div class="mb-6">
-                                <p class="text-[10px] uppercase text-slate-400 font-black mb-1">Total en Divisas (USD)
-                                </p>
-                                <p class="text-5xl md:text-6xl font-black font-mono tracking-tighter text-white"
-                                    id="totalGeneralUSD">$0.00</p>
+                                <p class="text-[10px] uppercase text-slate-400 font-black mb-1">Total en Divisas (USD)</p>
+                                <p class="text-5xl md:text-6xl font-black font-mono tracking-tighter text-white" id="totalGeneralUSD">$0.00</p>
                             </div>
                             <div class="space-y-3">
                                 <div class="bg-blue-600/20 p-4 rounded-2xl border border-blue-500/30">
-                                    <p class="text-[9px] font-black text-blue-400 uppercase tracking-widest mb-1">
-                                        Estimado en Bolívares</p>
+                                    <p class="text-[9px] font-black text-blue-400 uppercase tracking-widest mb-1">Estimado en Bolívares</p>
                                     <p class="text-2xl font-mono font-bold text-white" id="totalGeneralBs">Bs. 0,00</p>
                                     <p class="text-[8px] text-blue-300/60 mt-1" id="infoTasaUSD"></p>
                                 </div>
                                 <div class="bg-emerald-600/20 p-4 rounded-2xl border border-emerald-500/30">
-                                    <p class="text-[9px] font-black text-emerald-400 uppercase tracking-widest mb-1">
-                                        Estimado en Euros</p>
+                                    <p class="text-[9px] font-black text-emerald-400 uppercase tracking-widest mb-1">Estimado en Euros</p>
                                     <p class="text-2xl font-mono font-bold text-white" id="totalGeneralEur">€ 0,00</p>
                                     <p class="text-[8px] text-emerald-300/60 mt-1" id="infoTasaEUR"></p>
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="lg:col-span-3 bg-white/5 rounded-[2rem] p-6 border border-white/10 backdrop-blur-sm">
-                            <h4
-                                class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 text-center lg:text-left">
-                                Análisis de la Inversión:</h4>
+                        <div class="lg:col-span-3 bg-white/5 rounded-[2rem] p-6 border border-white/10 backdrop-blur-sm">
+                            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 text-center lg:text-left">Análisis de la Inversión:</h4>
                             <div id="desgloseDetallado" class="space-y-3"></div>
                         </div>
                     </div>
@@ -520,17 +404,14 @@
         </div>
     </main>
 
-    <!-- ═══════════════════════════════════════════════════════════════════
-         CHECKLIST  —  Club Esgrima Cabudare
-    ════════════════════════════════════════════════════════════════════ -->
+    <!-- ═══ CHECKLIST ════════════════════════════════════════════════════ -->
     <section id="checklist-section" class="max-w-6xl mx-auto px-4 mt-16 mb-12">
 
-        <!-- Cabecera de impresión (solo visible al imprimir) -->
+        <!-- Cabecera de impresión -->
         <div class="checklist-print-header mb-5 pb-4 border-b-2 border-slate-800">
             <div class="flex items-start justify-between gap-4">
                 <div>
-                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">PEDANA TEPUY ·
-                        pedana.tepuy.site</p>
+                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">PEDANA TEPUY · pedana.tepuy.site</p>
                     <h2 class="text-xl font-black text-slate-900 mt-0.5">Checklist para Competencias de Esgrima</h2>
                     <p class="text-xs font-bold text-green-700 mt-0.5">Club Esgrima Cabudare</p>
                 </div>
@@ -543,21 +424,17 @@
             </div>
         </div>
 
-        <!-- Cabecera visible en pantalla -->
+        <!-- Cabecera pantalla -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 no-print">
             <div class="flex items-center gap-3">
                 <div class="p-2.5 bg-green-700 rounded-xl text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
                     </svg>
                 </div>
                 <div>
-                    <h2 class="text-xl font-extrabold text-slate-800 uppercase tracking-tight leading-none">Checklist de
-                        Bolso</h2>
-                    <p class="text-[10px] text-green-700 font-black uppercase tracking-widest mt-0.5">Club Esgrima
-                        Cabudare</p>
+                    <h2 class="text-xl font-extrabold text-slate-800 uppercase tracking-tight leading-none">Checklist de Bolso</h2>
+                    <p class="text-[10px] text-green-700 font-black uppercase tracking-widest mt-0.5">Club Esgrima Cabudare</p>
                 </div>
             </div>
             <div class="flex gap-2 items-center">
@@ -567,10 +444,8 @@
                 </button>
                 <button onclick="imprimirChecklist()"
                     class="bg-slate-900 hover:bg-slate-700 text-white text-[11px] font-black uppercase tracking-wide px-5 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2 active:scale-95">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                     </svg>
                     Imprimir / PDF
                 </button>
@@ -581,9 +456,8 @@
         <div class="weapon-selector bg-white rounded-[1.25rem] p-4 border border-slate-200 shadow-sm mb-5 no-print">
             <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2.5">Mostrar ítems para:</p>
             <div class="flex flex-wrap gap-2">
-                <button class="weapon-btn active-ambas" onclick="setArma('ambas',this)" id="btn-ambas">⚔️ Ambas (Sable +
-                    Florete)</button>
-                <button class="weapon-btn" onclick="setArma('sable',this)" id="btn-sable">🟡 Sable</button>
+                <button class="weapon-btn active-ambas" onclick="setArma('ambas',this)" id="btn-ambas">⚔️ Ambas (Sable + Florete)</button>
+                <button class="weapon-btn" onclick="setArma('sable',this)"   id="btn-sable">🟡 Sable</button>
                 <button class="weapon-btn" onclick="setArma('florete',this)" id="btn-florete">🟣 Florete</button>
             </div>
         </div>
@@ -599,10 +473,10 @@
             </div>
         </div>
 
-        <!-- ── GRID DE CATEGORÍAS ─────────────────────────────────────── -->
+        <!-- GRID CATEGORÍAS -->
         <div id="checklist-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
-            <!-- 1. EQUIPO DE COMPETENCIA ──────────────────────────────── -->
+            <!-- 1. EQUIPO DE COMPETENCIA -->
             <div class="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden" data-cat="equipo">
                 <div class="bg-green-700 px-5 py-3 flex items-center justify-between">
                     <div class="flex items-center gap-2">
@@ -610,117 +484,9 @@
                         <h3 class="text-xs font-black uppercase tracking-wide text-white">Equipo de Competencia</h3>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full"
-                            id="badge-equipo">0/0</span>
+                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full" id="badge-equipo">0/0</span>
                         <div class="w-14 bg-white/20 rounded-full h-1.5">
-                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-equipo" style="width:0%">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="cl-header bg-slate-50 border-b border-slate-100 text-slate-400">
-                    <span>Ítem</span>
-                    <span class="text-center">Cantidad</span>
-                    <span class="text-center">✓</span>
-                </div>
-                <div class="p-2 space-y-0.5">
-
-                    <label class="cl-row is-sable-only" data-cat="equipo">
-                        <span class="item-label text-sm text-slate-700 font-medium flex items-center gap-1.5">
-                            <span
-                                class="text-[9px] font-black text-yellow-600 bg-yellow-50 px-1.5 py-0.5 rounded">SABLE</span>
-                            Sable(s) de competencia
-                        </span>
-                        <input type="number" min="0" class="qty-input" placeholder="0" data-qty="s1">
-                        <input type="checkbox" data-id="s1">
-                    </label>
-
-                    <label class="cl-row is-florete-only" data-cat="equipo">
-                        <span class="item-label text-sm text-slate-700 font-medium flex items-center gap-1.5">
-                            <span
-                                class="text-[9px] font-black text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded">FLORETE</span>
-                            Florete(s) de competencia
-                        </span>
-                        <input type="number" min="0" class="qty-input" placeholder="0" data-qty="f1">
-                        <input type="checkbox" data-id="f1">
-                    </label>
-
-                    <label class="cl-row" data-cat="equipo">
-                        <span class="item-label text-sm text-slate-700 font-medium">Careta (máscara)</span>
-                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e2">
-                        <input type="checkbox" data-id="e2">
-                    </label>
-
-                    <label class="cl-row" data-cat="equipo">
-                        <span class="item-label text-sm text-slate-700 font-medium">Cable de Máscara</span>
-                        <input type="number" min="0" class="qty-input" placeholder="2" data-qty="e3">
-                        <input type="checkbox" data-id="e3">
-                    </label>
-
-                    <label class="cl-row" data-cat="equipo">
-                        <span class="item-label text-sm text-slate-700 font-medium">Chaquetilla Eléctrica (Lame)</span>
-                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e4">
-                        <input type="checkbox" data-id="e4">
-                    </label>
-
-                    <label class="cl-row" data-cat="equipo">
-                        <span class="item-label text-sm text-slate-700 font-medium">Cable de Cuerpo (Body Cord)</span>
-                        <input type="number" min="0" class="qty-input" placeholder="2" data-qty="e5">
-                        <input type="checkbox" data-id="e5">
-                    </label>
-
-                    <label class="cl-row" data-cat="equipo">
-                        <span class="item-label text-sm text-slate-700 font-medium">Guante (Par)</span>
-                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e6">
-                        <input type="checkbox" data-id="e6">
-                    </label>
-
-                    <label class="cl-row" data-cat="equipo">
-                        <span class="item-label text-sm text-slate-700 font-medium">Traje Completo (Chaqueta y
-                            Pantalón)</span>
-                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e7">
-                        <input type="checkbox" data-id="e7">
-                    </label>
-
-                    <label class="cl-row" data-cat="equipo">
-                        <span class="item-label text-sm text-slate-700 font-medium">
-                            Protector de Pecho
-                            <span class="text-[9px] text-slate-400 font-normal block">Obligatorio Damas · Recomendado
-                                Caballeros</span>
-                        </span>
-                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e8">
-                        <input type="checkbox" data-id="e8">
-                    </label>
-
-                    <label class="cl-row" data-cat="equipo">
-                        <span class="item-label text-sm text-slate-700 font-medium">Medias Largas de Esgrima</span>
-                        <input type="number" min="0" class="qty-input" placeholder="2" data-qty="e9">
-                        <input type="checkbox" data-id="e9">
-                    </label>
-
-                    <label class="cl-row" data-cat="equipo">
-                        <span class="item-label text-sm text-slate-700 font-medium">Zapatillas de Esgrima</span>
-                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e10">
-                        <input type="checkbox" data-id="e10">
-                    </label>
-
-                </div>
-            </div>
-
-            <!-- 2. UNIFORMES E HIGIENE ────────────────────────────────── -->
-            <div class="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden"
-                data-cat="uniforme">
-                <div class="bg-slate-700 px-5 py-3 flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <span class="text-base">👕</span>
-                        <h3 class="text-xs font-black uppercase tracking-wide text-white">Uniformes e Higiene</h3>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full"
-                            id="badge-uniforme">0/0</span>
-                        <div class="w-14 bg-white/20 rounded-full h-1.5">
-                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-uniforme"
-                                style="width:0%"></div>
+                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-equipo" style="width:0%"></div>
                         </div>
                     </div>
                 </div>
@@ -728,7 +494,91 @@
                     <span>Ítem</span><span class="text-center">Cantidad</span><span class="text-center">✓</span>
                 </div>
                 <div class="p-2 space-y-0.5">
+                    <label class="cl-row is-sable-only" data-cat="equipo">
+                        <span class="item-label text-sm text-slate-700 font-medium flex items-center gap-1.5">
+                            <span class="text-[9px] font-black text-yellow-600 bg-yellow-50 px-1.5 py-0.5 rounded">SABLE</span>
+                            Sable(s) de competencia
+                        </span>
+                        <input type="number" min="0" class="qty-input" placeholder="0" data-qty="s1">
+                        <input type="checkbox" data-id="s1">
+                    </label>
+                    <label class="cl-row is-florete-only" data-cat="equipo">
+                        <span class="item-label text-sm text-slate-700 font-medium flex items-center gap-1.5">
+                            <span class="text-[9px] font-black text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded">FLORETE</span>
+                            Florete(s) de competencia
+                        </span>
+                        <input type="number" min="0" class="qty-input" placeholder="0" data-qty="f1">
+                        <input type="checkbox" data-id="f1">
+                    </label>
+                    <label class="cl-row" data-cat="equipo">
+                        <span class="item-label text-sm text-slate-700 font-medium">Careta (máscara)</span>
+                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e2">
+                        <input type="checkbox" data-id="e2">
+                    </label>
+                    <label class="cl-row" data-cat="equipo">
+                        <span class="item-label text-sm text-slate-700 font-medium">Cable de Máscara</span>
+                        <input type="number" min="0" class="qty-input" placeholder="2" data-qty="e3">
+                        <input type="checkbox" data-id="e3">
+                    </label>
+                    <label class="cl-row" data-cat="equipo">
+                        <span class="item-label text-sm text-slate-700 font-medium">Chaquetilla Eléctrica (Lame)</span>
+                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e4">
+                        <input type="checkbox" data-id="e4">
+                    </label>
+                    <label class="cl-row" data-cat="equipo">
+                        <span class="item-label text-sm text-slate-700 font-medium">Cable de Cuerpo (Body Cord)</span>
+                        <input type="number" min="0" class="qty-input" placeholder="2" data-qty="e5">
+                        <input type="checkbox" data-id="e5">
+                    </label>
+                    <label class="cl-row" data-cat="equipo">
+                        <span class="item-label text-sm text-slate-700 font-medium">Guante (Par)</span>
+                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e6">
+                        <input type="checkbox" data-id="e6">
+                    </label>
+                    <label class="cl-row" data-cat="equipo">
+                        <span class="item-label text-sm text-slate-700 font-medium">Traje Completo (Chaqueta y Pantalón)</span>
+                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e7">
+                        <input type="checkbox" data-id="e7">
+                    </label>
+                    <label class="cl-row" data-cat="equipo">
+                        <span class="item-label text-sm text-slate-700 font-medium">
+                            Protector de Pecho
+                            <span class="text-[9px] text-slate-400 font-normal block">Obligatorio Damas · Recomendado Caballeros</span>
+                        </span>
+                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e8">
+                        <input type="checkbox" data-id="e8">
+                    </label>
+                    <label class="cl-row" data-cat="equipo">
+                        <span class="item-label text-sm text-slate-700 font-medium">Medias Largas de Esgrima</span>
+                        <input type="number" min="0" class="qty-input" placeholder="2" data-qty="e9">
+                        <input type="checkbox" data-id="e9">
+                    </label>
+                    <label class="cl-row" data-cat="equipo">
+                        <span class="item-label text-sm text-slate-700 font-medium">Zapatillas de Esgrima</span>
+                        <input type="number" min="0" class="qty-input" placeholder="1" data-qty="e10">
+                        <input type="checkbox" data-id="e10">
+                    </label>
+                </div>
+            </div>
 
+            <!-- 2. UNIFORMES E HIGIENE -->
+            <div class="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden" data-cat="uniforme">
+                <div class="bg-slate-700 px-5 py-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="text-base">👕</span>
+                        <h3 class="text-xs font-black uppercase tracking-wide text-white">Uniformes e Higiene</h3>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full" id="badge-uniforme">0/0</span>
+                        <div class="w-14 bg-white/20 rounded-full h-1.5">
+                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-uniforme" style="width:0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cl-header bg-slate-50 border-b border-slate-100 text-slate-400">
+                    <span>Ítem</span><span class="text-center">Cantidad</span><span class="text-center">✓</span>
+                </div>
+                <div class="p-2 space-y-0.5">
                     <label class="cl-row" data-cat="uniforme">
                         <span class="item-label text-sm text-slate-700 font-medium">
                             Franela de la Selección
@@ -737,50 +587,40 @@
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="u1">
                         <input type="checkbox" data-id="u1">
                     </label>
-
                     <label class="cl-row" data-cat="uniforme">
                         <span class="item-label text-sm text-slate-700 font-medium">Ropa de Recambio</span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="u2">
                         <input type="checkbox" data-id="u2">
                     </label>
-
                     <label class="cl-row" data-cat="uniforme">
                         <span class="item-label text-sm text-slate-700 font-medium">Toalla</span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="u3">
                         <input type="checkbox" data-id="u3">
                     </label>
-
                     <label class="cl-row" data-cat="uniforme">
-                        <span class="item-label text-sm text-slate-700 font-medium">Desodorante / Artículos de higiene
-                            personal</span>
+                        <span class="item-label text-sm text-slate-700 font-medium">Desodorante / Artículos de higiene personal</span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="u4">
                         <input type="checkbox" data-id="u4">
                     </label>
-
                     <label class="cl-row" data-cat="uniforme">
-                        <span class="item-label text-sm text-slate-700 font-medium">Bolsa para ropa húmeda /
-                            sucia</span>
+                        <span class="item-label text-sm text-slate-700 font-medium">Bolsa para ropa húmeda / sucia</span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="u5">
                         <input type="checkbox" data-id="u5">
                     </label>
-
                 </div>
             </div>
 
-            <!-- 3. HIDRATACIÓN Y NUTRICIÓN ────────────────────────────── -->
-            <div class="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden"
-                data-cat="nutricion">
+            <!-- 3. HIDRATACIÓN Y NUTRICIÓN -->
+            <div class="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden" data-cat="nutricion">
                 <div class="bg-blue-600 px-5 py-3 flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span class="text-base">💧</span>
                         <h3 class="text-xs font-black uppercase tracking-wide text-white">Hidratación y Nutrición</h3>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full"
-                            id="badge-nutricion">0/0</span>
+                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full" id="badge-nutricion">0/0</span>
                         <div class="w-14 bg-white/20 rounded-full h-1.5">
-                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-nutricion"
-                                style="width:0%"></div>
+                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-nutricion" style="width:0%"></div>
                         </div>
                     </div>
                 </div>
@@ -788,38 +628,31 @@
                     <span>Ítem</span><span class="text-center">Cantidad</span><span class="text-center">✓</span>
                 </div>
                 <div class="p-2 space-y-0.5">
-
                     <label class="cl-row" data-cat="nutricion">
                         <span class="item-label text-sm text-slate-700 font-medium">
                             Hidratación (Agua, Electrolitos, Gatorade)
-                            <span class="text-[9px] text-slate-400 font-normal block">Suficiente para todo el día de
-                                competencia</span>
+                            <span class="text-[9px] text-slate-400 font-normal block">Suficiente para todo el día de competencia</span>
                         </span>
                         <input type="number" min="0" class="qty-input" placeholder="2L+" data-qty="n1">
                         <input type="checkbox" data-id="n1">
                     </label>
-
                     <label class="cl-row" data-cat="nutricion">
                         <span class="item-label text-sm text-slate-700 font-medium">
                             Snacks (Preferiblemente Frutas)
-                            <span class="text-[9px] text-slate-400 font-normal block">Barras energéticas, frutos secos,
-                                frutas</span>
+                            <span class="text-[9px] text-slate-400 font-normal block">Barras energéticas, frutos secos, frutas</span>
                         </span>
                         <input type="number" min="0" class="qty-input" placeholder="" data-qty="n2">
                         <input type="checkbox" data-id="n2">
                     </label>
-
                     <label class="cl-row" data-cat="nutricion">
-                        <span class="item-label text-sm text-slate-700 font-medium">Almuerzo / Merienda (si
-                            aplica)</span>
+                        <span class="item-label text-sm text-slate-700 font-medium">Almuerzo / Merienda (si aplica)</span>
                         <input type="number" min="0" class="qty-input" placeholder="" data-qty="n3">
                         <input type="checkbox" data-id="n3">
                     </label>
-
                 </div>
             </div>
 
-            <!-- 4. DOCUMENTACIÓN ─────────────────────────────────────── -->
+            <!-- 4. DOCUMENTACIÓN -->
             <div class="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden" data-cat="docs">
                 <div class="bg-emerald-600 px-5 py-3 flex items-center justify-between">
                     <div class="flex items-center gap-2">
@@ -827,11 +660,9 @@
                         <h3 class="text-xs font-black uppercase tracking-wide text-white">Documentación</h3>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full"
-                            id="badge-docs">0/0</span>
+                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full" id="badge-docs">0/0</span>
                         <div class="w-14 bg-white/20 rounded-full h-1.5">
-                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-docs" style="width:0%">
-                            </div>
+                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-docs" style="width:0%"></div>
                         </div>
                     </div>
                 </div>
@@ -839,48 +670,39 @@
                     <span>Ítem</span><span class="text-center">Cantidad</span><span class="text-center">✓</span>
                 </div>
                 <div class="p-2 space-y-0.5">
-
                     <label class="cl-row" data-cat="docs">
                         <span class="item-label text-sm text-slate-700 font-medium">
                             Documentos de Identidad
-                            <span class="text-[9px] text-slate-400 font-normal block">Partida de Nacimiento /
-                                Cédula</span>
+                            <span class="text-[9px] text-slate-400 font-normal block">Partida de Nacimiento / Cédula</span>
                         </span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="d1">
                         <input type="checkbox" data-id="d1">
                     </label>
-
                     <label class="cl-row" data-cat="docs">
                         <span class="item-label text-sm text-slate-700 font-medium">
                             Licencia FVE vigente
-                            <span class="text-[9px] text-slate-400 font-normal block">Física o digital (captura de
-                                pantalla válida)</span>
+                            <span class="text-[9px] text-slate-400 font-normal block">Física o digital (captura de pantalla válida)</span>
                         </span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="d2">
                         <input type="checkbox" data-id="d2">
                     </label>
-
                     <label class="cl-row" data-cat="docs">
-                        <span class="item-label text-sm text-slate-700 font-medium">Comprobante de inscripción en la
-                            competencia</span>
+                        <span class="item-label text-sm text-slate-700 font-medium">Comprobante de inscripción en la competencia</span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="d3">
                         <input type="checkbox" data-id="d3">
                     </label>
-
                     <label class="cl-row" data-cat="docs">
                         <span class="item-label text-sm text-slate-700 font-medium">
                             Seguro médico / carta de salud
-                            <span class="text-[9px] text-slate-400 font-normal block">Autorización de representante si
-                                es menor</span>
+                            <span class="text-[9px] text-slate-400 font-normal block">Autorización de representante si es menor</span>
                         </span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="d4">
                         <input type="checkbox" data-id="d4">
                     </label>
-
                 </div>
             </div>
 
-            <!-- 5. HERRAMIENTAS Y REPUESTOS ──────────────────────────── -->
+            <!-- 5. HERRAMIENTAS Y REPUESTOS -->
             <div class="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden" data-cat="tools">
                 <div class="bg-amber-600 px-5 py-3 flex items-center justify-between">
                     <div class="flex items-center gap-2">
@@ -888,11 +710,9 @@
                         <h3 class="text-xs font-black uppercase tracking-wide text-white">Herramientas y Repuestos</h3>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full"
-                            id="badge-tools">0/0</span>
+                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full" id="badge-tools">0/0</span>
                         <div class="w-14 bg-white/20 rounded-full h-1.5">
-                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-tools" style="width:0%">
-                            </div>
+                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-tools" style="width:0%"></div>
                         </div>
                     </div>
                 </div>
@@ -900,48 +720,40 @@
                     <span>Ítem</span><span class="text-center">Cantidad</span><span class="text-center">✓</span>
                 </div>
                 <div class="p-2 space-y-0.5">
-
                     <label class="cl-row" data-cat="tools">
                         <span class="item-label text-sm text-slate-700 font-medium">Destornilladores (plano y estrella)</span>
                         <input type="number" min="0" class="qty-input" placeholder="2" data-qty="t1">
                         <input type="checkbox" data-id="t1">
                     </label>
-
                     <label class="cl-row" data-cat="tools">
                         <span class="item-label text-sm text-slate-700 font-medium">Llave hex / Allen set</span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="t2">
                         <input type="checkbox" data-id="t2">
                     </label>
-
                     <label class="cl-row" data-cat="tools">
                         <span class="item-label text-sm text-slate-700 font-medium">Cinta aislante / eléctrica</span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="t5">
                         <input type="checkbox" data-id="t5">
                     </label>
-
                     <label class="cl-row" data-cat="tools">
                         <span class="item-label text-sm text-slate-700 font-medium">Alicates / pinzas pequeñas</span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="t6">
                         <input type="checkbox" data-id="t6">
                     </label>
-
                 </div>
             </div>
 
-            <!-- 6. LOGÍSTICA Y COMODIDAD ─────────────────────────────── -->
-            <div class="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden"
-                data-cat="logistica">
+            <!-- 6. LOGÍSTICA Y COMODIDAD -->
+            <div class="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden" data-cat="logistica">
                 <div class="bg-indigo-600 px-5 py-3 flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span class="text-base">🎒</span>
                         <h3 class="text-xs font-black uppercase tracking-wide text-white">Logística y Comodidad</h3>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full"
-                            id="badge-logistica">0/0</span>
+                        <span class="text-[10px] font-black bg-white/20 text-white px-2 py-0.5 rounded-full" id="badge-logistica">0/0</span>
                         <div class="w-14 bg-white/20 rounded-full h-1.5">
-                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-logistica"
-                                style="width:0%"></div>
+                            <div class="progress-bar-fill bg-white h-1.5 rounded-full" id="bar-logistica" style="width:0%"></div>
                         </div>
                     </div>
                 </div>
@@ -949,60 +761,47 @@
                     <span>Ítem</span><span class="text-center">Cantidad</span><span class="text-center">✓</span>
                 </div>
                 <div class="p-2 space-y-0.5">
-
                     <label class="cl-row" data-cat="logistica">
                         <span class="item-label text-sm text-slate-700 font-medium">Bolso / maleta de esgrima</span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="l1">
                         <input type="checkbox" data-id="l1">
                     </label>
-
                     <label class="cl-row" data-cat="logistica">
-                        <span class="item-label text-sm text-slate-700 font-medium">Porta-arma (funda o tubo
-                            rígido)</span>
+                        <span class="item-label text-sm text-slate-700 font-medium">Porta-arma (funda o tubo rígido)</span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="l2">
                         <input type="checkbox" data-id="l2">
                     </label>
-
                     <label class="cl-row" data-cat="logistica">
-                        <span class="item-label text-sm text-slate-700 font-medium">Cargador de teléfono / batería
-                            externa</span>
+                        <span class="item-label text-sm text-slate-700 font-medium">Cargador de teléfono / batería externa</span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="l3">
                         <input type="checkbox" data-id="l3">
                     </label>
-
                     <label class="cl-row" data-cat="logistica">
                         <span class="item-label text-sm text-slate-700 font-medium">Efectivo para imprevistos</span>
                         <input type="number" min="0" class="qty-input" placeholder="" data-qty="l4">
                         <input type="checkbox" data-id="l4">
                     </label>
-
                     <label class="cl-row" data-cat="logistica">
                         <span class="item-label text-sm text-slate-700 font-medium">
                             Botiquín básico
-                            <span class="text-[9px] text-slate-400 font-normal block">Vendas, ibuprofeno, gel de
-                                golpes</span>
+                            <span class="text-[9px] text-slate-400 font-normal block">Vendas, ibuprofeno, gel de golpes</span>
                         </span>
                         <input type="number" min="0" class="qty-input" placeholder="1" data-qty="l5">
                         <input type="checkbox" data-id="l5">
                     </label>
-
                     <label class="cl-row" data-cat="logistica">
-                        <span class="item-label text-sm text-slate-700 font-medium">Medicación personal (si
-                            aplica)</span>
+                        <span class="item-label text-sm text-slate-700 font-medium">Medicación personal (si aplica)</span>
                         <input type="number" min="0" class="qty-input" placeholder="" data-qty="l6">
                         <input type="checkbox" data-id="l6">
                     </label>
-
                 </div>
             </div>
 
         </div><!-- /checklist-grid -->
 
-        <!-- Nota extra imprimible -->
         <div class="mt-5 bg-green-50 border border-green-200 rounded-xl p-4">
             <p class="text-[11px] text-green-800 font-bold text-center no-print">
-                ✅ Los checks se guardan automáticamente en tu navegador · Al imprimir se genera solo el checklist, sin
-                la calculadora
+                ✅ Los checks se guardan automáticamente en tu navegador · Al imprimir se genera solo el checklist, sin la calculadora
             </p>
             <p class="text-[10px] text-green-700 text-center mt-1 checklist-print-header" style="display:none">
                 Club Esgrima Cabudare · PEDANA TEPUY · pedana.tepuy.site
@@ -1020,26 +819,20 @@
         </p>
         <p class="text-slate-500 text-[9px] leading-relaxed max-w-2xl mx-auto">
             ⚠️ Las tasas obtenidas de
-            <a href="https://bcv.justcarlux.dev" target="_blank"
-                class="text-slate-400 hover:underline">bcv.justcarlux.dev</a>
-            y <a href="https://ve.dolarapi.com" target="_blank"
-                class="text-slate-400 hover:underline">ve.dolarapi.com</a>
+            <a href="https://bcv.justcarlux.dev" target="_blank" class="text-slate-400 hover:underline">bcv.justcarlux.dev</a>
+            y <a href="https://ve.dolarapi.com" target="_blank" class="text-slate-400 hover:underline">ve.dolarapi.com</a>
             son <strong class="text-slate-400">fuentes no oficiales</strong> usadas con fines programáticos.
             Para verificar las tasas oficiales consulte directamente el
-            <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener"
-                class="text-blue-400 hover:underline font-bold">Banco Central de Venezuela (BCV)</a>.
+            <a href="https://www.bcv.org.ve/" target="_blank" rel="noopener" class="text-blue-400 hover:underline font-bold">Banco Central de Venezuela (BCV)</a>.
             TEPUY ofrece esta herramienta únicamente como aporte a la comunidad esgrimista;
             cada usuario es responsable del uso que haga de la información aquí presentada.
         </p>
     </footer>
 
-    <!-- ═══ SCRIPTS ═════════════════════════════════════════════════════ -->
     <script>
-        // ── Estado ──────────────────────────────────────────────────────
         let atletas = [{ id: Date.now(), nombre: '', pruebas: 0, licencia: 0, viaticos: 0 }];
         let tasaUsdBcv = 0, tasaEuroBcv = 0;
 
-        // ── API BCV ──────────────────────────────────────────────────────
         async function fetchWithTimeout(url, ms = 8000) {
             const ctrl = new AbortController();
             const id = setTimeout(() => ctrl.abort(), ms);
@@ -1053,84 +846,82 @@
 
         function formatFecha(v) {
             const d = new Date(v);
-            return `${d.toLocaleDateString('es-VE', { day: '2-digit', month: '2-digit', year: '2-digit' })} ${d.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' })}`;
+            return `${d.toLocaleDateString('es-VE',{day:'2-digit',month:'2-digit',year:'2-digit'})} ${d.toLocaleTimeString('es-VE',{hour:'2-digit',minute:'2-digit'})}`;
         }
 
         async function fetchTasaBCV(manual = false) {
             const apiStatus = document.getElementById('apiStatus');
-            const fechaTxt = document.getElementById('fechaActualizacion');
-            const inputUsd = document.getElementById('globalTasa');
-            const eurEl = document.getElementById('tasaEurDisplay');
+            const fechaTxt  = document.getElementById('fechaActualizacion');
+            const inputUsd  = document.getElementById('globalTasa');
+            const eurEl     = document.getElementById('tasaEurDisplay');
             apiStatus.className = 'w-2.5 h-2.5 rounded-full bg-yellow-500 animate-pulse';
             eurEl.classList.add('loading-shimmer');
-            let usdOk = false, eurOk = false, label = '', fusd = '', feur = '';
+            let usdOk=false, eurOk=false, label='', fusd='', feur='';
             try {
                 const d = await fetchWithTimeout('https://bcv.justcarlux.dev/api/v1/rates');
                 if (d.rates?.usd && d.rates?.eur) {
-                    tasaUsdBcv = d.rates.usd; tasaEuroBcv = d.rates.eur;
-                    usdOk = true; eurOk = true; label = `BCV ${formatFecha(d.updatedAt)}`;
+                    tasaUsdBcv=d.rates.usd; tasaEuroBcv=d.rates.eur;
+                    usdOk=true; eurOk=true; label=`BCV ${formatFecha(d.updatedAt)}`;
                 } else throw new Error('estructura');
             } catch {
                 try {
-                    const d = await fetchWithTimeout('https://ve.dolarapi.com/v1/dolares/oficial');
-                    const v = d.promedio ?? d.venta;
-                    if (v > 0) { tasaUsdBcv = v; usdOk = true; fusd = d.fechaActualizacion ? formatFecha(d.fechaActualizacion) : ''; }
-                } catch { }
+                    const d=await fetchWithTimeout('https://ve.dolarapi.com/v1/dolares/oficial');
+                    const v=d.promedio??d.venta;
+                    if(v>0){tasaUsdBcv=v;usdOk=true;fusd=d.fechaActualizacion?formatFecha(d.fechaActualizacion):'';}
+                } catch {}
                 try {
-                    const d = await fetchWithTimeout('https://ve.dolarapi.com/v1/euros/oficial');
-                    const v = d.promedio ?? d.venta;
-                    if (v > 0) { tasaEuroBcv = v; eurOk = true; feur = d.fechaActualizacion ? formatFecha(d.fechaActualizacion) : ''; }
-                } catch { }
-                if (usdOk || eurOk) {
-                    label = (fusd === feur && fusd) ? `Respaldo BCV · ${fusd}` :
-                        [usdOk && fusd ? `USD ${fusd}` : '', eurOk && feur ? `EUR ${feur}` : ''].filter(Boolean).join(' · ') || 'Respaldo BCV';
+                    const d=await fetchWithTimeout('https://ve.dolarapi.com/v1/euros/oficial');
+                    const v=d.promedio??d.venta;
+                    if(v>0){tasaEuroBcv=v;eurOk=true;feur=d.fechaActualizacion?formatFecha(d.fechaActualizacion):'';}
+                } catch {}
+                if(usdOk||eurOk){
+                    label=(fusd===feur&&fusd)?`Respaldo BCV · ${fusd}`:
+                        [usdOk&&fusd?`USD ${fusd}`:'',eurOk&&feur?`EUR ${feur}`:''].filter(Boolean).join(' · ')||'Respaldo BCV';
                 }
             }
-            if (usdOk) inputUsd.value = tasaUsdBcv.toFixed(2);
-            eurEl.textContent = eurOk ? tasaEuroBcv.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : 'N/D';
+            if(usdOk) inputUsd.value=tasaUsdBcv.toFixed(2);
+            eurEl.textContent=eurOk?tasaEuroBcv.toLocaleString('es-VE',{minimumFractionDigits:2,maximumFractionDigits:2}):'N/D';
             eurEl.classList.remove('loading-shimmer');
-            if (usdOk || eurOk) {
-                apiStatus.className = usdOk && eurOk ? 'w-2.5 h-2.5 rounded-full bg-green-400 pulse-green' : 'w-2.5 h-2.5 rounded-full bg-yellow-400';
-                fechaTxt.textContent = label;
-                if (manual) mostrarToast(usdOk && eurOk ? '✅ Tasas BCV actualizadas' : '⚠️ Tasas parcialmente actualizadas', !eurOk);
+            if(usdOk||eurOk){
+                apiStatus.className=usdOk&&eurOk?'w-2.5 h-2.5 rounded-full bg-green-400 pulse-green':'w-2.5 h-2.5 rounded-full bg-yellow-400';
+                fechaTxt.textContent=label;
+                if(manual) mostrarToast(usdOk&&eurOk?'✅ Tasas BCV actualizadas':'⚠️ Tasas parcialmente actualizadas',!eurOk);
             } else {
-                apiStatus.className = 'w-2.5 h-2.5 rounded-full bg-red-500';
-                fechaTxt.textContent = 'Sin conexión. Ingrese las tasas manualmente.';
-                if (manual) mostrarToast('⚠️ No se pudo actualizar.', true);
+                apiStatus.className='w-2.5 h-2.5 rounded-full bg-red-500';
+                fechaTxt.textContent='Sin conexión. Ingrese las tasas manualmente.';
+                if(manual) mostrarToast('⚠️ No se pudo actualizar.',true);
             }
             actualizarTodo();
         }
 
-        // ── Toast ────────────────────────────────────────────────────────
-        function mostrarToast(msg, esError = false) {
-            const t = document.getElementById('toast'), m = document.getElementById('toastMsg');
-            t.textContent = ''; m.textContent = msg;
-            t.className = `fixed top-4 right-4 z-[100] text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 transition-all ${esError ? 'bg-red-600' : 'bg-green-600'}`;
-            t.style.opacity = '1'; t.style.pointerEvents = 'auto';
-            setTimeout(() => { t.style.opacity = '0'; t.style.pointerEvents = 'none'; }, 3500);
+        function mostrarToast(msg, esError=false) {
+            const t=document.getElementById('toast'), m=document.getElementById('toastMsg');
+            t.textContent=''; m.textContent=msg;
+            t.className=`fixed top-4 right-4 z-[100] text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 transition-all ${esError?'bg-red-600':'bg-green-600'}`;
+            t.style.opacity='1'; t.style.pointerEvents='auto';
+            setTimeout(()=>{t.style.opacity='0';t.style.pointerEvents='none';},3500);
         }
 
-        // ── Atletas ──────────────────────────────────────────────────────
-        function agregarAtleta() {
-            atletas.push({ id: Date.now(), nombre: '', pruebas: 0, licencia: 0, viaticos: 0 });
+        function agregarAtleta(){
+            atletas.push({id:Date.now(),nombre:'',pruebas:0,licencia:0,viaticos:0});
             renderizarAtletas(); actualizarTodo();
         }
-        function eliminarAtleta(id) {
-            if (atletas.length > 1) { atletas = atletas.filter(a => a.id !== id); renderizarAtletas(); actualizarTodo(); }
+        function eliminarAtleta(id){
+            if(atletas.length>1){atletas=atletas.filter(a=>a.id!==id);renderizarAtletas();actualizarTodo();}
         }
-        function updateAtletaData(id, campo, valor) {
-            const i = atletas.findIndex(a => a.id === id);
-            if (i !== -1) { atletas[i][campo] = campo === 'nombre' ? valor : parseFloat(valor) || 0; actualizarTodo(); }
+        function updateAtletaData(id,campo,valor){
+            const i=atletas.findIndex(a=>a.id===id);
+            if(i!==-1){atletas[i][campo]=campo==='nombre'?valor:parseFloat(valor)||0;actualizarTodo();}
         }
-        function renderizarAtletas() {
-            const c = document.getElementById('listaAtletas');
-            c.innerHTML = atletas.map((a, idx) => `
+        function renderizarAtletas(){
+            const c=document.getElementById('listaAtletas');
+            c.innerHTML=atletas.map((a,idx)=>`
                 <div class="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-6 items-center card-transition hover:border-blue-200">
                     <div class="flex-1 w-full">
                         <div class="flex items-center gap-3 mb-6">
                             <div class="w-1.5 h-6 bg-blue-600 rounded-full"></div>
-                            <input type="text" placeholder="Nombre del atleta ${idx + 1}"
-                                value="${a.nombre ? a.nombre.replace(/"/g, '&quot;') : ''}"
+                            <input type="text" placeholder="Nombre del atleta ${idx+1}"
+                                value="${a.nombre?a.nombre.replace(/"/g,'&quot;'):''}"
                                 oninput="updateAtletaData(${a.id},'nombre',this.value)"
                                 class="text-lg font-extrabold bg-transparent border-b border-slate-100 focus:border-blue-500 outline-none w-full py-1">
                         </div>
@@ -1157,44 +948,43 @@
                 </div>`).join('');
         }
 
-        // ── Cálculos ─────────────────────────────────────────────────────
-        function actualizarTodo() {
-            const tasaUsd = parseFloat(document.getElementById('globalTasa').value) || 0;
-            const cP = parseFloat(document.getElementById('costoPrueba').value) || 0;
-            const cA = parseFloat(document.getElementById('aporteAsoc').value) || 0;
-            const lT = parseFloat(document.getElementById('viajeTrans').value) || 0;
-            const lH = parseFloat(document.getElementById('viajeHotel').value) || 0;
-            const lC = parseFloat(document.getElementById('viajeComida').value) || 0;
-            let sI = 0, sA = 0, sL = 0, sV = 0, tot = 0;
-            atletas.forEach(a => {
-                const mi = (a.pruebas || 0) * cP, sub = mi + cA + (a.licencia || 0) + (a.viaticos || 0);
-                sI += mi; sA += cA; sL += (a.licencia || 0); sV += (a.viaticos || 0);
-                const el = document.getElementById(`subtotal-${a.id}`);
-                if (el) el.innerText = `$${sub.toFixed(2)}`;
-                tot += sub;
+        function actualizarTodo(){
+            const tasaUsd=parseFloat(document.getElementById('globalTasa').value)||0;
+            const cP=parseFloat(document.getElementById('costoPrueba').value)||0;
+            const cA=parseFloat(document.getElementById('aporteAsoc').value)||0;
+            const lT=parseFloat(document.getElementById('viajeTrans').value)||0;
+            const lH=parseFloat(document.getElementById('viajeHotel').value)||0;
+            const lC=parseFloat(document.getElementById('viajeComida').value)||0;
+            let sI=0,sA=0,sL=0,sV=0,tot=0;
+            atletas.forEach(a=>{
+                const mi=(a.pruebas||0)*cP, sub=mi+cA+(a.licencia||0)+(a.viaticos||0);
+                sI+=mi; sA+=cA; sL+=(a.licencia||0); sV+=(a.viaticos||0);
+                const el=document.getElementById(`subtotal-${a.id}`);
+                if(el) el.innerText=`$${sub.toFixed(2)}`;
+                tot+=sub;
             });
-            const tUSD = tot + lT + lH + lC, tBs = tUSD * tasaUsd;
-            const tEur = tasaEuroBcv > 0 ? tBs / tasaEuroBcv : 0;
-            document.getElementById('totalGeneralUSD').innerText = `$${tUSD.toFixed(2)}`;
-            document.getElementById('totalGeneralBs').innerText = `Bs. ${tBs.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            document.getElementById('totalGeneralEur').innerText = `€ ${tEur.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            document.getElementById('infoTasaUSD').textContent = tasaUsd > 0 ? `@ Bs. ${tasaUsd.toFixed(2)} / USD` : 'Obtén la tasa con el botón ↺';
-            document.getElementById('infoTasaEUR').textContent = tasaEuroBcv > 0 ? `@ Bs. ${tasaEuroBcv.toFixed(2)} / EUR` : 'Tasa EUR no disponible';
-            const items = [
-                { nombre: `Inscripciones (${atletas.reduce((a, b) => a + (b.pruebas || 0), 0)} prueba(s))`, monto: sI },
-                { nombre: `Aporte Único Asoc. (${atletas.length} atleta(s))`, monto: sA },
-                { nombre: `Licencias Federativas`, monto: sL },
-                { nombre: `Viáticos Entrenadores`, monto: sV },
-                { nombre: `Gastos de Transporte`, monto: lT },
-                { nombre: `Alojamiento Seleccionado`, monto: lH },
-                { nombre: `Alimentación e Imprevistos`, monto: lC }
+            const tUSD=tot+lT+lH+lC, tBs=tUSD*tasaUsd;
+            const tEur=tasaEuroBcv>0?tBs/tasaEuroBcv:0;
+            document.getElementById('totalGeneralUSD').innerText=`$${tUSD.toFixed(2)}`;
+            document.getElementById('totalGeneralBs').innerText=`Bs. ${tBs.toLocaleString('es-VE',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+            document.getElementById('totalGeneralEur').innerText=`€ ${tEur.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+            document.getElementById('infoTasaUSD').textContent=tasaUsd>0?`@ Bs. ${tasaUsd.toFixed(2)} / USD`:'Obtén la tasa con el botón ↺';
+            document.getElementById('infoTasaEUR').textContent=tasaEuroBcv>0?`@ Bs. ${tasaEuroBcv.toFixed(2)} / EUR`:'Tasa EUR no disponible';
+            const items=[
+                {nombre:`Inscripciones (${atletas.reduce((a,b)=>a+(b.pruebas||0),0)} prueba(s))`,monto:sI},
+                {nombre:`Aporte Único Asoc. (${atletas.length} atleta(s))`,monto:sA},
+                {nombre:`Licencias Federativas`,monto:sL},
+                {nombre:`Viáticos Entrenadores`,monto:sV},
+                {nombre:`Gastos de Transporte`,monto:lT},
+                {nombre:`Alojamiento Seleccionado`,monto:lH},
+                {nombre:`Alimentación e Imprevistos`,monto:lC}
             ];
-            const cd = document.getElementById('desgloseDetallado'), iv = items.filter(i => i.monto > 0);
-            if (!iv.length) { cd.innerHTML = '<p class="text-xs text-slate-500 italic text-center py-4">Ingrese montos para ver el desglose.</p>'; return; }
-            const mx = Math.max(...iv.map(i => i.monto));
-            cd.innerHTML = iv.map(item => {
-                const pct = tUSD > 0 ? ((item.monto / tUSD) * 100).toFixed(1) : 0;
-                const bw = mx > 0 ? ((item.monto / mx) * 100).toFixed(0) : 0;
+            const cd=document.getElementById('desgloseDetallado'),iv=items.filter(i=>i.monto>0);
+            if(!iv.length){cd.innerHTML='<p class="text-xs text-slate-500 italic text-center py-4">Ingrese montos para ver el desglose.</p>';return;}
+            const mx=Math.max(...iv.map(i=>i.monto));
+            cd.innerHTML=iv.map(item=>{
+                const pct=tUSD>0?((item.monto/tUSD)*100).toFixed(1):0;
+                const bw=mx>0?((item.monto/mx)*100).toFixed(0):0;
                 return `<div class="border-b border-white/5 pb-3">
                     <div class="flex justify-between items-center mb-1">
                         <span class="text-xs text-slate-300 font-medium">${item.nombre}</span>
@@ -1210,108 +1000,87 @@
             }).join('');
         }
 
-        // ── CHECKLIST ────────────────────────────────────────────────────
-        const CK_KEY = 'tepuy_cl_v2';
-        const CK_QTY = 'tepuy_qty_v2';
-        const CK_ARMA = 'tepuy_arma';
+        const CK_KEY='tepuy_cl_v2', CK_QTY='tepuy_qty_v2', CK_ARMA='tepuy_arma';
+        function loadChecked(){try{return new Set(JSON.parse(localStorage.getItem(CK_KEY)||'[]'));}catch{return new Set();}}
+        function saveChecked(s){try{localStorage.setItem(CK_KEY,JSON.stringify([...s]));}catch{}}
+        function loadQty(){try{return JSON.parse(localStorage.getItem(CK_QTY)||'{}');}catch{return{};}}
+        function saveQty(o){try{localStorage.setItem(CK_QTY,JSON.stringify(o));}catch{}}
 
-        function loadChecked() { try { return new Set(JSON.parse(localStorage.getItem(CK_KEY) || '[]')); } catch { return new Set(); } }
-        function saveChecked(s) { try { localStorage.setItem(CK_KEY, JSON.stringify([...s])); } catch { } }
-        function loadQty() { try { return JSON.parse(localStorage.getItem(CK_QTY) || '{}'); } catch { return {}; } }
-        function saveQty(o) { try { localStorage.setItem(CK_QTY, JSON.stringify(o)); } catch { } }
-
-        function initChecklist() {
-            const checked = loadChecked();
-            const qtys = loadQty();
-
-            document.querySelectorAll('.cl-row input[type="checkbox"]').forEach(cb => {
-                if (checked.has(cb.dataset.id)) {
-                    cb.checked = true;
-                    cb.closest('.cl-row').classList.add('is-checked');
-                }
-                cb.addEventListener('change', function () {
-                    const s = loadChecked();
-                    this.checked ? s.add(this.dataset.id) : s.delete(this.dataset.id);
-                    this.closest('.cl-row').classList.toggle('is-checked', this.checked);
-                    saveChecked(s); updateProgress();
+        function initChecklist(){
+            const checked=loadChecked(), qtys=loadQty();
+            document.querySelectorAll('.cl-row input[type="checkbox"]').forEach(cb=>{
+                if(checked.has(cb.dataset.id)){cb.checked=true;cb.closest('.cl-row').classList.add('is-checked');}
+                cb.addEventListener('change',function(){
+                    const s=loadChecked();
+                    this.checked?s.add(this.dataset.id):s.delete(this.dataset.id);
+                    this.closest('.cl-row').classList.toggle('is-checked',this.checked);
+                    saveChecked(s);updateProgress();
                 });
             });
-
-            document.querySelectorAll('.qty-input').forEach(inp => {
-                const k = inp.dataset.qty;
-                if (qtys[k] !== undefined) inp.value = qtys[k];
-                inp.addEventListener('input', function () {
-                    const q = loadQty(); q[this.dataset.qty] = this.value; saveQty(q);
-                });
-                inp.addEventListener('click', e => e.stopPropagation());
+            document.querySelectorAll('.qty-input').forEach(inp=>{
+                const k=inp.dataset.qty;
+                if(qtys[k]!==undefined) inp.value=qtys[k];
+                inp.addEventListener('input',function(){const q=loadQty();q[this.dataset.qty]=this.value;saveQty(q);});
+                inp.addEventListener('click',e=>e.stopPropagation());
             });
-
             updateProgress();
         }
 
-        function getVisible(container) {
-            return [...container.querySelectorAll('.cl-row')].filter(el => window.getComputedStyle(el).display !== 'none');
+        function getVisible(container){
+            return [...container.querySelectorAll('.cl-row')].filter(el=>window.getComputedStyle(el).display!=='none');
         }
 
-        function updateProgress() {
-            const cats = ['equipo', 'uniforme', 'nutricion', 'docs', 'tools', 'logistica'];
-            cats.forEach(cat => {
-                const card = document.querySelector(`[data-cat="${cat}"].bg-white`) || document.querySelector(`div[data-cat="${cat}"]`);
-                if (!card) return;
-                const items = getVisible(card), done = items.filter(r => r.querySelector('input[type="checkbox"]').checked).length;
-                const total = items.length, pct = total ? Math.round(done / total * 100) : 0;
-                const badge = document.getElementById(`badge-${cat}`), bar = document.getElementById(`bar-${cat}`);
-                if (badge) badge.textContent = `${done}/${total}`;
-                if (bar) bar.style.width = `${pct}%`;
+        function updateProgress(){
+            ['equipo','uniforme','nutricion','docs','tools','logistica'].forEach(cat=>{
+                const card=document.querySelector(`[data-cat="${cat}"].bg-white`);
+                if(!card) return;
+                const items=getVisible(card),done=items.filter(r=>r.querySelector('input[type="checkbox"]').checked).length;
+                const total=items.length,pct=total?Math.round(done/total*100):0;
+                const badge=document.getElementById(`badge-${cat}`),bar=document.getElementById(`bar-${cat}`);
+                if(badge) badge.textContent=`${done}/${total}`;
+                if(bar)   bar.style.width=`${pct}%`;
             });
-            const all = getVisible(document.getElementById('checklist-grid'));
-            const done = all.filter(r => r.querySelector('input[type="checkbox"]').checked).length;
-            const total = all.length, pct = total ? Math.round(done / total * 100) : 0;
-            document.getElementById('progreso-label').textContent = `${done} / ${total} ítems`;
-            const gb = document.getElementById('progreso-bar');
-            gb.style.width = `${pct}%`;
-            gb.className = `progress-bar-fill h-2.5 rounded-full ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-blue-500' : 'bg-amber-500'}`;
+            const all=getVisible(document.getElementById('checklist-grid'));
+            const done=all.filter(r=>r.querySelector('input[type="checkbox"]').checked).length;
+            const total=all.length,pct=total?Math.round(done/total*100):0;
+            document.getElementById('progreso-label').textContent=`${done} / ${total} ítems`;
+            const gb=document.getElementById('progreso-bar');
+            gb.style.width=`${pct}%`;
+            gb.className=`progress-bar-fill h-2.5 rounded-full ${pct===100?'bg-emerald-500':pct>=50?'bg-blue-500':'bg-amber-500'}`;
         }
 
-        function resetChecklist() {
-            if (!confirm('¿Reiniciar el checklist? Se desmarcarán todos los ítems y se borrará la cantidad.')) return;
-            saveChecked(new Set()); saveQty({});
-            document.querySelectorAll('.cl-row input[type="checkbox"]').forEach(cb => {
-                cb.checked = false; cb.closest('.cl-row').classList.remove('is-checked');
-            });
-            document.querySelectorAll('.qty-input').forEach(i => i.value = '');
-            updateProgress(); mostrarToast('✅ Checklist reiniciado');
+        function resetChecklist(){
+            if(!confirm('¿Reiniciar el checklist? Se desmarcarán todos los ítems y se borrará la cantidad.')) return;
+            saveChecked(new Set());saveQty({});
+            document.querySelectorAll('.cl-row input[type="checkbox"]').forEach(cb=>{cb.checked=false;cb.closest('.cl-row').classList.remove('is-checked');});
+            document.querySelectorAll('.qty-input').forEach(i=>i.value='');
+            updateProgress();mostrarToast('✅ Checklist reiniciado');
         }
 
-        function setArma(arma, btn) {
-            document.body.setAttribute('data-arma', arma);
-            ['btn-ambas', 'btn-sable', 'btn-florete'].forEach(id => {
-                document.getElementById(id).className = 'weapon-btn';
-            });
-            btn.className = arma === 'sable' ? 'weapon-btn active-sable' :
-                arma === 'florete' ? 'weapon-btn active-florete' : 'weapon-btn active-ambas';
-            try { localStorage.setItem(CK_ARMA, arma); } catch { }
-            setTimeout(updateProgress, 60);
+        function setArma(arma,btn){
+            document.body.setAttribute('data-arma',arma);
+            ['btn-ambas','btn-sable','btn-florete'].forEach(id=>document.getElementById(id).className='weapon-btn');
+            btn.className=arma==='sable'?'weapon-btn active-sable':arma==='florete'?'weapon-btn active-florete':'weapon-btn active-ambas';
+            try{localStorage.setItem(CK_ARMA,arma);}catch{}
+            setTimeout(updateProgress,60);
         }
 
-        function imprimirChecklist() {
-            const el = document.getElementById('print-date');
-            if (el) el.textContent = new Date().toLocaleDateString('es-VE', { day: '2-digit', month: 'long', year: 'numeric' });
+        function imprimirChecklist(){
+            const el=document.getElementById('print-date');
+            if(el) el.textContent=new Date().toLocaleDateString('es-VE',{day:'2-digit',month:'long',year:'numeric'});
             window.print();
         }
 
-        // ── Init ─────────────────────────────────────────────────────────
-        window.onload = function () {
+        window.onload=function(){
             renderizarAtletas();
             fetchTasaBCV();
             initChecklist();
-            try {
-                const a = localStorage.getItem(CK_ARMA) || 'ambas';
-                const b = document.getElementById(`btn-${a}`);
-                if (b) setArma(a, b);
-            } catch { }
+            try{
+                const a=localStorage.getItem(CK_ARMA)||'ambas';
+                const b=document.getElementById(`btn-${a}`);
+                if(b) setArma(a,b);
+            }catch{}
         };
     </script>
 </body>
-
 </html>
