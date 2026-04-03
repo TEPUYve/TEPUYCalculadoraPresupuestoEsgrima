@@ -322,9 +322,72 @@ header{
   font-size:10px;color:var(--dim);text-align:center;
   margin-top:4px;font-family:'Share Tech Mono';min-height:14px;
 }
-.pen-status.warn{color:var(--yellow-card);}
+.pen-status.out { color: var(--red); font-weight: bold; }
+
+/* Team Lives / Quorum Indicators */
+.team-lives {
+  display: flex; gap: 6px; margin-top: 8px; justify-content: center;
+}
+.life-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #38e87a; border: 1.5px solid rgba(0,0,0,0.3);
+  box-shadow: 0 0 5px rgba(56,232,122,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: #000; font-weight: bold;
+}
+.life-dot.lost {
+  background: #222; color: var(--red); border-color: var(--red);
+  box-shadow: none;
+}
+.life-dot.lost::after { content: '×'; }
+.undo-card-btn {
+  background: transparent; border: 1px solid var(--border2);
+  color: var(--dim); font-size: 10px; width: 16px; height: 16px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s; margin-left: 4px;
+}
+.undo-card-btn:hover { border-color: var(--red); color: var(--red); transform: scale(1.1); }
+
+/* Black Card Modal Specific Styles */
+.black-card-box {
+  background: var(--panel); border: 2px solid var(--red);
+  padding: 40px; text-align: center; max-width: 500px; width: 92%;
+  animation: pop-in .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 0 60px rgba(232,64,80,0.3), inset 0 0 20px rgba(0,0,0,0.4);
+  position: relative;
+}
+.black-card-box::after {
+  content: ''; position: absolute; inset: 0; border: 1px solid rgba(255,255,255,0.05); pointer-events: none;
+}
+.black-card-title {
+  font-family: 'Bebas Neue'; font-size: 42px; color: var(--red);
+  margin-bottom: 20px; letter-spacing: 3px; text-shadow: 0 0 15px rgba(232,64,80,0.4);
+}
+.black-card-body p {
+  font-family: 'Share Tech Mono'; color: var(--text);
+  font-size: 15px; margin-bottom: 30px; line-height: 1.6;
+}
+.black-card-opts { display: flex; flex-direction: column; gap: 14px; }
+.black-card-btn {
+  font-family: 'Bebas Neue'; font-size: 18px; letter-spacing: 1.5px;
+  padding: 18px; border: 1px solid var(--border2); cursor: pointer;
+  background: var(--panel2); color: var(--text);
+  transition: all .2s; text-align: center; line-height: 1.2;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+}
+.black-card-btn:hover { border-color: var(--red); background: var(--red-dim); color: #fff; transform: translateY(-2px); }
+.black-card-btn small {
+  display: block; font-family: 'Barlow Condensed'; font-size: 12px;
+  opacity: 0.7; margin-top: 6px; text-transform: none; color: var(--text2);
+}
+.black-card-cancel {
+  margin-top: 15px; font-family: 'Bebas Neue'; font-size: 16px;
+  color: var(--dim); background: transparent; border: none;
+  cursor: pointer; transition: color .2s; letter-spacing: 1px;
+}
+.black-card-cancel:hover { color: var(--red); }
 .pen-status.danger{color:var(--red-card);}
-.pen-status.out{color:#888;}
+.pen-status.out{color:var(--dim); font-weight: bold;}
 
 /* ═══════════════════════════════════════
    SIDEBAR
@@ -568,6 +631,84 @@ header{
   position:fixed;inset:0;pointer-events:none;z-index:400;
   opacity:0;transition:opacity .06s;
 }
+/* Fencer Name and Active Athlete Row */
+.fencer-name-row {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px;
+}
+.active-athlete-select {
+  font-family: 'Share Tech Mono'; font-size: 13px; color: var(--accent);
+  background: var(--accent-dim); padding: 4px 12px; border: 1px solid rgba(232,200,64,0.3);
+  cursor: pointer; transition: all 0.15s; border-radius: 2px;
+}
+.active-athlete-select:hover { background: var(--accent); color: #000; }
+.active-athlete-select::before { content: '🤺 '; opacity: 0.7; }
+
+/* Name Editor Inputs */
+#nameInputsContainer {
+  display: flex; flex-direction: column; gap: 8px; max-height: 300px;
+  overflow-y: auto; padding-right: 4px; margin-top: 10px;
+}
+.name-input-group {
+  display: flex; align-items: center; gap: 8px;
+}
+.name-input-label {
+  font-family: 'Bebas Neue'; font-size: 12px; color: var(--dim); width: 24px;
+}
+.name-inp {
+  flex: 1; background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); padding: 8px 12px; font-size: 14px;
+  outline: none; transition: border-color 0.2s;
+}
+.name-inp:focus { border-color: var(--accent); }
+
+/* Penalty Group Buttons */
+.pen-opt-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 12px; border: 2px solid var(--border); background: transparent;
+  color: var(--text); cursor: pointer; transition: all 0.15s; width: 100%;
+  text-align: center;
+}
+.pen-opt-btn:hover { border-color: var(--accent); background: rgba(255,255,255,0.03); }
+.pen-opt-btn.group1 { border-left: 6px solid var(--yellow-card); }
+.pen-opt-btn.group2 { border-left: 6px solid var(--red-card); }
+.pen-opt-btn.group3 { border-left: 6px solid var(--red-card); border-right: 6px solid var(--black-card); }
+.pen-opt-btn.group4 { border-left: 6px solid var(--black-card); background: #1a1a1a; }
+.pen-group-label { font-family: 'Bebas Neue'; font-size: 16px; letter-spacing: 1px; }
+.pen-opt-btn small { font-size: 10px; color: var(--dim); letter-spacing: 0.5px; }
+
+.active-fencer-row {
+  background: var(--accent-dim); padding: 8px; margin-bottom: 12px;
+  font-size: 13px; font-family: 'Share Tech Mono'; border: 1px solid var(--accent);
+}
+.warn-dot-ui {
+  display: inline-block; width: 12px; height: 16px;
+  background: var(--yellow-card); border-radius: 1.5px;
+  border: 1px solid rgba(0,0,0,0.3); vertical-align: middle;
+  margin-right: 6px; box-shadow: 0 0 5px rgba(240,208,32,0.4);
+}
+
+.prio-p {
+  display: none;
+  position: absolute;
+  top: 10px;
+  background: var(--accent);
+  color: #000;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-family: 'Bebas Neue';
+  font-size: 20px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(232, 200, 64, 0.4);
+  z-index: 10;
+}
+.fencer.L .prio-p { left: 10px; }
+.fencer.R .prio-p { right: 10px; }
+.prio-p.show { display: flex; }
+
+.pen-direct-btns { display: flex; gap: 4px; justify-content: center; margin-top: 6px; } /* Visible */
 .flash.red-f{background:radial-gradient(ellipse at 20% 50%,rgba(232,64,80,.4),transparent 65%);}
 .flash.grn-f{background:radial-gradient(ellipse at 80% 50%,rgba(56,232,122,.4),transparent 65%);}
 .flash.on{opacity:1;}
@@ -582,22 +723,50 @@ header{
 }
 .overlay.vis{opacity:1;pointer-events:all;}
 
-/* Time-up alert */
-.alert-box{
-  background:var(--panel);border:2px solid var(--accent);
-  padding:36px 52px;text-align:center;
-  animation:pop-in .3s ease; min-width:280px;
+/* Time-up alert & Custom Confirm */
+.alert-box, .confirm-box {
+  background: var(--panel); border: 2px solid var(--accent);
+  padding: 30px 40px; text-align: center;
+  animation: pop-in .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  min-width: 320px; box-shadow: 0 0 60px rgba(0,0,0,0.5), 0 0 20px rgba(232, 200, 64, 0.1);
+  position: relative;
 }
 @keyframes pop-in{from{transform:scale(.88);opacity:0;}to{transform:scale(1);opacity:1;}}
-.alert-title{font-family:'Bebas Neue';font-size:52px;color:var(--accent);margin-bottom:8px;}
-.alert-sub{font-size:14px;color:var(--text2);margin-bottom:24px;line-height:1.5;white-space:pre-line;}
-.alert-ok{
-  font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;
-  padding:11px 40px;background:var(--accent);color:#000;
-  border:none;cursor:pointer;
-  clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+
+/* FIE Style Octagon Icon */
+.modal-icon {
+  width: 64px; height: 64px; margin: 0 auto 20px;
+  background: var(--accent);
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
 }
-.alert-ok:hover{filter:brightness(1.1);}
+.modal-icon.red { background: var(--red); color: white; }
+.modal-icon.yellow { background: var(--accent); color: black; }
+
+.alert-title, .confirm-title {
+  font-family: 'Bebas Neue'; font-size: 42px; color: var(--accent);
+  margin-bottom: 8px; letter-spacing: 2px;
+}
+.alert-sub, .confirm-sub {
+  font-size: 15px; color: var(--text); margin-bottom: 28px;
+  line-height: 1.6; white-space: pre-line; font-family: 'Share Tech Mono';
+}
+.alert-ok, .confirm-btn {
+  font-family: 'Bebas Neue'; font-size: 18px; letter-spacing: 2px;
+  padding: 12px 36px; cursor: pointer; border: none;
+  transition: all .2s; outline: none;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+}
+.alert-ok, .confirm-btn.ok { background: var(--accent); color: #000; }
+.alert-ok:hover, .confirm-btn.ok:hover { filter: brightness(1.2); transform: translateY(-2px); }
+
+.confirm-btns { display: flex; gap: 16px; justify-content: center; }
+.confirm-btn.cancel {
+  background: rgba(255,255,255,0.05); color: var(--dim);
+  border: 1px solid var(--border);
+}
+.confirm-btn.cancel:hover { background: rgba(255,255,255,0.1); color: var(--text); border-color: var(--text); }
 
 /* Name edit modal */
 .name-box{
@@ -715,10 +884,24 @@ header{
 
 <!-- Time-up alert -->
 <div class="overlay" id="alertOverlay">
-  <div class="alert-box">
-    <div class="alert-title" id="alertTitle" data-i18n="alerta_halt">⏱ HALT</div>
+  <div class="alert-box" style="border-color:var(--red)">
+    <div class="modal-icon red">🛑</div>
+    <div class="alert-title" id="alertTitle" data-i18n="alerta_halt" style="color:var(--red)">⏱ HALT</div>
     <div class="alert-sub" id="alertSub" data-i18n="alerta_fin">Tiempo de asalto finalizado</div>
-    <button class="alert-ok" data-i18n="alerta_cont" onclick="closeAlert()">CONTINUAR</button>
+    <button class="alert-ok" data-i18n="alerta_cont" onclick="closeAlert()" style="background:var(--red);color:#fff">CONTINUAR</button>
+  </div>
+</div>
+
+<!-- Custom Confirm Modal -->
+<div class="overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="modal-icon yellow" id="confirmIcon">⚠️</div>
+    <div class="confirm-title" id="confirmTitle">CONFIRMACIÓN</div>
+    <div class="confirm-sub" id="confirmSub">¿Estás seguro?</div>
+    <div class="confirm-btns">
+      <button class="confirm-btn ok" id="confirmBtnOk">ACEPTAR</button>
+      <button class="confirm-btn cancel" id="confirmBtnCancel" data-i18n="cancel">CANCELAR</button>
+    </div>
   </div>
 </div>
 
@@ -751,8 +934,8 @@ header{
 <div class="overlay" id="nameOverlay">
   <div class="name-box">
     <div class="name-lbl" data-i18n="name_lbl">NOMBRE DEL TIRADOR</div>
-    <input class="name-inp" id="nameInp" maxlength="18" autocomplete="off"/>
-    <button class="name-save" data-i18n="save" onclick="saveName()">GUARDAR</button>
+    <div id="nameInputsContainer"></div>
+    <button class="name-save" style="margin-top:15px;" data-i18n="save" onclick="saveNames()">GUARDAR</button>
   </div>
 </div>
 
@@ -760,21 +943,27 @@ header{
 <div class="overlay" id="penOverlay">
   <div class="pen-modal-box">
     <div class="pen-modal-title" data-i18n="pen_modal_tit">🃏 APLICAR SANCIÓN</div>
-    <div class="pen-modal-fencer" id="penModalFencer">Tirador</div>
+    <div class="active-fencer-row">
+      <span data-i18n="active_fencer">TIRADOR EN PISTA</span>: <strong id="penModalFencer">Tirador</strong>
+    </div>
     <div class="pen-opts">
-      <button class="pen-opt-btn yellow" onclick="applyPenCard('yellow')">
-        <div class="pen-card-icon yi"></div>
-        <span data-i18n="pen_opt_y">TARJETA AMARILLA — Advertencia (1er grupo)</span>
+      <button class="pen-opt-btn group1" onclick="applyFiePenalty(1)">
+        <div class="pen-group-label" data-i18n="pen_group1">GRUPO 1</div>
+        <small data-i18n="pen_opt_y">Advertencia / Tocado de penalización</small>
       </button>
-      <button class="pen-opt-btn red" onclick="applyPenCard('red')">
-        <div class="pen-card-icon ri"></div>
-        <span data-i18n="pen_opt_r">TARJETA ROJA — Tocado de penalización</span>
+      <button class="pen-opt-btn group2" onclick="applyFiePenalty(2)">
+        <div class="pen-group-label" data-i18n="pen_group2">GRUPO 2</div>
+        <small data-i18n="pen_opt_r">Tocado de penalización</small>
       </button>
-      <button class="pen-opt-btn black" onclick="applyPenCard('black')">
-        <div class="pen-card-icon bi"></div>
-        <span data-i18n="pen_opt_b">TARJETA NEGRA — Exclusión del torneo</span>
+      <button class="pen-opt-btn group3" onclick="applyFiePenalty(3)">
+        <div class="pen-group-label" data-i18n="pen_group3">GRUPO 3</div>
+        <small data-i18n="pen_opt_r">Tocado / Exclusión</small>
       </button>
-      <button class="pen-opt-btn cancel" data-i18n="cancel" onclick="closePenModal()">CANCELAR</button>
+      <button class="pen-opt-btn group4" onclick="applyFiePenalty(4)">
+        <div class="pen-group-label" data-i18n="pen_group4">GRUPO 4</div>
+        <small data-i18n="pen_opt_b">Exclusión directa</small>
+      </button>
+      <button class="pen-opt-btn cancel" style="border:none;margin-top:10px;justify-content:center;" data-i18n="cancel" onclick="closePenModal()">CANCELAR</button>
     </div>
   </div>
 </div>
@@ -885,8 +1074,14 @@ header{
       <div class="score-panel">
         <!-- LEFT / RED -->
         <div class="fencer L" id="fencerL">
-          <div class="fencer-name" onclick="editName('L')" id="nameDispL">
-            <span data-i18n="tirador_a">TIRADOR A</span> <span class="edit-icon">✎</span>
+          <div class="prio-p" id="prioPL">P</div>
+          <div class="fencer-name-row">
+            <div class="fencer-name" onclick="editNames('L')" id="nameDispL">
+              <span data-i18n="tirador_a">EQUIPO A</span> <span class="edit-icon">✎</span>
+            </div>
+            <div class="active-athlete-select" id="activeAthL" onclick="openAthleteSelect('L')">
+              <span class="active-ath-name" id="athNameL">Tirador 1</span>
+            </div>
           </div>
           <div class="score-num" id="scoreL">0</div>
           <div class="score-btns">
@@ -898,15 +1093,16 @@ header{
             <div class="pen-label" data-i18n="tarjetas">TARJETAS</div>
             <div class="pen-cards" id="penCardsL"></div>
             <div class="pen-status" id="penStatusL"></div>
+            <div class="team-lives" id="teamLivesL"></div>
             <div class="pen-direct-btns">
-              <button class="pen-direct-btn y" onclick="applyPenDirect('L','yellow')" title="Tarjeta Amarilla">
-                <div class="mini-card"></div><span data-i18n="amarilla">AMARILLA</span>
+              <button class="pen-direct-btn y" onclick="applyPenDirect('L','yellow')" title="Aviso (Amarilla / Roja si ya tiene)">
+                <div class="mini-card"></div><span data-i18n="amarilla">+AVISO</span>
               </button>
-              <button class="pen-direct-btn r" onclick="applyPenDirect('L','red')" title="Tarjeta Roja">
-                <div class="mini-card"></div><span data-i18n="roja">ROJA</span>
+              <button class="pen-direct-btn r" onclick="applyPenDirect('L','red')" title="Punto Directo (Roja)">
+                <div class="mini-card"></div><span data-i18n="roja">+PUNTO</span>
               </button>
               <button class="pen-direct-btn b" onclick="applyPenDirect('L','black')" title="Tarjeta Negra">
-                <div class="mini-card"></div><span data-i18n="negra">NEGRA</span>
+                <div class="mini-card"></div><span data-i18n="negra">!</span>
               </button>
             </div>
           </div>
@@ -914,8 +1110,14 @@ header{
 
         <!-- RIGHT / GREEN -->
         <div class="fencer R" id="fencerR">
-          <div class="fencer-name" onclick="editName('R')" id="nameDispR">
-            <span data-i18n="tirador_b">TIRADOR B</span> <span class="edit-icon">✎</span>
+          <div class="prio-p" id="prioPR">P</div>
+          <div class="fencer-name-row">
+            <div class="fencer-name" onclick="editNames('R')" id="nameDispR">
+              <span data-i18n="tirador_b">EQUIPO B</span> <span class="edit-icon">✎</span>
+            </div>
+            <div class="active-athlete-select" id="activeAthR" onclick="openAthleteSelect('R')">
+              <span class="active-ath-name" id="athNameR">Tirador X</span>
+            </div>
           </div>
           <div class="score-num" id="scoreR">0</div>
           <div class="score-btns">
@@ -926,15 +1128,16 @@ header{
             <div class="pen-label" data-i18n="tarjetas">TARJETAS</div>
             <div class="pen-cards" id="penCardsR"></div>
             <div class="pen-status" id="penStatusR"></div>
+            <div class="team-lives" id="teamLivesR"></div>
             <div class="pen-direct-btns">
-              <button class="pen-direct-btn y" onclick="applyPenDirect('R','yellow')" title="Tarjeta Amarilla">
-                <div class="mini-card"></div><span data-i18n="amarilla">AMARILLA</span>
+              <button class="pen-direct-btn y" onclick="applyPenDirect('R','yellow')" title="Aviso (Amarilla / Roja si ya tiene)">
+                <div class="mini-card"></div><span data-i18n="amarilla">+AVISO</span>
               </button>
-              <button class="pen-direct-btn r" onclick="applyPenDirect('R','red')" title="Tarjeta Roja">
-                <div class="mini-card"></div><span data-i18n="roja">ROJA</span>
+              <button class="pen-direct-btn r" onclick="applyPenDirect('R','red')" title="Punto Directo (Roja)">
+                <div class="mini-card"></div><span data-i18n="roja">+PUNTO</span>
               </button>
               <button class="pen-direct-btn b" onclick="applyPenDirect('R','black')" title="Tarjeta Negra">
-                <div class="mini-card"></div><span data-i18n="negra">NEGRA</span>
+                <div class="mini-card"></div><span data-i18n="negra">!</span>
               </button>
             </div>
           </div>
@@ -1023,6 +1226,26 @@ header{
 
 </div><!-- /app -->
 
+  <div class="overlay" id="blackCardOverlay">
+    <div class="black-card-box">
+      <div class="black-card-title">⬛ <span data-i18n="aplicar_sancion">EXCLUSIÓN</span> ⬛</div>
+      <div class="black-card-body">
+        <p id="blackCardMsg" style="text-align:center;"></p>
+        <div class="black-card-opts">
+          <button class="black-card-btn" id="btnExclIndiv" onclick="confirmBlackCard('individual')">
+            <span data-i18n="black_indiv_btn">T.170: EXCLUSIÓN INDIVIDUAL</span>
+            <small data-i18n="black_indiv_sub">(Falta de orden/conducta - El equipo sigue con reserva)</small>
+          </button>
+          <button class="black-card-btn" id="btnExclTeam" onclick="confirmBlackCard('team')">
+            <span data-i18n="black_team_btn">T.158: EXCLUSIÓN DEL EQUIPO</span>
+            <small data-i18n="black_team_sub">(Falta gravísima - Fin del match inmediato)</small>
+          </button>
+          <button class="black-card-cancel" data-i18n="cancel" onclick="closeBlackCardModal()">CANCELAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <!-- Status bar -->
 <div class="status-bar">
   <div class="status-dot idle" id="statusDot"></div>
@@ -1039,20 +1262,32 @@ header{
 // ══════════════════════════════
 const S = {
   weapon: 'florete',
-  // FIE match config
   matchType: 'individual',
   maxScore: 15,
-  maxBouts: 3,           // 3 períodos individual, 9 asaltos equipo
+  maxBouts: 3,
   priority: null,
   isOvertime: false,
   timer: { secs: 180, init: 180, running: false, iv: null },
   rest:  { secs: 60,  init: 60,  running: false, iv: null },
   scores: { L: 0, R: 0 },
-  names:  { L: 'TIRADOR A', R: 'TIRADOR B' },
+  names:  { L: 'EQUIPO A', R: 'EQUIPO B' }, // Team names
+  athletes: {
+    L: [
+      { name: 'Tirador 1', g1: 0, g3: 0, excluded: false, cards: [] },
+      { name: 'Tirador 2', g1: 0, g3: 0, excluded: false, cards: [] },
+      { name: 'Tirador 3', g1: 0, g3: 0, excluded: false, cards: [] },
+      { name: 'Reserva',   g1: 0, g3: 0, excluded: false, cards: [] }
+    ],
+    R: [
+      { name: 'Tirador X', g1: 0, g3: 0, excluded: false, cards: [] },
+      { name: 'Tirador Y', g1: 0, g3: 0, excluded: false, cards: [] },
+      { name: 'Tirador Z', g1: 0, g3: 0, excluded: false, cards: [] },
+      { name: 'Reserva',   g1: 0, g3: 0, excluded: false, cards: [] }
+    ]
+  },
+  activeIdx: { L: 0, R: 0 },
   bout: 1,
   stats: { hL: 0, hR: 0, pauses: 0 },
-  penalties: { L: [], R: [] },
-  yellowCount: { L: 0, R: 0 },
   penTarget: null,
   editTarget: null,
   logOpen: false,
@@ -1072,16 +1307,26 @@ const I18N = {
     periodos: "PERÍODOS", asaltos: "ASALTOS",
     periodo: "PERÍODO", asalto: "ASALTO",
     prioridad: "PRIORIDAD:", sin_asignar: "SIN ASIGNAR", asignar: "⚡ ASIGNAR",
+    prio_rojo: "ROJO", prio_verde: "VERDE",
     prio_activa: "⚡ TIEMPO SUPLEMENTARIO — PRIORIDAD ACTIVA",
     listo: "LISTO PARA INICIAR", btn_iniciar: "▶ INICIAR",
     btn_pausa: "⏸ PAUSA", btn_reset: "↺ RESET",
+    btn_aplicar: "APLICAR CAMBIOS", asalto: "ASALTO ", period: "PERIODO ",
+    amarilla: "+AVISO", roja: "+PUNTO", negra: "!",
+    btn_limpiar_tar: "🔄 LIMPIAR TODAS LAS TARJETAS",
+    log_limpiar_tar: "🧹 Tarjetas limpiadas para: ",
+    log_warn_limp: "⚠️ ¿Limpiar todas las tarjetas del asalto actual?",
+    btn_deshacer: "↩ DESHACER TARJETA",
+    log_deshacer: "↩ Tarjeta deshecha para: ",
+    black_indiv_title: "⬛ EXCLUSIÓN INDIVIDUAL ⬛",
+    black_indiv_msg: "¿Confirmar exclusión del tirador y tarjeta negra?",
+    confirmar: "APLICAR",
     tirador_a: "TIRADOR A", tirador_b: "TIRADOR B",
-    tarjetas: "TARJETAS", amarilla: "AMARILLA", roja: "ROJA", negra: "NEGRA",
+    tarjetas: "TARJETAS",
     aplicar_sancion: "APLICAR SANCIÓN",
     chrono: "CRONÓMETRO DE ASALTO",
     per_activo_indiv: "PERÍODO ACTIVO", per_activo_team: "N° ASALTO ACTIVO",
     btn_nuevo_indiv: "NUEVO PERÍODO", btn_nuevo_team: "NUEVO ASALTO",
-    btn_aplicar: "APLICAR SANCIÓN",
     descanso_title: "TIEMPO DE DESCANSO", btn_continuar: "▶ CONTINUAR", btn_pausar: "⏸ PAUSAR",
     log_title: "HISTORIAL DE EVENTOS", log_bloqueado: "⛔ Bloqueado: Descanso activo",
     sis_listo: "SISTEMA LISTO", en_pausa: "EN PAUSA",
@@ -1093,8 +1338,10 @@ const I18N = {
     
     prio_modal_tit: "⚡ PRIORIDAD", prio_modal_sub: "Asignar prioridad para tiempo suplementario (t.116 FIE)", sort_aleatorio: "🎲 SORTEO", aleatorio_sub: "Aleatorio FIE",
     izq_rojo: "IZQUIERDO 🔴", der_verde: "DERECHO 🟢", cancel: "CANCELAR",
-    name_lbl: "NOMBRE DEL TIRADOR", save: "GUARDAR",
-    pen_modal_tit: "🃏 APLICAR SANCIÓN", pen_opt_y: "TARJETA AMARILLA — Advertencia (1er grupo)", pen_opt_r: "TARJETA ROJA — Tocado de penalización", pen_opt_b: "TARJETA NEGRA — Exclusión del torneo",
+    name_lbl: "EQUIPO / TIRADOR", save: "GUARDAR",
+    pen_modal_tit: "🃏 APLICAR SANCIÓN", pen_opt_y: "AMARILLA — Advertencia", pen_opt_r: "ROJA — Tocado de penalización", pen_opt_b: "NEGRA — Exclusión",
+    pen_group1: "GRUPO 1 (Falta técnica)", pen_group2: "GRUPO 2 (Falta grave)", pen_group3: "GRUPO 3 (Falta de orden)", pen_group4: "GRUPO 4 (Falta gravísima)",
+    active_fencer: "TIRADOR EN PISTA", select_fencer: "SELECCIONAR TIRADOR",
     comandos: "COMANDOS", cmd_espacio: "Iniciar / Pausar", cmd_izq: "Tocado Izquierdo 🔴", cmd_der: "Tocado Derecho 🟢", cmd_halt: "HALT (detener)", cmd_reset: "Reset Timer", cmd_nuevo: "Nuevo Asalto", cmd_pto_izq: "+1 Pto Izq", cmd_pto_der: "+1 Pto Der", cmd_esc: "Cerrar modales", cmd_armas: "Florete / Espada / Sable",
     stats: "ESTADÍSTICAS", stat_toc_izq: "TOCADOS 🔴", stat_toc_der: "TOCADOS 🟢", stat_pausas: "PAUSAS", stat_asaltos: "ASALTOS",
     registro: "REGISTRO", limpiar_reg: "LIMPIAR REGISTRO", alerta_halt: "⏱️ HALT", alerta_fin: "Tiempo de asalto finalizado", alerta_cont: "CONTINUAR",
@@ -1119,26 +1366,50 @@ const I18N = {
     alert_descanso_tit: "¡DESCANSO!", alert_descanso_sub: "Tiempo de descanso finalizado.\nPreparar nuevo asalto.",
     log_init_1: "✅ Fencing Timer FIE v3 — Reglamento FIE t.113/t.116/t.170", log_init_2: "📋 Individual=15pts | Equipo=45pts | Prioridad sorteo en empate (t.116)", log_init_3: "⌨️ ESPACIO=iniciar | Q=izq | W=der | H=halt | F=arma | ←/→=puntos",
     log_sup: "⚡ 1 min SUPLEMENTARIO — ", empate: "Empate {L}—{R}", log_empate: "⚡ EMPATE: Asignar prioridad para tiempo suplementario",
-    tiene_prio: "tiene la PRIORIDAD", mod_eq: "EQUIPO (45 tocados)", mod_ind: "INDIVIDUAL (15 tocados)", adv_30: "30 segundos restantes"
+    tiene_prio: "tiene la PRIORIDAD", mod_eq: "EQUIPO (45 tocados)", mod_ind: "INDIVIDUAL (15 tocados)", adv_30: "30 segundos restantes",
+    black_indiv_btn: "T.170: EXCLUSIÓN INDIVIDUAL",
+    black_indiv_sub: "(Falta de orden o conducta - El equipo continúa con reserva)",
+    black_team_btn: "T.158: EXCLUSIÓN DEL EQUIPO",
+    black_team_sub: "(Falta gravísima o conducta - Fin del encuentro inmediato)",
+    match_finalizado: "🛑 MATCH FINALIZADO",
+    vic_tecnica: "VICTORIA TÉCNICA",
+    motivo: "Motivo",
+    resultado_final: "Resultado final conservado",
+    equipo_incompleto: "EQUIPO INCOMPLETO (Falta de Quórum Mínimo FIE)",
+    exclusion_tirador: "EXCLUSIÓN DEL TIRADOR (t.170)",
+    exclusion_total_eq: "EXCLUSIÓN TOTAL DEL EQUIPO",
+    atencion_reserva: "🛑 ATENCIÓN: Se requiere reserva para continuar.",
+    no_puede_deshacer: "Esta acción no se puede deshacer.",
+    error_tarjeta: "ERROR: No hay tarjetas para deshacer."
   },
   en: {
     wpn_florete: "FOIL", wpn_sable: "SABRE", wpn_espada: "EPEE",
     reset_total: "⟳ FULL RESET", asalto_en_curso: "BOUT IN PROGRESS",
-    modalidad: "MATCH TYPE:", individual: "INDIVIDUAL", equipo: "TEAM",
+    modalidad: "MATCH TYPE", arma: "WEAPON", idioma: "LANGUAGE",
     max_label: "MAX:", tocados: "TOUCHES",
     periodos: "PERIODS", asaltos: "BOUTS",
     periodo: "PERIOD", asalto: "BOUT",
     prioridad: "PRIORITY:", sin_asignar: "UNASSIGNED", asignar: "⚡ ASSIGN",
+    prio_rojo: "RED", prio_verde: "GREEN",
     prio_activa: "⚡ OVERTIME — PRIORITY ACTIVE",
     listo: "READY TO START", btn_iniciar: "▶ START",
     btn_pausa: "⏸ PAUSE", btn_reset: "↺ RESET",
+    btn_aplicar: "APPLY CHANGES", asalto: "BOUT ", period: "PERIOD ",
+    amarilla: "+WARNING", roja: "+POINT", negra: "!",
+    btn_limpiar_tar: "🔄 CLEAR ALL CARDS",
+    log_limpiar_tar: "🧹 Cards cleared for: ",
+    log_warn_limp: "⚠️ Clear all cards for the current bout?",
+    btn_deshacer: "↩ UNDO CARD",
+    log_deshacer: "↩ Card undone for: ",
+    black_indiv_title: "⬛ INDIVIDUAL EXCLUSION ⬛",
+    black_indiv_msg: "Confirm fencer exclusion and black card?",
+    confirmar: "APPLY",
     tirador_a: "FENCER A", tirador_b: "FENCER B",
-    tarjetas: "CARDS", amarilla: "YELLOW", roja: "RED", negra: "BLACK",
+    tarjetas: "CARDS",
     aplicar_sancion: "APPLY PENALTY",
     chrono: "BOUT TIMER",
     per_activo_indiv: "ACTIVE PERIOD", per_activo_team: "ACTIVE BOUT",
     btn_nuevo_indiv: "NEW PERIOD", btn_nuevo_team: "NEW BOUT",
-    btn_aplicar: "APPLY PENALTY",
     descanso_title: "REST TIME", btn_continuar: "▶ CONTINUE", btn_pausar: "⏸ PAUSE",
     log_title: "EVENT LOG", log_bloqueado: "⛔ Blocked: Rest active",
     sis_listo: "SYSTEM READY", en_pausa: "PAUSED",
@@ -1150,8 +1421,10 @@ const I18N = {
     
     prio_modal_tit: "⚡ PRIORITY", prio_modal_sub: "Assign priority for overtime (t.116 FIE)", sort_aleatorio: "🎲 DRAW", aleatorio_sub: "Random FIE",
     izq_rojo: "LEFT 🔴", der_verde: "RIGHT 🟢", cancel: "CANCEL",
-    name_lbl: "FENCER NAME", save: "SAVE",
-    pen_modal_tit: "🃏 APPLY PENALTY", pen_opt_y: "YELLOW CARD — Warning (1st group)", pen_opt_r: "RED CARD — Penalty hit", pen_opt_b: "BLACK CARD — Exclusion from tournament",
+    name_lbl: "TEAM / FENCER NAME", save: "SAVE",
+    pen_modal_tit: "🃏 APPLY PENALTY", pen_opt_y: "YELLOW — Warning", pen_opt_r: "RED — Penalty hit", pen_opt_b: "BLACK — Exclusion",
+    pen_group1: "GROUP 1 (Technical fault)", pen_group2: "GROUP 2 (Serious fault)", pen_group3: "GROUP 3 (Disorder fault)", pen_group4: "GROUP 4 (Very serious fault)",
+    active_fencer: "ACTIVE FENCER", select_fencer: "SELECT FENCER",
     comandos: "SHORTCUTS", cmd_espacio: "Start / Pause", cmd_izq: "Left Touch 🔴", cmd_der: "Right Touch 🟢", cmd_halt: "HALT (stop)", cmd_reset: "Reset Timer", cmd_nuevo: "New Bout", cmd_pto_izq: "+1 Pt Left", cmd_pto_der: "+1 Pt Right", cmd_esc: "Close modals", cmd_armas: "Foil / Epee / Sabre",
     stats: "STATISTICS", stat_toc_izq: "TOUCHES 🔴", stat_toc_der: "TOUCHES 🟢", stat_pausas: "PAUSES", stat_asaltos: "BOUTS",
     registro: "EVENT LOG", limpiar_reg: "CLEAR LOG", alerta_halt: "⏱️ HALT", alerta_fin: "Bout time is up", alerta_cont: "CONTINUE",
@@ -1176,71 +1449,112 @@ const I18N = {
     alert_descanso_tit: "REST OVER!", alert_descanso_sub: "Rest time ended.\nPrepare for new bout.",
     log_init_1: "✅ Fencing Timer FIE v3 — FIE Rules t.113/t.116/t.170", log_init_2: "📋 Individual=15pts | Team=45pts | Random priority on tie (t.116)", log_init_3: "⌨️ SPACE=start | Q=left | W=right | H=halt | F=weapon | ←/→=points",
     log_sup: "⚡ 1 min OVERTIME — ", empate: "Tie {L}—{R}", log_empate: "⚡ TIE: Assign priority for overtime",
-    tiene_prio: "has the PRIORITY", mod_eq: "TEAM (45 touches)", mod_ind: "INDIVIDUAL (15 touches)", adv_30: "30 seconds remaining"
+    tiene_prio: "has the PRIORITY", mod_eq: "TEAM (45 touches)", mod_ind: "INDIVIDUAL (15 touches)", adv_30: "30 seconds remaining",
+    black_indiv_btn: "T.170: INDIVIDUAL EXCLUSION",
+    black_indiv_sub: "(Disorder or behavior - Team continues with reserve)",
+    black_team_btn: "T.158: TEAM EXCLUSION",
+    black_team_sub: "(Very serious fault - Immediate match end)",
+    match_finalizado: "🛑 MATCH FINISHED",
+    vic_tecnica: "TECHNICAL VICTORY",
+    motivo: "Reason",
+    resultado_final: "Final score preserved",
+    equipo_incompleto: "INCOMPLETE TEAM (Minimum FIE Quorum)",
+    exclusion_tirador: "FENCER EXCLUSION (t.170)",
+    exclusion_total_eq: "TOTAL TEAM EXCLUSION",
+    atencion_reserva: "🛑 ATTENTION: Reserve required to continue.",
+    no_puede_deshacer: "This action cannot be undone.",
+    error_tarjeta: "ERROR: No cards to undo."
   },
   fr: {
     wpn_florete: "FLEURET", wpn_sable: "SABRE", wpn_espada: "ÉPÉE",
     reset_total: "⟳ RÉINITIALISER", asalto_en_curso: "ASSAUT EN COURS",
-    modalidad: "MODALITÉ:", individual: "INDIVIDUEL", equipo: "ÉQUIPE",
+    modalidad: "MODALITÉ", arma: "ARME", idioma: "LANGUE",
     max_label: "MAX:", tocados: "TOUCHES",
     periodos: "PÉRIODES", asaltos: "RELAIS",
     periodo: "PÉRIODE", asalto: "RELAIS",
     prioridad: "PRIORITÉ:", sin_asignar: "NON ASSIGNÉ", asignar: "⚡ ASSIGNER",
+    prio_rojo: "ROUGE", prio_verde: "VERT",
     prio_activa: "⚡ TEMPS SUPPLÉMENTAIRE — PRIORITÉ ACTIVE",
     listo: "PRÊT À DÉMARRER", btn_iniciar: "▶ DÉMARRER",
     btn_pausa: "⏸ PAUSE", btn_reset: "↺ RÉINIT.",
+    btn_aplicar: "APPLIQUER", asalto: "RELAIS ", period: "PÉRIODE ",
+    amarilla: "+AVERT.", roja: "+POINT", negra: "!",
+    btn_limpiar_tar: "🔄 EFFACER LES CARTONS",
+    log_limpiar_tar: "🧹 Cartons effacés pour: ",
+    log_warn_limp: "⚠️ Effacer tous les cartons du relais actuel?",
+    btn_deshacer: "↩ ANNULER CARTON",
+    log_deshacer: "↩ Carton annulé pour: ",
+    black_indiv_title: "⬛ EXCLUSION INDIVIDUELLE ⬛",
+    black_indiv_msg: "Confirmer l'exclusion et le carton noir ?",
+    confirmar: "APPLIQUER",
     tirador_a: "TIREUR A", tirador_b: "TIREUR B",
-    tarjetas: "CARTONS", amarilla: "JAUNE", roja: "ROUGE", negra: "NOIRE",
+    tarjetas: "CARTONS",
     aplicar_sancion: "APPLIQUER SANCTION",
-    chrono: "CHRONOMÈTRE D'ASSAUT",
-    per_activo_indiv: "PÉRIODE ACTIVE", per_activo_team: "N° RELAIS ACTIF",
-    btn_nuevo_indiv: "NOUVELLE PÉRIODE", btn_nuevo_team: "NOUVEAU RELAIS",
-    btn_aplicar: "APPLIQUER",
-    descanso_title: "TEMPS DE PAUSE", btn_continuar: "▶ CONTINUER", btn_pausar: "⏸ PAUSE",
-    log_title: "HISTORIQUE", log_bloqueado: "⛔ Bloqué: Pause active",
+    chrono: "RELAIS TIMER",
+    per_activo_indiv: "PÉRIODE ACTIVE", per_activo_team: "RELAIS ACTIF",
+    btn_nuevo_indiv: "NOUV. PÉRIODE", btn_nuevo_team: "NOUV. RELAIS",
+    descanso_title: "TEMPS DE REPOS", btn_continuar: "▶ CONTINUER", btn_pausar: "⏸ PAUSE",
+    log_title: "HISTORIQUE D'ÉVÉNEMENTS", log_bloqueado: "⛔ Bloqué: Repos actif",
     sis_listo: "SYSTÈME PRÊT", en_pausa: "EN PAUSE",
-    victoria_prio: "VICTOIRE PAR PRIORITÉ", t_finalizado: "TEMPS ÉCOULÉ — HALTE!", t_esperando: "ATTENTE DE REPRISE",
-    lang_blocked_tit: "LANGUE VERROUILLÉE", lang_blocked_desc: "La langue ne peut être modifiée qu'avant le début de l'assaut.\nAppliquez RÉINITIALISER pour déverrouiller.",
-    prio_blocked_tit: "PRIORITÉ VERROUILLÉE", prio_blocked_desc: "La priorité a déjà été attribuée automatiquement après la première action.\nElle ne peut être modifiée qu'en appliquant une RÉINITIALISATION.",
-    match_type_blocked_tit: "MODALITÉ VERROUILLÉE", match_type_blocked_desc: "La modalité (Individuel/Équipe) ne peut être modifiée qu'avant le début de l'assaut.\nAppliquez RÉINITIALISER pour déverrouiller.",
-    excluido: "EXCLU", roja_prox: "ROUGE(S) — proc. = +ROUGE", adv_prox: "AVERTI — proc. = ROUGE", tarjeta_negra: "⬛ CARTON NOIR", exc_torneo: "a été exclu du tournoi.",
+    victoria_prio: "VICTOIRE PAR PRIORITÉ", t_finalizado: "TEMPS ÉCOULÉ — HALT !", t_esperando: "EN ATTENTE DE REPRISE",
+    lang_blocked_tit: "LANGUE BLOQUÉE", lang_blocked_desc: "La langue ne peut être changée qu'avant le début du combat.\nAppliquez RÉINITIALISER pour débloquer.",
+    prio_blocked_tit: "PRIORITÉ BLOQUÉE", prio_blocked_desc: "La priorité a déjà été assignée automatiquement.\nElle ne peut être modifiée qu'en réinitialisant.",
+    match_type_blocked_tit: "MODALITÉ BLOQUÉE", match_type_blocked_desc: "La modalité ne peut être changée qu'avant le début du combat.",
+    excluido: "EXCLU", roja_prox: "ROUGE(S) — suiv. = +ROUGE", adv_prox: "AVERTISSEMENT — suiv. = ROUGE", tarjeta_negra: "⬛ CARTON NOIR", exc_torneo: "a été exclu du tournoi.",
     
-    prio_modal_tit: "⚡ PRIORITÉ", prio_modal_sub: "Attribuer la priorité pour le temps supplémentaire (t.116 FIE)", sort_aleatorio: "🎲 TIRAGE", aleatorio_sub: "Aléatoire FIE",
+    prio_modal_tit: "⚡ PRIORITÉ", prio_modal_sub: "Assigner la priorité (t.116 FIE)", sort_aleatorio: "🎲 TIRAGE", aleatorio_sub: "Aléatoire FIE",
     izq_rojo: "GAUCHE 🔴", der_verde: "DROITE 🟢", cancel: "ANNULER",
-    name_lbl: "NOM DU TIREUR", save: "SAUVEGARDER",
-    pen_modal_tit: "🃏 APPLIQUER SANCTION", pen_opt_y: "CARTON JAUNE — Avertissement (1er groupe)", pen_opt_r: "CARTON ROUGE — Touche de pénalité", pen_opt_b: "CARTON NOIR — Exclusion du tournoi",
-    comandos: "RACCOURCIS", cmd_espacio: "Démarrer / Pause", cmd_izq: "Touche Gauche 🔴", cmd_der: "Touche Droite 🟢", cmd_halt: "HALTE", cmd_reset: "Réinit Timer", cmd_nuevo: "Nouveau Relais", cmd_pto_izq: "+1 Pt Gauche", cmd_pto_der: "+1 Pt Droite", cmd_esc: "Fermer modals", cmd_armas: "Fleuret / Épée / Sabre",
+    name_lbl: "ÉQUIPE / NOM DU TIREUR", save: "ENREGISTRER",
+    pen_modal_tit: "🃏 APPLIQUER SANCTION", pen_opt_y: "JAUNE — Avertissement", pen_opt_r: "ROUGE — Touche de pénalité", pen_opt_b: "NOIR — Exclusion",
+    pen_group1: "GROUPE 1 (Faute technique)", pen_group2: "GROUPE 2 (Faute grave)", pen_group3: "GROUPE 3 (Faute d'ordre)", pen_group4: "GROUPE 4 (Faute très grave)",
+    active_fencer: "TIREUR EN PISTE", select_fencer: "SÉLÉCTIONNER TIREUR",
+    comandos: "RACCOURCIS", cmd_espacio: "Démarrer / Pause", cmd_izq: "Touche Gauche 🔴", cmd_der: "Touche Droite 🟢", cmd_halt: "HALT (arrêter)", cmd_reset: "Reset Timer", cmd_nuevo: "Nouveau Relais", cmd_pto_izq: "+1 Pt Gauche", cmd_pto_der: "+1 Pt Droite", cmd_esc: "Fermer modals", cmd_armas: "Fleuret / Épée / Sabre",
     stats: "STATISTIQUES", stat_toc_izq: "TOUCHES 🔴", stat_toc_der: "TOUCHES 🟢", stat_pausas: "PAUSES", stat_asaltos: "RELAIS",
-    registro: "HISTORIQUE", limpiar_reg: "EFFACER HISTO", alerta_halt: "⏱️ HALTE", alerta_fin: "Fin du temps d'assaut", alerta_cont: "CONTINUER",
-    conf1: "⚠️ RÉINITIALISATION COMPLÈTE\n\nTemps, scores, cartons et relais seront effacés.\n\nVoulez-vous continuer?",
-    conf2: "🛑 CONFIRMATION FINALE\n\nÊtes-vous absolument sûr de RÉINITIALISER? Ceci ne peut être annulé.",
-    log_max_bouts: "La limite maximale de relais/périodes a déjà été atteinte.",
-    log_nuevo_asalto: "🗡️ NOUVEAU RELAIS / PÉRIODE #", log_arma: "⚔️ Arme: ", log_reset: "🔄 RÉINITIALISATION COMPLÈTE exécutée",
+    registro: "HISTORIQUE", limpiar_reg: "EFFACER", alerta_halt: "⏱️ HALT", alerta_fin: "Fin du temps", alerta_cont: "CONTINUER",
+    conf1: "⚠️ RÉINITIALISER\n\nTemps, scores, cartons et relais seront effacés.\n\nContinuer ?",
+    conf2: "🛑 CONFIRMATION FINALE\n\nÊtes-vous sûr de vouloir réinitialiser ? Cette action est irréversible.",
+    log_max_bouts: "Le nombre maximum de relais/périodes est atteint.",
+    log_nuevo_asalto: "🗡️ NOUVEAU RELAIS / PÉRIODE #", log_arma: "⚔️ Arme : ", log_reset: "🔄 RÉINITIALISATION effectuée",
     
-    tiempo_lbl: "TEMPS:", lado_izq: "◀ Gauche — Rouge", lado_der: "Droite — Vert ▶", btn_tocado_izq: "🔴 TOUCHE GAUCHE", btn_tocado_der: "TOUCHE DROITE 🟢", tecla_barra: "[espace]",
-    prioridad_auto: "⚡ Priorité assignée auto.: ", seg_restantes_30: "⚠️ 30 secondes restantes",
+    tiempo_lbl: "TEMPS :", lado_izq: "◀ Gauche — Rouge", lado_der: "Droite — Vert ▶", btn_tocado_izq: "🔴 TOUCHE GAUCHE", btn_tocado_der: "TOUCHE DROITE 🟢", tecla_barra: "[espace]",
+    prioridad_auto: "⚡ Priorité auto-assignée : ", seg_restantes_30: "⚠️ 30 secondes restantes",
     log_pausa: "⏸ Pause — ", log_pausa_restantes: " restantes", log_vic_prio: "🏆 VICTOIRE PAR PRIORITÉ → ",
-    alert_empate_tit: "⚡ ÉGALITÉ — PRIORITÉ", alert_empate_sub: "Égalité au temps.\nAttribuez la PRIORITÉ (t.116 FIE)\net 1 minute supp. sera accordée.",
-    alert_fin_tiempo_tit: "⏳ FIN DU TEMPS", alert_fin_tiempo_sub: "Le relais/période est terminé.\nPassage automatique au suivant.",
-    log_halt_arb: "🛑 HALTE de l'arbitre", log_tiempo_conf: "⏱ Temps configuré: ",
-    log_modalidad_team: "📋 Modalité: ÉQUIPE (45 touches)", log_modalidad_indiv: "📋 Modalité: INDIVIDUEL (15 touches)",
-    alert_prio_tit: "🏆 PRIORITÉ", log_prio_asig: "⚡ Priorité assignée: ",
-    alert_prio_sub: "VICTOIRE PAR PRIORITÉ:\n",
+    alert_empate_tit: "⚡ ÉGALITÉ — PRIORITÉ", alert_empate_sub: "Temps écoulé et score égal.\nAssigner la PRIORITÉ (t.116 FIE)\net 1 minute supplémentaire sera accordée.",
+    alert_fin_tiempo_tit: "⏳ TEMPS ÉCOULÉ", alert_fin_tiempo_sub: "Le relais/période est terminé.\nPassage automatique au suivant.",
+    log_halt_arb: "🛑 HALT appelé par l'arbitre", log_tiempo_conf: "⏱ Temps réglé : ",
+    log_modalidad_team: "📋 Modalité : ÉQUIPE (45 touches)", log_modalidad_indiv: "📋 Modalité : INDIVIDUEL (15 touches)",
+    alert_prio_tit: "🏆 PRIORITÉ", log_prio_asig: "⚡ Priorité assignée : ",
+    alert_prio_sub: "VICTOIRE PAR PRIORITÉ :\n",
     log_tocado_izq: "💡 TOUCHE GAUCHE 🔴 → +1 point ", log_tocado_der: "💡 TOUCHE DROITE 🟢 → +1 point ",
     log_punto_pos: "+1 point → ", log_ya_tiene_negra: "⛔ {N} a déjà un carton noir",
     log_amarilla_1: "🟡 JAUNE (1er) → {N} — avertissement", log_roja_auto: "🔴 2e JAUNE → ROUGE automatique → {N} — +1 pour {O}", log_roja_dir: "🔴 ROUGE → {N} — +1 pour {O}",
-    log_descanso_pau: "⏸ Pause interrompue — {T} restantes", log_descanso_run: "🧘 Repos: ", log_descanso_fin: "🔔 REPOS TERMINÉ!",
-    alert_descanso_tit: "REPOS TERMINÉ!", alert_descanso_sub: "Temps de repos terminé.\nPréparez le nouveau relais.",
-    log_init_1: "✅ Fencing Timer FIE v3 — Règles FIE t.113/t.116/t.170", log_init_2: "📋 Indiv=15pts | Équipe=45pts | Priorité aléatoire en cas d'égalité", log_init_3: "⌨️ ESPACE=démarrer | Q=gauche | W=droite | H=halte | F=arme | ←/→=pts",
-    log_sup: "⚡ 1 min SUPPLÉMENTAIRE — ", empate: "Égalité {L}—{R}", log_empate: "⚡ ÉGALITÉ: Attribuez la priorité pour le temps suppl.",
-    tiene_prio: "a la PRIORITÉ", mod_eq: "ÉQUIPE (45 touches)", mod_ind: "INDIVIDUEL (15 touches)", adv_30: "30 secondes restantes"
+    log_descanso_pau: "⏸ Repos mis en pause — {T} restantes", log_descanso_run: "🧘 Repos : ", log_descanso_fin: "🔔 REPOS TERMINÉ !",
+    alert_descanso_tit: "REPOS TERMINÉ !", alert_descanso_sub: "Temps de repos fini.\nPréparer le nouveau relais.",
+    log_init_1: "✅ Fencing Timer FIE v3 — Règlement FIE t.113/t.116/t.170", log_init_2: "📋 Individuel=15pts | Équipe=45pts | Priorité tirée au sort (t.116)", log_init_3: "⌨️ ESPACE=start | Q=gauche | W=droite | H=halt | F=arme | ←/→=points",
+    log_sup: "⚡ 1 min SUPPLÉMENTAIRE — ", empate: "Égalité {L}—{R}", log_empate: "⚡ ÉGALITÉ : Assigner la priorité",
+    tiene_prio: "a la PRIORITÉ", mod_eq: "ÉQUIPE (45 touches)", mod_ind: "INDIVIDUEL (15 touches)", adv_30: "30 secondes restantes",
+    black_indiv_btn: "T.170: EXCLUSION INDIVIDUELLE",
+    black_indiv_sub: "(Manque d'ordre ou conduite - L'équipe continue avec réserve)",
+    black_team_btn: "T.158: EXCLUSION DE L'ÉQUIPE",
+    black_team_sub: "(Faute très grave - Fin du match immédiate)",
+    match_finalizado: "🛑 MATCH TERMINÉ",
+    vic_tecnica: "VICTOIRE TECHNIQUE",
+    motivo: "Motif",
+    resultado_final: "Résultat final conservé",
+    equipo_incompleto: "ÉQUIPE INCOMPLETE (Quorum minimum FIE)",
+    exclusion_tirador: "EXCLUSION DU TIREUR (t.170)",
+    exclusion_total_eq: "EXCLUSION TOTALE DE L'ÉQUIPE",
+    atencion_reserva: "🛑 ATTENTION: Réserve requise pour continuer.",
+    no_puede_deshacer: "Cette action est irréversible.",
+    error_tarjeta: "ERREUR: Aucun carton à annuler."
   }
 };
 
 function t(key){ return I18N[S.lang][key] || key; }
 
 function isMatchStarted(){
-  return (S.bout !== 1 || S.timer.secs !== S.timer.init || S.scores.L !== 0 || S.scores.R !== 0 || S.timer.running || S.priority !== null || S.penalties.L.length > 0 || S.penalties.R.length > 0);
+  const hasCards = (side) => S.athletes[side].some(a => a.cards.length > 0);
+  return (S.bout !== 1 || S.timer.secs !== S.timer.init || S.scores.L !== 0 || S.scores.R !== 0 || S.timer.running || S.priority !== null || hasCards('L') || hasCards('R'));
 }
 
 function setLang(lang){
@@ -1529,6 +1843,28 @@ function setMatchType(type){
   const term = type==='team'?' '+t('asaltos'):' '+t('periodos');
   document.getElementById('maxScoreBadge').textContent=S.maxScore+' '+t('tocados')+' / '+S.maxBouts+term;
   
+  // Re-init default names if not started
+  if(!isMatchStarted()) {
+    if(type === 'team') {
+      S.names.L = 'EQUIPO ROJO'; S.names.R = 'EQUIPO VERDE';
+      const sideNames = { L: 'ROJO', R: 'VERDE' };
+      S.athletes.L.forEach((a,i)=> { 
+        a.name=(i<3?`TIRADOR ${i+1} ${sideNames.L}`:`TIRADOR RESERVA ${sideNames.L}`); 
+        a.cards=[]; a.g1=0; a.g3=0; a.excluded=false; 
+      });
+      S.athletes.R.forEach((a,i)=> { 
+        a.name=(i<3?`TIRADOR ${i+1} ${sideNames.R}`:`TIRADOR RESERVA ${sideNames.R}`); 
+        a.cards=[]; a.g1=0; a.g3=0; a.excluded=false; 
+      });
+    } else {
+      S.athletes.L[0].name = 'TIRADOR ROJO'; S.athletes.R[0].name = 'TIRADOR VERDE';
+      S.names.L = 'TIRADOR ROJO'; S.names.R = 'TIRADOR VERDE';
+      ['L','R'].forEach(s => {
+        S.athletes[s][0].cards=[]; S.athletes[s][0].g1=0; S.athletes[s][0].g3=0; S.athletes[s][0].excluded=false;
+      });
+    }
+  }
+
   // Update sidebar text
   document.getElementById('boutCardTitle').textContent=type==='team'?t('asalto'):t('periodo');
   document.getElementById('boutInfo').textContent=type==='team'?t('per_activo_team'):t('per_activo_indiv');
@@ -1565,7 +1901,7 @@ function assignPriority(who){
     opts.style.display='none';
     spin.style.display='block';
     let count=0;
-    const names=[S.names.L,S.names.R];
+    const names=[t('prio_rojo'), t('prio_verde')];
     const iv=setInterval(function(){
       spin.textContent=names[count%2];
       count++;
@@ -1585,63 +1921,90 @@ function assignPriority(who){
   }
 }
 function showPriorityResult(side,resultEl){
-  const name=S.names[side];
+  const sideName=side==='L'?t('prio_rojo'):t('prio_verde');
   const color=side==='L'?'#e84050':'#38e87a';
   resultEl.style.display='block';
-  resultEl.innerHTML='<div style="font-family:\'Bebas Neue\';font-size:32px;color:'+color+'">'+name+'</div><div style="color:var(--text2);font-size:12px;margin-top:4px;">'+t('tiene_prio')+'</div>';
+  resultEl.innerHTML='<div style="font-family:\'Bebas Neue\';font-size:32px;color:'+color+'">'+sideName+'</div><div style="color:var(--text2);font-size:12px;margin-top:4px;">'+t('tiene_prio')+'</div>';
   updatePriorityBadge();
-  logEv(t('log_prio_asig')+name,'ld-yellow');
+  logEv(t('log_prio_asig')+sideName,'ld-yellow');
   setTimeout(function(){closePrioModal();},1800);
 }
 function updatePriorityBadge(){
   const badge=document.getElementById('priorityBadge');
+  const pL=document.getElementById('prioPL');
+  const pR=document.getElementById('prioPR');
+  
+  if(pL) pL.classList.remove('show');
+  if(pR) pR.classList.remove('show');
+
   if(!S.priority){
-    badge.textContent=t('sin_asignar'); badge.className='priority-badge none';
+    badge.textContent=t('sin_asignar'); 
+    badge.className='priority-badge none';
   } else if(S.priority==='L'){
-    badge.textContent='🔴 '+S.names.L; badge.className='priority-badge left';
+    badge.textContent='🔴 ' + t('prio_rojo'); 
+    badge.className='priority-badge left';
+    if(pL) pL.classList.add('show');
   } else {
-    badge.textContent='🟢 '+S.names.R; badge.className='priority-badge right';
+    badge.textContent=t('prio_verde') + ' 🟢'; 
+    badge.className='priority-badge right';
+    if(pR) pR.classList.add('show');
   }
 }
 
-// ══════════════════════════════
-// HIT REGISTRATION
-// ══════════════════════════════
+function showFlash(side){
+  const fid=side==='L'?'flashL':'flashR';
+  const fl=document.getElementById(fid);
+  if(!fl) return;
+  fl.classList.add('on');
+  setTimeout(()=>fl.classList.remove('on'),280);
+}
+
 function registerHit(side){
   if(checkRestLocked()) return;
   checkAutoAssignPriority();
-  const freq=side==='L'?660:880;
-  beep(freq,.1,.5,'square');
-  setTimeout(()=>beep(freq*1.5,.07,.3),70);
+  const ath = S.athletes[side][S.activeIdx[side]];
 
-  // Flash overlay
-  const fid=side==='L'?'flashL':'flashR';
-  const fl=document.getElementById(fid);
-  fl.classList.add('on');
-  setTimeout(()=>fl.classList.remove('on'),280);
-
-  // Pause timer on hit (FIE: timer stops on valid touch indication)
-  if(S.timer.running){
-    pauseTimer();
+  if(ath.excluded){
+    logEv(`⛔ ${ath.name} ${t('excluido')}`,'ld-dim');
+    beep(300,.1,.3,'sawtooth'); return;
   }
 
-  // +1 point to the fencer who scored the touch (capped at maxScore)
-  S.scores[side]=Math.max(0, Math.min(S.maxScore, S.scores[side]+1));
-  document.getElementById('score'+side).textContent=S.scores[side];
-  logEv(`${side==='L'?t('log_tocado_izq'):t('log_tocado_der')}${S.names[side]}`,side==='L'?'ld-red':'ld-green');
+  // Flash & Sound
+  showFlash(side);
+  beep(side==='L'?440:660, .25, .5, 'square');
 
-  // Stats
-  if(side==='L'){ S.stats.hL++; document.getElementById('stHL').textContent=S.stats.hL; }
-  else          { S.stats.hR++; document.getElementById('stHR').textContent=S.stats.hR; }
+  // Pause timer on hit
+  if(S.timer.running) pauseTimer();
 
-  // Scored animation
-  const fc=document.getElementById('fencer'+side);
-  fc.classList.add('scored');
-  setTimeout(()=>fc.classList.remove('scored'),450);
+  // FIE Relay Limit: In Team mode, total score cannot exceed bout * 5
+  let limit = S.maxScore;
+  if(S.matchType === 'team') limit = S.bout * 5;
+
+  if(S.scores[side] < limit) {
+    S.scores[side]++;
+    document.getElementById('score'+side).textContent=S.scores[side];
+    logEv(`${side==='L'?t('log_tocado_izq'):t('log_tocado_der')}${ath.name}`,side==='L'?'ld-red':'ld-green');
+    
+    // Stats
+    if(side==='L'){ S.stats.hL++; document.getElementById('stHL').textContent=S.stats.hL; }
+    else          { S.stats.hR++; document.getElementById('stHR').textContent=S.stats.hR; }
+
+    const fc=document.getElementById('fencer'+side);
+    fc.classList.add('scored');
+    setTimeout(()=>fc.classList.remove('scored'),450);
+  } else {
+    logEv(`⚠️ ${t('max_label')} ${limit}`, 'ld-dim');
+    beep(300,.1,.3,'sawtooth');
+  }
 
   updateBadges();
-  // FIE: check max score
-  if(S.scores[side]>=S.maxScore) setTimeout(()=>endMatchWinner(side),300);
+  
+  if(S.scores[side] >= S.maxScore) {
+    setTimeout(()=>endMatchWinner(side),300);
+  } else if(S.matchType === 'team' && S.scores[side] >= limit) {
+    logEv('🔔 RELAY LIMIT REACHED ('+limit+')', 'ld-yellow');
+    alarm();
+  }
 }
 
 // ══════════════════════════════
@@ -1650,9 +2013,15 @@ function registerHit(side){
 function changeScore(side,delta){
   if(checkRestLocked()) return;
   checkAutoAssignPriority();
-  S.scores[side]=Math.max(0, Math.min(S.maxScore, S.scores[side]+delta));
+  
+  let limit = S.maxScore;
+  // In changes, we allow more flexibility but keep the match max
+  S.scores[side]=Math.max(0, Math.min(limit, S.scores[side]+delta));
   document.getElementById('score'+side).textContent=S.scores[side];
-  if(delta>0) logEv(t('log_punto_pos')+S.names[side],side==='L'?'ld-red':'ld-green');
+  
+  const ath = S.athletes[side][S.activeIdx[side]];
+  if(delta>0) logEv(t('log_punto_pos')+ath.name,side==='L'?'ld-red':'ld-green');
+  
   updateBadges();
   beep(side==='L'?550:770,.07);
   if(delta>0 && S.scores[side]>=S.maxScore) setTimeout(()=>endMatchWinner(side),300);
@@ -1663,32 +2032,118 @@ function updateBadges(){
   const term = S.matchType==='team'?t('asalto')+' ':t('periodo')+' ';
   document.getElementById('periodBadge').textContent=term+S.bout;
   document.getElementById('boutNum').innerHTML=S.bout+'<span style="font-size:22px;color:var(--dim);opacity:.7">/'+S.maxBouts+'</span>';
+  
+  document.getElementById('athNameL').textContent = S.athletes.L[S.activeIdx.L].name;
+  document.getElementById('athNameR').textContent = S.athletes.R[S.activeIdx.R].name;
+  
+  // Highlight warning under fencer name
+  const updateFencerNameHTML = (side) => {
+    const ath = S.athletes[side][S.activeIdx[side]];
+    const nameStr = (S.matchType==='team'? S.names[side] : ath.name);
+    const warnDot = ath.g1 > 0 ? `<span class="warn-dot-ui"></span>` : "";
+    document.getElementById(`nameDisp${side}`).innerHTML = `${warnDot}${nameStr} <span class="edit-icon">✎</span>`;
+  };
+  updateFencerNameHTML('L');
+  updateFencerNameHTML('R');
+  
+  renderPenalties('L');
+  renderPenalties('R');
+  renderLives('L');
+  renderLives('R');
+}
+
+function renderLives(side){
+  const livesContainer = document.getElementById('teamLives' + side);
+  if(!livesContainer) return;
+  if(S.matchType !== 'team'){ livesContainer.style.display='none'; return; }
+  
+  livesContainer.style.display='flex';
+  livesContainer.innerHTML = '';
+  S.athletes[side].forEach((ath, idx) => {
+    const dot = document.createElement('div');
+    dot.className = 'life-dot' + (ath.excluded ? ' lost' : '');
+    dot.title = ath.name + (ath.excluded ? ' (EXCLUIDO)' : ' (APTO)');
+    livesContainer.appendChild(dot);
+  });
+}
+
+function undoLastCard(side){
+  if(S.timer.running) pauseTimer();
+  const ath = S.athletes[side][S.activeIdx[side]];
+  if(ath.cards.length === 0) {
+    logEv(t('error_tarjeta'), 'ld-red');
+    beep(300,.1,.3,'sawtooth');
+    return;
+  }
+  
+  const last = ath.cards.pop();
+  const opp = side === 'L' ? 'R' : 'L';
+  
+  logEv(`${t('log_deshacer')} ${ath.name} (${last.toUpperCase()})`, 'ld-blue');
+  
+  if(last === 'yellow'){
+    ath.g1 = 0;
+  } else if(last === 'red'){
+    if(ath.g3 > 0) ath.g3 = 0;
+    // Note: G1 scaling means if we undo a second group 1, g1 stays 1
+    // Revert score point
+    if(S.scores[opp] > 0){
+      S.scores[opp]--;
+      document.getElementById('score' + opp).textContent = S.scores[opp];
+    }
+  } else if(last === 'black'){
+    ath.excluded = false;
+    // Revert score point if it was from group 4 or group 3 second offense
+    if(S.scores[opp] > 0){
+      S.scores[opp]--;
+      document.getElementById('score' + opp).textContent = S.scores[opp];
+    }
+  }
+  
+  updateBadges();
+  beep(440, .1);
+}
+
+function renderPenalties(side){
+  const ath = S.athletes[side][S.activeIdx[side]];
+  const container = document.getElementById('penCards' + side);
+  const status = document.getElementById('penStatus' + side);
+  container.innerHTML = '';
+
+  ath.cards.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'pen-card ' + c + '-active';
+    container.appendChild(el);
+  });
+  
+  if(ath.cards.length > 0){
+    const undoBtn = document.createElement('button');
+    undoBtn.className = 'undo-card-btn';
+    undoBtn.innerHTML = '↩';
+    undoBtn.title = t('btn_deshacer');
+    undoBtn.onclick = (e) => { e.stopPropagation(); undoLastCard(side); };
+    container.appendChild(undoBtn);
+  }
+
+  if(ath.excluded) {
+    status.textContent = t('excluido'); status.className = 'pen-status out';
+  } else if(ath.g3 > 0 || (ath.g1 > 0)) {
+    status.textContent = t('roja_prox'); status.className = 'pen-status danger';
+  } else if(ath.g1 > 0) {
+    status.textContent = t('adv_prox'); status.className = 'pen-status warn';
+  } else {
+    status.textContent = ''; status.className = 'pen-status';
+  }
 }
 
 // ══════════════════════════════
 // FIE PENALTY SYSTEM
 // ══════════════════════════════
-/*
- FIE t.170 rules:
- 1er GRUPO: 1ª falta → AMARILLA (advertencia). 2ª falta (después de recibir ROJA) → ROJA de nuevo.
-   - AMARILLA = advertencia (no punto). 
-   - ROJA = TOCADO de penalización al oponente (+1 punto oponente).
-   - Secuencia por tirador: AMARILLA → (siguiente falta del mismo grupo) → ROJA → ROJA → ROJA...
- 2do GRUPO: Directamente ROJA en 1ª falta.
- 3er GRUPO: Directamente ROJA.
- NEGRA: Exclusión.
- 
- Para simplificar UI, manejamos:
-   - Botón AMARILLA: aplica advertencia si no tiene roja aún → amarilla (no punto). 
-     Si ya tiene roja → aplica otra roja (punto al oponente).
-   - Botón ROJA: aplica directamente roja (punto al oponente).
-   - Botón NEGRA: exclusión.
-*/
-
 function openPenModal(side){
   if(checkRestLocked()) return;
   S.penTarget=side;
-  document.getElementById('penModalFencer').textContent=S.names[side];
+  const ath = S.athletes[side][S.activeIdx[side]];
+  document.getElementById('penModalFencer').textContent = ath.name;
   document.getElementById('penOverlay').classList.add('vis');
 }
 function closePenModal(){
@@ -1696,60 +2151,147 @@ function closePenModal(){
   S.penTarget=null;
 }
 
-// Direct penalty application (no modal)
-function applyPenDirect(side, type){
-  if(checkRestLocked()) return;
+function openBlackCardModal(side){
   S.penTarget = side;
-  applyPenCard(type);
-  S.penTarget = null;
+  const ath = S.athletes[side][S.activeIdx[side]];
+  
+  const titleEl = document.querySelector('.black-card-title span') || document.querySelector('.black-card-title');
+  const msgEl = document.getElementById('blackCardMsg');
+  const optsEl = document.querySelector('.black-card-opts');
+  
+  if(S.matchType === 'team') {
+    titleEl.textContent = t('aplicar_sancion');
+    msgEl.textContent = `¿Cómo deseas proceder con la exclusión de ${ath.name.toUpperCase()}?`;
+    document.querySelectorAll('.black-card-btn').forEach(b => {
+       if(b.id !== 'blackCardConfirmBtn') b.style.display = 'block';
+       else b.style.display = 'none';
+    });
+  } else {
+    titleEl.textContent = t('black_indiv_title');
+    msgEl.textContent = t('black_indiv_msg');
+    // Hide Team-specific buttons
+    document.querySelectorAll('.black-card-btn').forEach(b => b.style.display = 'none');
+    
+    // Ensure the individual confirm button exists
+    let confirmBtn = document.getElementById('blackCardConfirmBtn');
+    if(!confirmBtn){
+      confirmBtn = document.createElement('button');
+      confirmBtn.id = 'blackCardConfirmBtn';
+      confirmBtn.className = 'black-card-btn';
+      confirmBtn.style.borderColor = 'var(--accent)';
+      confirmBtn.style.background = 'rgba(232,200,64,0.1)';
+      confirmBtn.onclick = () => confirmBlackCard('individual');
+      optsEl.insertBefore(confirmBtn, document.querySelector('.black-card-cancel'));
+    }
+    confirmBtn.style.display = 'block';
+    confirmBtn.textContent = t('confirmar');
+  }
+  document.getElementById('blackCardOverlay').classList.add('vis');
 }
 
-function applyPenCard(type){
-  const side=S.penTarget;
-  if(!side){ closePenModal(); return; }
-  checkAutoAssignPriority();
-  const pen=S.penalties[side];
-  const opp=side==='L'?'R':'L';
-  const hasBlack=pen.some(c=>c.type==='black');
+function applyIndividualBlackCard(side){
+  if(S.timer.running) pauseTimer();
+  // Standard FIE G4 logic
+  applyFiePenaltyAutomated(side, 4); 
+  
+  const opp = side === 'L' ? 'R' : 'L';
+  const reason = t('exclusion_tirador');
 
-  if(hasBlack){
-    logEv(t('log_ya_tiene_negra').replace('{N}', S.names[side]), 'ld-dim');
+  if(S.matchType === 'team'){
+    const fitCount = S.athletes[side].filter(a => !a.excluded).length;
+    if(fitCount < 3){
+      setTimeout(() => endMatchTechnicalVictory(opp, t('equipo_incompleto')), 1000);
+    } else {
+      logEv(`⚠️ QUÓRUM: ${S.names[side]} → ${fitCount} tiradores aptos.`, 'ld-yellow');
+      openAthleteSelect(side);
+    }
+  } else {
+    setTimeout(() => {
+      endMatchTechnicalVictory(opp, reason);
+    }, 1000);
+  }
+}
+
+function applyFiePenalty(group){
+  const side = S.penTarget;
+  if(!side) return;
+  checkAutoAssignPriority();
+  const ath = S.athletes[side][S.activeIdx[side]];
+  const opp = side === 'L' ? 'R' : 'L';
+
+  if(ath.excluded){
+    logEv(`⛔ ${ath.name} ${t('excluido')}`, 'ld-dim');
     closePenModal(); return;
   }
 
-  // Stop timer on any card
+  // Stop timer on any card (FIE rule / arbitral standard)
   if(S.timer.running) pauseTimer();
 
-  const yellowCount=pen.filter(c=>c.type==='yellow').length;
+  let cardType = ''; // 'yellow', 'red', 'black'
+  let addPoint = false;
 
-  if(type==='yellow'){
-    if(yellowCount === 0){
-      // 1ª amarilla: advertencia, sin punto
-      S.yellowCount[side]++;
-      pen.push({type:'yellow'});
-      logEv(t('log_amarilla_1').replace('{N}', S.names[side]), 'ld-yellow');
-      beep(660,.12,.4,'sine');
-    } else {
-      // 2ª o más amarilla → se convierte en ROJA automáticamente (+1 oponente)
-      pen.push({type:'red'});
-      S.scores[opp]=Math.max(0,S.scores[opp]+1);
-      document.getElementById('score'+opp).textContent=S.scores[opp];
-      logEv(t('log_roja_auto').replace('{N}', S.names[side]).replace('{O}', S.names[opp]), 'ld-red');
-      beep(330,.2,.5,'sawtooth');
+  // Professional FIE Logic (Algorithm from pedana.tepuy.site)
+  switch(group){
+    case 1:
+      // Group 1: 1st = Yellow (Personal), 2nd+ = Red
+      if(ath.g1 === 0){
+        cardType = 'yellow';
+        ath.g1 = 1;
+        logEv(`🟡 ${t('pen_group1')} → ${ath.name} (${t('amarilla')})`, 'ld-yellow');
+      } else {
+        cardType = 'red';
+        addPoint = true;
+        logEv(`🔴 ${t('pen_group1')} (2ª+) → ${ath.name} (${t('roja')})`, 'ld-red');
+      }
+      break;
+    case 2:
+      // Group 2: Direct Red
+      cardType = 'red';
+      addPoint = true;
+      logEv(`🔴 ${t('pen_group2')} → ${ath.name} (${t('roja')})`, 'ld-red');
+      break;
+    case 3:
+      // Group 3: 1st = Red, 2nd = Black (Exclusion)
+      if(ath.g3 === 0){
+        cardType = 'red';
+        ath.g3 = 1;
+        addPoint = true;
+        logEv(`🔴 ${t('pen_group3')} → ${ath.name} (${t('roja')})`, 'ld-red');
+      } else {
+        cardType = 'black';
+        ath.excluded = true;
+        logEv(`⬛ ${t('pen_group3')} (2ª) → ${ath.name} — ${t('excluido')}`, 'ld-dim');
+      }
+      break;
+    case 4:
+      // Group 4: Direct Black
+      cardType = 'black';
+      ath.excluded = true;
+      addPoint = true; 
+      logEv(`⬛ ${t('pen_group4')} → ${ath.name} — ${t('excluido')}`, 'ld-dim');
+      break;
+  }
+
+  if(cardType) ath.cards.push(cardType);
+  
+  if(addPoint){
+    // Apply score with limit check and victory logic
+    S.scores[opp] = Math.max(0, Math.min(S.maxScore, S.scores[opp] + 1));
+    document.getElementById('score' + opp).textContent = S.scores[opp];
+    beep(330, .2, .5, 'sawtooth');
+    
+    // FIE: Victory via penalty
+    if(S.isOvertime || S.scores[opp] >= S.maxScore) {
+       setTimeout(()=>endMatchWinner(opp), 400);
     }
-  } else if(type==='red'){
-    // Tarjeta roja directa: punto al oponente
-    pen.push({type:'red'});
-    S.scores[opp]=Math.max(0,S.scores[opp]+1);
-    document.getElementById('score'+opp).textContent=S.scores[opp];
-    logEv(t('log_roja_dir').replace('{N}', S.names[side]).replace('{O}', S.names[opp]), 'ld-red');
-    beep(330,.2,.5,'sawtooth');
-  } else if(type==='black'){
-    // Tarjeta negra: exclusión
-    pen.push({type:'black'});
-    logEv(`⬛ ${t('negra')} → ${S.names[side]} — ${t('excluido')}`,'ld-dim');
+  } else {
+    beep(660, .12, .4, 'sine');
+  }
+
+  if(cardType === 'black'){
     alarm();
-    showAlert(t('tarjeta_negra'), `${S.names[side]} ${t('exc_torneo')}`);
+    showAlert(t('tarjeta_negra'), `${ath.name} ${t('exc_torneo')}`);
+    if(S.matchType === 'team') logEv(`🛑 ATENCIÓN: Se requiere reserva para continuar match.`, 'ld-red');
   }
 
   updateBadges();
@@ -1757,36 +2299,112 @@ function applyPenCard(type){
   closePenModal();
 }
 
-function renderPenalties(side){
-  const pen=S.penalties[side];
-  const container=document.getElementById('penCards'+side);
-  const status=document.getElementById('penStatus'+side);
-  container.innerHTML='';
 
-  pen.forEach(c=>{
-    const el=document.createElement('div');
-    el.className='pen-card';
-    el.title=c.type==='yellow'?'Tarjeta Amarilla':c.type==='red'?'Tarjeta Roja':'Tarjeta Negra';
-    if(c.type==='yellow') el.classList.add('yellow-active');
-    else if(c.type==='red') el.classList.add('red-active');
-    else el.classList.add('black-active');
-    container.appendChild(el);
-  });
 
-  // Status text
-  const hasBlack=pen.some(c=>c.type==='black');
-  const redCount=pen.filter(c=>c.type==='red').length;
-  const yellowCount=pen.filter(c=>c.type==='yellow').length;
-
-  if(hasBlack){
-    status.textContent=t('excluido'); status.className='pen-status out';
-  } else if(redCount>0){
-    status.textContent=`${redCount} ${t('roja_prox')}`; status.className='pen-status danger';
-  } else if(yellowCount>0){
-    status.textContent=t('adv_prox'); status.className='pen-status warn';
-  } else {
-    status.textContent=''; status.className='pen-status';
+// Automated direct calls from UI buttons
+function applyPenDirect(side, type) { 
+  if(type === 'yellow') applyFiePenaltyAutomated(side, 1);
+  else if(type === 'red') applyFiePenaltyAutomated(side, 2);
+  else if(type === 'black') {
+    if(S.matchType === 'team') {
+      openBlackCardModal(side);
+    } else {
+      // Individual: Custom modal instead of native confirm
+      const ath = S.athletes[side][0];
+      const title = t('tarjeta_negra');
+      const msg = `${ath.name.toUpperCase()}?\n${t('exc_torneo')}`;
+      showConfirm(title, msg, () => {
+        applyIndividualBlackCard(side);
+      }, null, 'red');
+    }
   }
+}
+
+function openBlackCardModal(side){
+  if(S.timer.running) pauseTimer();
+  S.penTarget = side;
+  const ath = S.athletes[side][S.activeIdx[side]];
+  const titleText = S.matchType === 'team' ? t('aplicar_sancion') : t('black_indiv_title');
+  document.querySelector('#blackCardOverlay .black-card-title').innerHTML = `⬛ <span>${titleText}</span> ⬛`;
+  
+  const msgEl = document.getElementById('blackCardMsg');
+  const btnIndiv = document.getElementById('btnExclIndiv');
+  const btnTeam = document.getElementById('btnExclTeam');
+
+  if(S.matchType === 'team') {
+    msgEl.innerHTML = (S.lang==='es'?'¿Excluir a ':'Exclude ') + `<strong>${ath.name.toUpperCase()}</strong>?`;
+    btnIndiv.style.display = 'block';
+    btnTeam.style.display = 'block';
+  } else {
+    msgEl.innerHTML = t('black_indiv_msg') + `<br><br><strong style="color:var(--red)">${t('no_puede_deshacer')}</strong>`;
+    btnIndiv.style.display = 'block';
+    btnTeam.style.display = 'none';
+  }
+  document.getElementById('blackCardOverlay').classList.add('vis');
+}
+
+function closeBlackCardModal(){
+  document.getElementById('blackCardOverlay').classList.remove('vis');
+}
+
+function confirmBlackCard(scope){
+  closeBlackCardModal();
+  if(scope === 'team'){
+    applyTeamExclusion(S.penTarget);
+  } else {
+    applyIndividualBlackCard(S.penTarget);
+  }
+}
+
+function applyIndividualBlackCard(side){
+  if(S.timer.running) pauseTimer();
+  // Standard FIE G4 logic
+  applyFiePenaltyAutomated(side, 4); 
+  
+  const opp = side === 'L' ? 'R' : 'L';
+  const reason = t('exclusion_tirador');
+
+  if(S.matchType === 'team'){
+    const fitCount = S.athletes[side].filter(a => !a.excluded).length;
+    if(fitCount < 3){
+      setTimeout(() => endMatchTechnicalVictory(opp, t('equipo_incompleto')), 1000);
+    } else {
+      logEv(`⚠️ QUO\u0301RUM: ${S.names[side]} \u2192 ${fitCount} tiradores aptos.`, 'ld-yellow');
+      openAthleteSelect(side);
+    }
+  } else {
+    setTimeout(() => {
+      endMatchTechnicalVictory(opp, reason);
+    }, 1000);
+  }
+}
+
+function applyTeamExclusion(side){
+  const opp = side === 'L' ? 'R' : 'L';
+  logEv(`🛑 ${t('exclusion_total_eq')} ${S.names[side]} (Art. t.158)`, 'ld-red');
+  endMatchTechnicalVictory(opp, t('exclusion_total_eq'));
+}
+
+function endMatchTechnicalVictory(winnerSide, reason){
+  pauseTimer();
+  alarm();
+  const winName = S.names[winnerSide];
+  setTimerState('done'); updateStatusDot('done');
+  document.getElementById('btnPlay').textContent = t('btn_reset');
+  document.getElementById('btnPlay').className = 'btn btn-reset';
+  
+  const msgTitle = t('match_finalizado');
+  const msgBody = `${t('vic_tecnica')}: ${winName.toUpperCase()}\n\n${t('motivo')}: ${reason.toUpperCase()}\n\n${t('resultado_final')}: ${S.scores.L}\u2014${S.scores.R}`;
+  
+  logEv(`🏆 ${t('vic_tecnica')} \u2192 ${winName} (${reason})`, 'ld-yellow');
+  showAlert(msgTitle, msgBody, 'yellow');
+}
+
+// Internal automated logic (Same as applyFiePenalty but direct)
+function applyFiePenaltyAutomated(side, group){
+  if(checkRestLocked()) return;
+  S.penTarget = side;
+  applyFiePenalty(group);
 }
 
 // ══════════════════════════════
@@ -1871,25 +2489,34 @@ function setWeapon(w){
 // FULL RESET
 // ══════════════════════════════
 function confirmFullReset(){
-  if(confirm(t('conf1'))){
-    if(confirm(t('conf2'))){
+  showConfirm(t('prio_modal_tit'), t('conf1'), () => {
+    showConfirm(t('match_finalizado'), t('conf2'), () => {
       fullReset();
-    }
-  }
+    });
+  });
 }
 function fullReset(){
   // Stop timers
   clearInterval(S.timer.iv); clearInterval(S.rest.iv);
   S.timer.running=false; S.rest.running=false;
 
-  // Reset scores
+  // Reset scores and names
   S.scores={L:0,R:0};
-  ['L','R'].forEach(s=>{
-    document.getElementById('score'+s).textContent='0';
-    S.penalties[s]=[];
-    S.yellowCount[s]=0;
-    renderPenalties(s);
-    document.getElementById('penStatus'+s).textContent='';
+  S.activeIdx={L:0,R:0};
+  
+  ['L','R'].forEach(side=>{
+    document.getElementById('score'+side).textContent='0';
+    S.athletes[side].forEach(ath => {
+      ath.g1 = 0; ath.g3 = 0; ath.excluded = false; ath.cards = [];
+    });
+    // Set default names based on mode
+    if(S.matchType === 'team') {
+       S.names[side] = (side==='L'?'EQUIPO A':'EQUIPO B');
+       S.athletes[side].forEach((a,i)=>a.name=(side==='L'?(i<3?`Tirador ${i+1}`:'Reserva'):(i<3?`Tirador ${['X','Y','Z'][i]}`:'Reserva')));
+    } else {
+       S.athletes[side][0].name = (side==='L'?'TIRADOR A':'TIRADOR B');
+    }
+    renderPenalties(side);
   });
 
   // Reset bout
@@ -1921,35 +2548,171 @@ function fullReset(){
 // ══════════════════════════════
 // NAME EDIT
 // ══════════════════════════════
-function editName(side){
+function editNames(side){
   S.editTarget=side;
-  document.getElementById('nameInp').value=S.names[side];
+  const container = document.getElementById('nameInputsContainer');
+  container.innerHTML = '';
+  
+  if(S.matchType === 'team'){
+    // Team name
+    const teamRow = document.createElement('div');
+    teamRow.className = 'name-input-group';
+    teamRow.style.marginBottom = '15px';
+    teamRow.innerHTML = `<span class="name-input-label">E</span><input type="text" class="name-inp team-name-field" value="${S.names[side]}" maxlength="20">`;
+    container.appendChild(teamRow);
+
+    S.athletes[side].forEach((a, i) => {
+      const row = document.createElement('div');
+      row.className = 'name-input-group';
+      row.innerHTML = `<span class="name-input-label">${i<3?i+1:'R'}</span><input type="text" class="name-inp athlete-field" value="${a.name}" data-idx="${i}" maxlength="20">`;
+      container.appendChild(row);
+    });
+  } else {
+    // Individual: Only 1 athlete field, no team name needed for UI simplicity
+    const row = document.createElement('div');
+    row.className = 'name-input-group';
+    row.innerHTML = `<span class="name-input-label">🤺</span><input type="text" class="name-inp athlete-field" value="${S.athletes[side][0].name}" data-idx="0" maxlength="20">`;
+    container.appendChild(row);
+  }
+
+  // Add Clear Cards Button
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'log-clear';
+  clearBtn.style.border = '1px solid var(--red)';
+  clearBtn.style.color = 'var(--red)';
+  clearBtn.style.marginTop = '10px';
+  clearBtn.textContent = t('btn_limpiar_tar');
+  clearBtn.onclick = () => {
+    showConfirm(t('stats'), t('log_warn_limp'), () => {
+      S.athletes[side].forEach(a => { a.g1=0; a.g3=0; a.cards=[]; a.excluded=false; });
+      logEv(t('log_limpiar_tar') + S.names[side], 'ld-red');
+      updateBadges();
+      saveNames();
+    });
+  };
+  container.appendChild(clearBtn);
+
   document.getElementById('nameOverlay').classList.add('vis');
-  setTimeout(()=>document.getElementById('nameInp').focus(),120);
 }
-function saveName(){
-  const v=document.getElementById('nameInp').value.trim().toUpperCase();
-  const name=v||(S.editTarget==='L'?'TIRADOR A':'TIRADOR B');
-  S.names[S.editTarget]=name;
-  document.getElementById('nameDisp'+S.editTarget).innerHTML=name+' <span class="edit-icon">✎</span>';
+
+function saveNames(){
+  const side = S.editTarget;
+  const teamField = document.querySelector('.team-name-field');
+  if(teamField) {
+    S.names[side] = teamField.value.trim().toUpperCase() || (side==='L'?'EQUIPO A':'EQUIPO B');
+  }
+  
+  const fields = document.querySelectorAll('.athlete-field');
+  fields.forEach(f => {
+    const idx = parseInt(f.getAttribute('data-idx'));
+    S.athletes[side][idx].name = f.value.trim() || (`Tirador ${idx+1}`);
+    // In individual mode, if no team name field exists, we sync team name to athlete name
+    if(S.matchType === 'individual' && idx === 0) {
+      S.names[side] = S.athletes[side][0].name;
+    }
+  });
+  
   document.getElementById('nameOverlay').classList.remove('vis');
-  logEv(`👤 Nombre: ${name}`,'ld-dim');
+  updateBadges();
+  logEv(`👤 ${t('save')}`,'ld-dim');
 }
-document.getElementById('nameInp').addEventListener('keydown',e=>{if(e.key==='Enter')saveName();});
+
+function openAthleteSelect(side){
+  if(checkRestLocked()) return;
+  
+  // Cyclically find the next non-excluded fencer
+  let nextIdx = S.activeIdx[side];
+  let found = false;
+  for(let i=1; i<=4; i++){
+    let check = (S.activeIdx[side] + i) % 4;
+    if(!S.athletes[side][check].excluded){
+      nextIdx = check;
+      found = true;
+      break;
+    }
+  }
+  
+  if(!found){
+    logEv(`⛔ No hay tiradores aptos para el equipo ${S.names[side]}`, 'ld-red');
+    return;
+  }
+
+  S.activeIdx[side] = nextIdx;
+  logEv(`🤺 Tirador en pista (${side==='L'?'Rojo':'Verde'}): ${S.athletes[side][nextIdx].name}`, 'ld-blue');
+  updateBadges();
+}
 document.getElementById('nameOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove('vis');});
 document.getElementById('penOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closePenModal();});
 document.getElementById('alertOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAlert();});
 document.getElementById('prioOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closePrioModal();});
 
 // ══════════════════════════════
-// ALERT
+// ALERT & CONFIRM
 // ══════════════════════════════
-function showAlert(title,sub){
-  document.getElementById('alertTitle').textContent=title;
-  document.getElementById('alertSub').textContent=sub;
+function showAlert(title, sub, type='red'){
+  const box = document.querySelector('#alertOverlay .alert-box');
+  const icon = document.querySelector('#alertOverlay .modal-icon');
+  const titleEl = document.getElementById('alertTitle');
+  const btn = document.querySelector('#alertOverlay .alert-ok');
+
+  if(type === 'red') {
+    box.style.borderColor = 'var(--red)';
+    icon.className = 'modal-icon red';
+    icon.textContent = '🛑';
+    titleEl.style.color = 'var(--red)';
+    btn.style.background = 'var(--red)'; btn.style.color = '#fff';
+  } else {
+    box.style.borderColor = 'var(--accent)';
+    icon.className = 'modal-icon yellow';
+    icon.textContent = '⚠️';
+    titleEl.style.color = 'var(--accent)';
+    btn.style.background = 'var(--accent)'; btn.style.color = '#000';
+  }
+
+  document.getElementById('alertTitle').textContent = title;
+  document.getElementById('alertSub').textContent = sub;
   document.getElementById('alertOverlay').classList.add('vis');
 }
-function closeAlert(){ document.getElementById('alertOverlay').classList.remove('vis'); }
+function closeAlert(){ 
+  document.getElementById('alertOverlay').classList.remove('vis');
+}
+
+/**
+ * showConfirm with theme support
+ */
+function showConfirm(title, sub, onOk, onCancel, type='yellow'){
+  const box = document.querySelector('#confirmOverlay .confirm-box');
+  const icon = document.getElementById('confirmIcon');
+  const titleEl = document.getElementById('confirmTitle');
+  const okBtn = document.getElementById('confirmBtnOk');
+  
+  if(type === 'red'){
+    box.style.borderColor = 'var(--red)';
+    icon.className = 'modal-icon red';
+    icon.textContent = '🛑';
+    titleEl.style.color = 'var(--red)';
+    okBtn.style.background = 'var(--red)'; okBtn.style.color = '#fff';
+  } else {
+    box.style.borderColor = 'var(--accent)';
+    icon.className = 'modal-icon yellow';
+    icon.textContent = '⚠️';
+    titleEl.style.color = 'var(--accent)';
+    okBtn.style.background = 'var(--accent)'; okBtn.style.color = '#000';
+  }
+
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmSub').textContent = sub;
+  
+  const cancelBtn = document.getElementById('confirmBtnCancel');
+  
+  okBtn.onclick = () => { closeConfirm(); if(onOk) onOk(); };
+  cancelBtn.onclick = () => { closeConfirm(); if(onCancel) onCancel(); };
+  
+  document.getElementById('confirmOverlay').classList.add('vis');
+}
+function closeConfirm(){
+  document.getElementById('confirmOverlay').classList.remove('vis');
+}
 
 // ══════════════════════════════
 // EVENT LOG
