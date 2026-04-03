@@ -716,65 +716,65 @@ header{
 <!-- Time-up alert -->
 <div class="overlay" id="alertOverlay">
   <div class="alert-box">
-    <div class="alert-title" id="alertTitle">⏱ HALT</div>
-    <div class="alert-sub" id="alertSub">Tiempo de asalto finalizado</div>
-    <button class="alert-ok" onclick="closeAlert()">CONTINUAR</button>
+    <div class="alert-title" id="alertTitle" data-i18n="alerta_halt">⏱ HALT</div>
+    <div class="alert-sub" id="alertSub" data-i18n="alerta_fin">Tiempo de asalto finalizado</div>
+    <button class="alert-ok" data-i18n="alerta_cont" onclick="closeAlert()">CONTINUAR</button>
   </div>
 </div>
 
 <!-- Priority modal -->
 <div class="overlay" id="prioOverlay">
   <div class="prio-modal-box">
-    <div class="prio-modal-title">⚡ PRIORIDAD</div>
-    <div class="prio-modal-sub" id="prioModalSub">Asignar prioridad para tiempo suplementario (t.116 FIE)</div>
+    <div class="prio-modal-title" data-i18n="prio_modal_tit">⚡ PRIORIDAD</div>
+    <div class="prio-modal-sub" id="prioModalSub" data-i18n="prio_modal_sub">Asignar prioridad para tiempo suplementario (t.116 FIE)</div>
     <div class="prio-spin" id="prioSpin" style="font-family:'Bebas Neue';font-size:52px;color:var(--accent);display:none;margin:10px 0;">?</div>
     <div class="prio-result" id="prioResult"></div>
     <div class="prio-opts" id="prioOpts">
       <button class="prio-opt left-opt" id="prioOptL" onclick="assignPriority('L')">
         <span id="prioNameL">TIRADOR A</span>
-        <small>IZQUIERDO 🔴</small>
+        <small data-i18n="izq_rojo">IZQUIERDO 🔴</small>
       </button>
       <button class="prio-opt rand-opt" onclick="assignPriority('random')">
-        <span>🎲 SORTEO</span>
-        <small>Aleatorio FIE</small>
+        <span data-i18n="sort_aleatorio">🎲 SORTEO</span>
+        <small data-i18n="aleatorio_sub">Aleatorio FIE</small>
       </button>
       <button class="prio-opt right-opt" id="prioOptR" onclick="assignPriority('R')">
         <span id="prioNameR">TIRADOR B</span>
-        <small>DERECHO 🟢</small>
+        <small data-i18n="der_verde">DERECHO 🟢</small>
       </button>
     </div>
-    <button class="pen-opt-btn cancel" style="width:100%;justify-content:center;margin-top:8px;" onclick="closePrioModal()">CANCELAR</button>
+    <button class="pen-opt-btn cancel" style="width:100%;justify-content:center;margin-top:8px;" data-i18n="cancel" onclick="closePrioModal()">CANCELAR</button>
   </div>
 </div>
 
 <!-- Name edit modal -->
 <div class="overlay" id="nameOverlay">
   <div class="name-box">
-    <div class="name-lbl">NOMBRE DEL TIRADOR</div>
+    <div class="name-lbl" data-i18n="name_lbl">NOMBRE DEL TIRADOR</div>
     <input class="name-inp" id="nameInp" maxlength="18" autocomplete="off"/>
-    <button class="name-save" onclick="saveName()">GUARDAR</button>
+    <button class="name-save" data-i18n="save" onclick="saveName()">GUARDAR</button>
   </div>
 </div>
 
 <!-- Penalty modal -->
 <div class="overlay" id="penOverlay">
   <div class="pen-modal-box">
-    <div class="pen-modal-title">🃏 APLICAR SANCIÓN</div>
+    <div class="pen-modal-title" data-i18n="pen_modal_tit">🃏 APLICAR SANCIÓN</div>
     <div class="pen-modal-fencer" id="penModalFencer">Tirador</div>
     <div class="pen-opts">
       <button class="pen-opt-btn yellow" onclick="applyPenCard('yellow')">
         <div class="pen-card-icon yi"></div>
-        TARJETA AMARILLA — Advertencia (1er grupo)
+        <span data-i18n="pen_opt_y">TARJETA AMARILLA — Advertencia (1er grupo)</span>
       </button>
       <button class="pen-opt-btn red" onclick="applyPenCard('red')">
         <div class="pen-card-icon ri"></div>
-        TARJETA ROJA — Tocado de penalización
+        <span data-i18n="pen_opt_r">TARJETA ROJA — Tocado de penalización</span>
       </button>
       <button class="pen-opt-btn black" onclick="applyPenCard('black')">
         <div class="pen-card-icon bi"></div>
-        TARJETA NEGRA — Exclusión del torneo
+        <span data-i18n="pen_opt_b">TARJETA NEGRA — Exclusión del torneo</span>
       </button>
-      <button class="pen-opt-btn cancel" onclick="closePenModal()">CANCELAR</button>
+      <button class="pen-opt-btn cancel" data-i18n="cancel" onclick="closePenModal()">CANCELAR</button>
     </div>
   </div>
 </div>
@@ -789,12 +789,17 @@ header{
     </div>
   </div>
   <div class="weapon-tabs">
-    <button class="wpn active" id="wpn-florete" onclick="setWeapon('florete')">FLORETE</button>
-    <button class="wpn" id="wpn-sable" onclick="setWeapon('sable')">SABLE</button>
-    <button class="wpn" id="wpn-espada" onclick="setWeapon('espada')">ESPADA</button>
+    <button class="wpn active" id="wpn-florete" data-i18n="wpn_florete" onclick="setWeapon('florete')">FLORETE</button>
+    <button class="wpn" id="wpn-sable" data-i18n="wpn_sable" onclick="setWeapon('sable')">SABLE</button>
+    <button class="wpn" id="wpn-espada" data-i18n="wpn_espada" onclick="setWeapon('espada')">ESPADA</button>
   </div>
   <div class="header-actions">
-    <button class="btn-full-reset" onclick="confirmFullReset()">⟳ RESET TOTAL</button>
+    <select id="langSel" onchange="setLang(this.value)" style="background:var(--bg);color:var(--text);border:1px solid var(--border);padding:6px 10px;font-family:'Share Tech Mono';border-radius:2px;margin-right:12px;outline:none;cursor:pointer;">
+      <option value="es">🇪🇸 ES</option>
+      <option value="en">🇺🇸 EN</option>
+      <option value="fr">🇫🇷 FR</option>
+    </select>
+    <button class="btn-full-reset" data-i18n="reset_total" onclick="confirmFullReset()">⟳ RESET TOTAL</button>
   </div>
 </header>
 
@@ -809,20 +814,20 @@ header{
 
       <!-- FIE Match Config Bar -->
       <div class="match-cfg" id="matchCfgBar">
-        <span class="match-cfg-label">MODALIDAD:</span>
-        <button class="match-type-btn active" id="btnIndiv" onclick="setMatchType('individual')">INDIVIDUAL</button>
-        <button class="match-type-btn" id="btnTeam" onclick="setMatchType('team')">EQUIPO</button>
+        <span class="match-cfg-label" data-i18n="modalidad">MODALIDAD:</span>
+        <button class="match-type-btn active" id="btnIndiv" data-i18n="individual" onclick="setMatchType('individual')">INDIVIDUAL</button>
+        <button class="match-type-btn" id="btnTeam" data-i18n="equipo" onclick="setMatchType('team')">EQUIPO</button>
         <span class="match-cfg-sep">|</span>
-        <span class="match-cfg-label" style="font-size:9px;">MÁX:</span>
-        <span id="maxScoreBadge" style="font-family:'Bebas Neue';font-size:15px;color:var(--accent);">15 TOCADOS / 3 PERÍODOS</span>
+        <span class="match-cfg-label" style="font-size:9px;" data-i18n="max_label">M\u00c1X:</span>
+        <span id="maxScoreBadge" style="font-family:'Bebas Neue';font-size:15px;color:var(--accent);">15 TOCADOS / 3 PER\u00cdODOS</span>
         <div class="priority-row">
-          <span class="match-cfg-label">PRIORIDAD:</span>
-          <span class="priority-badge none" id="priorityBadge">SIN ASIGNAR</span>
-          <button class="btn-priority" onclick="openPrioModal()">⚡ ASIGNAR</button>
+          <span class="match-cfg-label" data-i18n="prioridad">PRIORIDAD:</span>
+          <span class="priority-badge none" id="priorityBadge" data-i18n="sin_asignar">SIN ASIGNAR</span>
+          <button class="btn-priority" data-i18n="asignar" onclick="openPrioModal()">⚡ ASIGNAR</button>
         </div>
       </div>
       <!-- Overtime indicator -->
-      <div class="overtime-badge" id="overtimeBadge">⚡ TIEMPO SUPLEMENTARIO — PRIORIDAD ACTIVA</div>
+      <div class="overtime-badge" id="overtimeBadge" data-i18n="prio_activa">⚡ TIEMPO SUPLEMENTARIO — PRIORIDAD ACTIVA</div>
 
       <div class="timer-wrap">
 
@@ -837,32 +842,32 @@ header{
 
         <div class="timer-face">
           <div class="timer-digits st-idle" id="timerDigits">03:00</div>
-          <div class="timer-sublabel" id="timerSub">LISTO PARA INICIAR</div>
+          <div class="timer-sublabel" id="timerSub" data-i18n="listo">LISTO PARA INICIAR</div>
         </div>
 
         <!-- Controls -->
         <div class="main-controls">
-          <button class="btn btn-play" id="btnPlay" onclick="toggleTimer()">▶ INICIAR</button>
-          <button class="btn btn-pause-main" id="btnPause" onclick="pauseTimer()" disabled>⏸ PAUSA</button>
-          <button class="btn btn-reset" onclick="resetTimer()">↺ RESET</button>
+          <button class="btn btn-play" id="btnPlay" data-i18n="btn_iniciar" onclick="toggleTimer()">▶ INICIAR</button>
+          <button class="btn btn-pause-main" id="btnPause" data-i18n="btn_pausa" onclick="pauseTimer()" disabled>⏸ PAUSA</button>
+          <button class="btn btn-reset" data-i18n="btn_reset" onclick="resetTimer()">↺ RESET</button>
         </div>
 
         <!-- Hit row -->
         <div class="hit-row">
           <div>
-            <div class="hit-side-label">◀ Izquierdo — Rojo</div>
-            <button class="btn-hit btn-hit-L" onclick="registerHit('L')" id="btnHL">🔴 TOCADO IZQUIERDO</button>
+            <div class="hit-side-label" data-i18n="lado_izq">◀ Izquierdo — Rojo</div>
+            <button class="btn-hit btn-hit-L" onclick="registerHit('L')" id="btnHL" data-i18n="btn_tocado_izq">🔴 TOCADO IZQUIERDO</button>
           </div>
-          <button class="btn-halt" onclick="haltAction()">HALT<br><small style="font-size:9px;color:var(--dim)">[barra]</small></button>
+          <button class="btn-halt" onclick="haltAction()">HALT<br><small style="font-size:9px;color:var(--dim)" data-i18n="tecla_barra">[barra]</small></button>
           <div>
-            <div class="hit-side-label">Derecho — Verde ▶</div>
-            <button class="btn-hit btn-hit-R" onclick="registerHit('R')" id="btnHR">TOCADO DERECHO 🟢</button>
+            <div class="hit-side-label" data-i18n="lado_der">Derecho — Verde ▶</div>
+            <button class="btn-hit btn-hit-R" onclick="registerHit('R')" id="btnHR" data-i18n="btn_tocado_der">TOCADO DERECHO 🟢</button>
           </div>
         </div>
 
         <!-- Time config -->
         <div class="time-config">
-          <label>TIEMPO:</label>
+          <label data-i18n="tiempo_lbl">TIEMPO:</label>
           <input class="t-input" type="number" id="tMin" value="3" min="0" max="9" onchange="setTimeFromInputs()">
           <span class="t-sep">:</span>
           <input class="t-input" type="number" id="tSec" value="00" min="0" max="59" onchange="setTimeFromInputs()">
@@ -881,7 +886,7 @@ header{
         <!-- LEFT / RED -->
         <div class="fencer L" id="fencerL">
           <div class="fencer-name" onclick="editName('L')" id="nameDispL">
-            TIRADOR A <span class="edit-icon">✎</span>
+            <span data-i18n="tirador_a">TIRADOR A</span> <span class="edit-icon">✎</span>
           </div>
           <div class="score-num" id="scoreL">0</div>
           <div class="score-btns">
@@ -890,18 +895,18 @@ header{
           </div>
           <!-- Penalty area -->
           <div class="penalty-section">
-            <div class="pen-label">TARJETAS</div>
+            <div class="pen-label" data-i18n="tarjetas">TARJETAS</div>
             <div class="pen-cards" id="penCardsL"></div>
             <div class="pen-status" id="penStatusL"></div>
             <div class="pen-direct-btns">
               <button class="pen-direct-btn y" onclick="applyPenDirect('L','yellow')" title="Tarjeta Amarilla">
-                <div class="mini-card"></div>AMARILLA
+                <div class="mini-card"></div><span data-i18n="amarilla">AMARILLA</span>
               </button>
               <button class="pen-direct-btn r" onclick="applyPenDirect('L','red')" title="Tarjeta Roja">
-                <div class="mini-card"></div>ROJA
+                <div class="mini-card"></div><span data-i18n="roja">ROJA</span>
               </button>
               <button class="pen-direct-btn b" onclick="applyPenDirect('L','black')" title="Tarjeta Negra">
-                <div class="mini-card"></div>NEGRA
+                <div class="mini-card"></div><span data-i18n="negra">NEGRA</span>
               </button>
             </div>
           </div>
@@ -910,7 +915,7 @@ header{
         <!-- RIGHT / GREEN -->
         <div class="fencer R" id="fencerR">
           <div class="fencer-name" onclick="editName('R')" id="nameDispR">
-            TIRADOR B <span class="edit-icon">✎</span>
+            <span data-i18n="tirador_b">TIRADOR B</span> <span class="edit-icon">✎</span>
           </div>
           <div class="score-num" id="scoreR">0</div>
           <div class="score-btns">
@@ -918,18 +923,18 @@ header{
             <button class="sc-btn m" onclick="changeScore('R',-1)">−</button>
           </div>
           <div class="penalty-section">
-            <div class="pen-label">TARJETAS</div>
+            <div class="pen-label" data-i18n="tarjetas">TARJETAS</div>
             <div class="pen-cards" id="penCardsR"></div>
             <div class="pen-status" id="penStatusR"></div>
             <div class="pen-direct-btns">
               <button class="pen-direct-btn y" onclick="applyPenDirect('R','yellow')" title="Tarjeta Amarilla">
-                <div class="mini-card"></div>AMARILLA
+                <div class="mini-card"></div><span data-i18n="amarilla">AMARILLA</span>
               </button>
               <button class="pen-direct-btn r" onclick="applyPenDirect('R','red')" title="Tarjeta Roja">
-                <div class="mini-card"></div>ROJA
+                <div class="mini-card"></div><span data-i18n="roja">ROJA</span>
               </button>
               <button class="pen-direct-btn b" onclick="applyPenDirect('R','black')" title="Tarjeta Negra">
-                <div class="mini-card"></div>NEGRA
+                <div class="mini-card"></div><span data-i18n="negra">NEGRA</span>
               </button>
             </div>
           </div>
@@ -957,7 +962,7 @@ header{
 
     <!-- Rest timer -->
     <div class="card">
-      <div class="card-title">🧘 <span class="accent">DESCANSO</span></div>
+      <div class="card-title">🧘 <span class="accent" data-i18n="descanso_title">TIEMPO DE DESCANSO</span></div>
       <div class="rest-digits" id="restDigits">01:00</div>
       <div class="rest-presets">
         <button class="rpre" onclick="setRest(60)">1 min</button>
@@ -966,36 +971,36 @@ header{
         <button class="rpre" onclick="setRest(600)">10 min</button>
       </div>
       <div class="rest-btns">
-        <button class="btn-rest btn-rest-go" id="btnRest" onclick="toggleRest()">▶ INICIAR</button>
-        <button class="btn-rest btn-rest-rst" onclick="resetRest()">↺ RESET</button>
+        <button class="btn-rest btn-rest-go" id="btnRest" data-i18n="btn_iniciar" onclick="toggleRest()">▶ INICIAR</button>
+        <button class="btn-rest btn-rest-rst" data-i18n="btn_reset" onclick="resetRest()">↺ RESET</button>
       </div>
     </div>
 
     <!-- Keyboard shortcuts — always visible -->
     <div class="shortcuts-card">
-      <div class="card-title" style="border-bottom:1px solid var(--border);">⌨ <span class="accent">COMANDOS</span></div>
+      <div class="card-title" style="border-bottom:1px solid var(--border);">&#x2328; <span class="accent" data-i18n="comandos">COMANDOS</span></div>
       <div class="shortcuts-grid">
-        <div class="kbd-row"><kbd class="kbd">ESPACIO</kbd><div class="kbd-desc">Iniciar / Pausar</div></div>
-        <div class="kbd-row"><kbd class="kbd">Q</kbd><div class="kbd-desc">Tocado Izquierdo 🔴</div></div>
-        <div class="kbd-row"><kbd class="kbd">W</kbd><div class="kbd-desc">Tocado Derecho 🟢</div></div>
-        <div class="kbd-row"><kbd class="kbd">H</kbd><div class="kbd-desc">HALT (detener)</div></div>
-        <div class="kbd-row"><kbd class="kbd">R</kbd><div class="kbd-desc">Reset Timer</div></div>
-        <div class="kbd-row"><kbd class="kbd">N</kbd><div class="kbd-desc">Nuevo Asalto</div></div>
-        <div class="kbd-row"><kbd class="kbd">←</kbd><div class="kbd-desc">+1 Pto Izq</div></div>
-        <div class="kbd-row"><kbd class="kbd">→</kbd><div class="kbd-desc">+1 Pto Der</div></div>
-        <div class="kbd-row"><kbd class="kbd">ESC</kbd><div class="kbd-desc">Cerrar modales</div></div>
-        <div class="kbd-row"><kbd class="kbd">F</kbd><div class="kbd-desc">Florete / Espada / Sable</div></div>
+        <div class="kbd-row"><kbd class="kbd">ESPACIO</kbd><div class="kbd-desc" data-i18n="cmd_espacio">Iniciar / Pausar</div></div>
+        <div class="kbd-row"><kbd class="kbd">Q</kbd><div class="kbd-desc" data-i18n="cmd_izq">Tocado Izquierdo 🔴</div></div>
+        <div class="kbd-row"><kbd class="kbd">W</kbd><div class="kbd-desc" data-i18n="cmd_der">Tocado Derecho 🟢</div></div>
+        <div class="kbd-row"><kbd class="kbd">H</kbd><div class="kbd-desc" data-i18n="cmd_halt">HALT (detener)</div></div>
+        <div class="kbd-row"><kbd class="kbd">R</kbd><div class="kbd-desc" data-i18n="cmd_reset">Reset Timer</div></div>
+        <div class="kbd-row"><kbd class="kbd">N</kbd><div class="kbd-desc" data-i18n="cmd_nuevo">Nuevo Asalto</div></div>
+        <div class="kbd-row"><kbd class="kbd">←</kbd><div class="kbd-desc" data-i18n="cmd_pto_izq">+1 Pto Izq</div></div>
+        <div class="kbd-row"><kbd class="kbd">→</kbd><div class="kbd-desc" data-i18n="cmd_pto_der">+1 Pto Der</div></div>
+        <div class="kbd-row"><kbd class="kbd">ESC</kbd><div class="kbd-desc" data-i18n="cmd_esc">Cerrar modales</div></div>
+        <div class="kbd-row"><kbd class="kbd">F</kbd><div class="kbd-desc" data-i18n="cmd_armas">Florete / Espada / Sable</div></div>
       </div>
     </div>
 
     <!-- Stats -->
     <div class="card">
-      <div class="card-title">📊 <span class="accent">ESTADÍSTICAS</span></div>
+      <div class="card-title">📊 <span class="accent" data-i18n="stats">ESTADÍSTICAS</span></div>
       <div class="stats-grid">
-        <div class="stat"><div class="stat-lbl">TOCADOS 🔴</div><div class="stat-val r" id="stHL">0</div></div>
-        <div class="stat"><div class="stat-lbl">TOCADOS 🟢</div><div class="stat-val g" id="stHR">0</div></div>
-        <div class="stat"><div class="stat-lbl">PAUSAS</div><div class="stat-val" id="stPauses">0</div></div>
-        <div class="stat"><div class="stat-lbl">ASALTOS</div><div class="stat-val" id="stBouts">1</div></div>
+        <div class="stat"><div class="stat-lbl" data-i18n="stat_toc_izq">TOCADOS 🔴</div><div class="stat-val r" id="stHL">0</div></div>
+        <div class="stat"><div class="stat-lbl" data-i18n="stat_toc_der">TOCADOS 🟢</div><div class="stat-val g" id="stHR">0</div></div>
+        <div class="stat"><div class="stat-lbl" data-i18n="stat_pausas">PAUSAS</div><div class="stat-val" id="stPauses">0</div></div>
+        <div class="stat"><div class="stat-lbl" data-i18n="stat_asaltos">ASALTOS</div><div class="stat-val" id="stBouts">1</div></div>
       </div>
     </div>
 
@@ -1003,14 +1008,14 @@ header{
     <div class="card">
       <div class="log-toggle" onclick="toggleLog()" id="logToggle">
         <div class="log-toggle-label">
-          📋 <span class="accent">REGISTRO</span>
+          📋 <span class="accent" data-i18n="registro">REGISTRO</span>
           <span class="log-count" id="logCount">(0)</span>
         </div>
         <span class="log-chevron" id="logChevron">▼</span>
       </div>
       <div class="log-body" id="logBody">
         <div class="log-inner" id="logInner"></div>
-        <button class="log-clear" onclick="clearLog()">LIMPIAR REGISTRO</button>
+        <button class="log-clear" data-i18n="limpiar_reg" onclick="clearLog()">LIMPIAR REGISTRO</button>
       </div>
     </div>
 
@@ -1055,18 +1060,224 @@ const S = {
   audioCtx: null,
   weaponCycle: ['florete','sable','espada'],
   weaponIdx: 0,
+  lang: 'es'
 };
+
+const I18N = {
+  es: {
+    wpn_florete: "FLORETE", wpn_sable: "SABLE", wpn_espada: "ESPADA",
+    reset_total: "⟳ RESET TOTAL", asalto_en_curso: "ASALTO EN CURSO",
+    modalidad: "MODALIDAD:", individual: "INDIVIDUAL", equipo: "EQUIPO",
+    max_label: "MÁX:", tocados: "TOCADOS",
+    periodos: "PERÍODOS", asaltos: "ASALTOS",
+    periodo: "PERÍODO", asalto: "ASALTO",
+    prioridad: "PRIORIDAD:", sin_asignar: "SIN ASIGNAR", asignar: "⚡ ASIGNAR",
+    prio_activa: "⚡ TIEMPO SUPLEMENTARIO — PRIORIDAD ACTIVA",
+    listo: "LISTO PARA INICIAR", btn_iniciar: "▶ INICIAR",
+    btn_pausa: "⏸ PAUSA", btn_reset: "↺ RESET",
+    tirador_a: "TIRADOR A", tirador_b: "TIRADOR B",
+    tarjetas: "TARJETAS", amarilla: "AMARILLA", roja: "ROJA", negra: "NEGRA",
+    aplicar_sancion: "APLICAR SANCIÓN",
+    chrono: "CRONÓMETRO DE ASALTO",
+    per_activo_indiv: "PERÍODO ACTIVO", per_activo_team: "N° ASALTO ACTIVO",
+    btn_nuevo_indiv: "NUEVO PERÍODO", btn_nuevo_team: "NUEVO ASALTO",
+    btn_aplicar: "APLICAR SANCIÓN",
+    descanso_title: "TIEMPO DE DESCANSO", btn_continuar: "▶ CONTINUAR", btn_pausar: "⏸ PAUSAR",
+    log_title: "HISTORIAL DE EVENTOS", log_bloqueado: "⛔ Bloqueado: Descanso activo",
+    sis_listo: "SISTEMA LISTO", en_pausa: "EN PAUSA",
+    victoria_prio: "VICTORIA POR PRIORIDAD", t_finalizado: "TIEMPO FINALIZADO — HALT!", t_esperando: "ESPERANDO REANUDACIÓN",
+    lang_blocked_tit: "IDIOMA BLOQUEADO", lang_blocked_desc: "El idioma solo se puede cambiar antes de iniciar el asalto.\nAplica RESET TOTAL para desbloquear.",
+    prio_blocked_tit: "PRIORIDAD BLOQUEADA", prio_blocked_desc: "La prioridad ya ha sido asignada automáticamente tras la primera acción.\nSolo puede cambiarse aplicando un RESET TOTAL.",
+    excluido: "EXCLUIDO", roja_prox: "ROJA(S) — próx. falta = +ROJA", adv_prox: "ADVERTIDO — próx. falta = ROJA", tarjeta_negra: "⬛ TARJETA NEGRA", exc_torneo: "ha sido excluido del torneo.",
+    
+    prio_modal_tit: "⚡ PRIORIDAD", prio_modal_sub: "Asignar prioridad para tiempo suplementario (t.116 FIE)", sort_aleatorio: "🎲 SORTEO", aleatorio_sub: "Aleatorio FIE",
+    izq_rojo: "IZQUIERDO 🔴", der_verde: "DERECHO 🟢", cancel: "CANCELAR",
+    name_lbl: "NOMBRE DEL TIRADOR", save: "GUARDAR",
+    pen_modal_tit: "🃏 APLICAR SANCIÓN", pen_opt_y: "TARJETA AMARILLA — Advertencia (1er grupo)", pen_opt_r: "TARJETA ROJA — Tocado de penalización", pen_opt_b: "TARJETA NEGRA — Exclusión del torneo",
+    comandos: "COMANDOS", cmd_espacio: "Iniciar / Pausar", cmd_izq: "Tocado Izquierdo 🔴", cmd_der: "Tocado Derecho 🟢", cmd_halt: "HALT (detener)", cmd_reset: "Reset Timer", cmd_nuevo: "Nuevo Asalto", cmd_pto_izq: "+1 Pto Izq", cmd_pto_der: "+1 Pto Der", cmd_esc: "Cerrar modales", cmd_armas: "Florete / Espada / Sable",
+    stats: "ESTADÍSTICAS", stat_toc_izq: "TOCADOS 🔴", stat_toc_der: "TOCADOS 🟢", stat_pausas: "PAUSAS", stat_asaltos: "ASALTOS",
+    registro: "REGISTRO", limpiar_reg: "LIMPIAR REGISTRO", alerta_halt: "⏱️ HALT", alerta_fin: "Tiempo de asalto finalizado", alerta_cont: "CONTINUAR",
+    conf1: "⚠️ RESET TOTAL\n\nSe borrarán tiempos, puntajes, tarjetas y asaltos.\n\n¿Deseas continuar?",
+    conf2: "🛑 CONFIRMACIÓN FINAL\n\n¿Estás absolutamente seguro de aplicar el RESET TOTAL? Esto no se puede deshacer.",
+    log_max_bouts: "Ya se alcanzó el último período/asalto máximo permitido.",
+    log_nuevo_asalto: "🗡️ NUEVO ASALTO / PERÍODO #", log_arma: "⚔️ Arma: ", log_reset: "🔄 RESET TOTAL ejecutado",
+    
+    tiempo_lbl: "TIEMPO:", lado_izq: "◀ Izquierdo — Rojo", lado_der: "Derecho — Verde ▶", btn_tocado_izq: "🔴 TOCADO IZQUIERDO", btn_tocado_der: "TOCADO DERECHO 🟢", tecla_barra: "[barra]",
+    prioridad_auto: "⚡ Prioridad auto-asignada al iniciar: ", seg_restantes_30: "⚠️ 30 segundos restantes",
+    log_pausa: "⏸ Pausa — ", log_pausa_restantes: " restantes", log_vic_prio: "🏆 VICTORIA POR PRIORIDAD → ",
+    alert_empate_tit: "⚡ EMPATE — PRIORIDAD", alert_empate_sub: "Empate al tiempo.\nAsigna PRIORIDAD (t.116 FIE)\ny se darán 60 seg adicionales.",
+    alert_fin_tiempo_tit: "⏳ FIN DEL TIEMPO", alert_fin_tiempo_sub: "El asalto / período ha terminado.\nSe avanza automáticamente al siguiente.",
+    log_halt_arb: "🛑 HALT por árbitro", log_tiempo_conf: "⏱ Tiempo configurado: ",
+    log_modalidad_team: "📋 Modalidad: EQUIPO (45 tocados)", log_modalidad_indiv: "📋 Modalidad: INDIVIDUAL (15 tocados)",
+    alert_prio_tit: "🏆 PRIORIDAD", log_prio_asig: "⚡ Prioridad asignada: ",
+    alert_prio_sub: "VICTORIA POR PRIORIDAD:\n",
+    log_tocado_izq: "💡 TOCADO IZQUIERDO 🔴 → +1 punto ", log_tocado_der: "💡 TOCADO DERECHO 🟢 → +1 punto ",
+    log_punto_pos: "+1 punto → ", log_ya_tiene_negra: "⛔ {N} ya tiene tarjeta negra",
+    log_amarilla_1: "🟡 AMARILLA (1ª) → {N} — advertencia", log_roja_auto: "🔴 2ª AMARILLA → ROJA automática → {N} — +1 para {O}", log_roja_dir: "🔴 ROJA → {N} — +1 para {O}",
+    log_descanso_pau: "⏸ Descanso pausado — {T} restantes", log_descanso_run: "🧘 Descanso: ", log_descanso_fin: "🔔 ¡DESCANSO TERMINADO!",
+    alert_descanso_tit: "¡DESCANSO!", alert_descanso_sub: "Tiempo de descanso finalizado.\nPreparar nuevo asalto.",
+    log_init_1: "✅ Fencing Timer FIE v3 — Reglamento FIE t.113/t.116/t.170", log_init_2: "📋 Individual=15pts | Equipo=45pts | Prioridad sorteo en empate (t.116)", log_init_3: "⌨️ ESPACIO=iniciar | Q=izq | W=der | H=halt | F=arma | ←/→=puntos",
+    log_sup: "⚡ 1 min SUPLEMENTARIO — ", empate: "Empate {L}—{R}", log_empate: "⚡ EMPATE: Asignar prioridad para tiempo suplementario",
+    tiene_prio: "tiene la PRIORIDAD", mod_eq: "EQUIPO (45 tocados)", mod_ind: "INDIVIDUAL (15 tocados)", adv_30: "30 segundos restantes"
+  },
+  en: {
+    wpn_florete: "FOIL", wpn_sable: "SABRE", wpn_espada: "EPEE",
+    reset_total: "⟳ FULL RESET", asalto_en_curso: "BOUT IN PROGRESS",
+    modalidad: "MATCH TYPE:", individual: "INDIVIDUAL", equipo: "TEAM",
+    max_label: "MAX:", tocados: "TOUCHES",
+    periodos: "PERIODS", asaltos: "BOUTS",
+    periodo: "PERIOD", asalto: "BOUT",
+    prioridad: "PRIORITY:", sin_asignar: "UNASSIGNED", asignar: "⚡ ASSIGN",
+    prio_activa: "⚡ OVERTIME — PRIORITY ACTIVE",
+    listo: "READY TO START", btn_iniciar: "▶ START",
+    btn_pausa: "⏸ PAUSE", btn_reset: "↺ RESET",
+    tirador_a: "FENCER A", tirador_b: "FENCER B",
+    tarjetas: "CARDS", amarilla: "YELLOW", roja: "RED", negra: "BLACK",
+    aplicar_sancion: "APPLY PENALTY",
+    chrono: "BOUT TIMER",
+    per_activo_indiv: "ACTIVE PERIOD", per_activo_team: "ACTIVE BOUT",
+    btn_nuevo_indiv: "NEW PERIOD", btn_nuevo_team: "NEW BOUT",
+    btn_aplicar: "APPLY PENALTY",
+    descanso_title: "REST TIME", btn_continuar: "▶ CONTINUE", btn_pausar: "⏸ PAUSE",
+    log_title: "EVENT LOG", log_bloqueado: "⛔ Blocked: Rest active",
+    sis_listo: "SYSTEM READY", en_pausa: "PAUSED",
+    victoria_prio: "PRIORITY VICTORY", t_finalizado: "TIME UP — HALT!", t_esperando: "WAITING TO RESUME",
+    lang_blocked_tit: "LANGUAGE LOCKED", lang_blocked_desc: "Language can only be changed before starting the bout.\nApply FULL RESET to unlock.",
+    prio_blocked_tit: "PRIORITY LOCKED", prio_blocked_desc: "Priority has already been automatically assigned after the first action.\nIt can only be changed by applying a FULL RESET.",
+    excluido: "EXCLUDED", roja_prox: "RED(S) — next = +RED", adv_prox: "WARNED — next = RED", tarjeta_negra: "⬛ BLACK CARD", exc_torneo: "has been excluded from tournament.",
+    
+    prio_modal_tit: "⚡ PRIORITY", prio_modal_sub: "Assign priority for overtime (t.116 FIE)", sort_aleatorio: "🎲 DRAW", aleatorio_sub: "Random FIE",
+    izq_rojo: "LEFT 🔴", der_verde: "RIGHT 🟢", cancel: "CANCEL",
+    name_lbl: "FENCER NAME", save: "SAVE",
+    pen_modal_tit: "🃏 APPLY PENALTY", pen_opt_y: "YELLOW CARD — Warning (1st group)", pen_opt_r: "RED CARD — Penalty hit", pen_opt_b: "BLACK CARD — Exclusion from tournament",
+    comandos: "SHORTCUTS", cmd_espacio: "Start / Pause", cmd_izq: "Left Touch 🔴", cmd_der: "Right Touch 🟢", cmd_halt: "HALT (stop)", cmd_reset: "Reset Timer", cmd_nuevo: "New Bout", cmd_pto_izq: "+1 Pt Left", cmd_pto_der: "+1 Pt Right", cmd_esc: "Close modals", cmd_armas: "Foil / Epee / Sabre",
+    stats: "STATISTICS", stat_toc_izq: "TOUCHES 🔴", stat_toc_der: "TOUCHES 🟢", stat_pausas: "PAUSES", stat_asaltos: "BOUTS",
+    registro: "EVENT LOG", limpiar_reg: "CLEAR LOG", alerta_halt: "⏱️ HALT", alerta_fin: "Bout time is up", alerta_cont: "CONTINUE",
+    conf1: "⚠️ FULL RESET\n\nTimes, scores, cards, and bouts will be deleted.\n\nDo you want to continue?",
+    conf2: "🛑 FINAL CONFIRMATION\n\nAre you absolutely sure you want to apply FULL RESET? This cannot be undone.",
+    log_max_bouts: "Maximum allowed bouts/periods has already been reached.",
+    log_nuevo_asalto: "🗡️ NEW BOUT / PERIOD #", log_arma: "⚔️ Weapon: ", log_reset: "🔄 FULL RESET executed",
+    
+    tiempo_lbl: "TIME:", lado_izq: "◀ Left — Red", lado_der: "Right — Green ▶", btn_tocado_izq: "🔴 LEFT TOUCH", btn_tocado_der: "RIGHT TOUCH 🟢", tecla_barra: "[space]",
+    prioridad_auto: "⚡ Priority auto-assigned at start: ", seg_restantes_30: "⚠️ 30 seconds remaining",
+    log_pausa: "⏸ Pause — ", log_pausa_restantes: " remaining", log_vic_prio: "🏆 PRIORITY VICTORY → ",
+    alert_empate_tit: "⚡ TIE — PRIORITY", alert_empate_sub: "Time is up and score is tied.\nAssign PRIORITY (t.116 FIE)\nand 1 extra minute will be given.",
+    alert_fin_tiempo_tit: "⏳ TIME UP", alert_fin_tiempo_sub: "The bout/period has ended.\nAutomatically advancing to the next one.",
+    log_halt_arb: "🛑 HALT called by referee", log_tiempo_conf: "⏱ Time set: ",
+    log_modalidad_team: "📋 Match Type: TEAM (45 touches)", log_modalidad_indiv: "📋 Match Type: INDIVIDUAL (15 touches)",
+    alert_prio_tit: "🏆 PRIORITY", log_prio_asig: "⚡ Priority assigned: ",
+    alert_prio_sub: "PRIORITY VICTORY:\n",
+    log_tocado_izq: "💡 LEFT TOUCH 🔴 → +1 point ", log_tocado_der: "💡 RIGHT TOUCH 🟢 → +1 point ",
+    log_punto_pos: "+1 point → ", log_ya_tiene_negra: "⛔ {N} already has a black card",
+    log_amarilla_1: "🟡 YELLOW (1st) → {N} — warning", log_roja_auto: "🔴 2nd YELLOW → automatic RED → {N} — +1 for {O}", log_roja_dir: "🔴 RED → {N} — +1 for {O}",
+    log_descanso_pau: "⏸ Rest paused — {T} remaining", log_descanso_run: "🧘 Rest: ", log_descanso_fin: "🔔 REST OVER!",
+    alert_descanso_tit: "REST OVER!", alert_descanso_sub: "Rest time ended.\nPrepare for new bout.",
+    log_init_1: "✅ Fencing Timer FIE v3 — FIE Rules t.113/t.116/t.170", log_init_2: "📋 Individual=15pts | Team=45pts | Random priority on tie (t.116)", log_init_3: "⌨️ SPACE=start | Q=left | W=right | H=halt | F=weapon | ←/→=points",
+    log_sup: "⚡ 1 min OVERTIME — ", empate: "Tie {L}—{R}", log_empate: "⚡ TIE: Assign priority for overtime",
+    tiene_prio: "has the PRIORITY", mod_eq: "TEAM (45 touches)", mod_ind: "INDIVIDUAL (15 touches)", adv_30: "30 seconds remaining"
+  },
+  fr: {
+    wpn_florete: "FLEURET", wpn_sable: "SABRE", wpn_espada: "ÉPÉE",
+    reset_total: "⟳ RÉINITIALISER", asalto_en_curso: "ASSAUT EN COURS",
+    modalidad: "MODALITÉ:", individual: "INDIVIDUEL", equipo: "ÉQUIPE",
+    max_label: "MAX:", tocados: "TOUCHES",
+    periodos: "PÉRIODES", asaltos: "RELAIS",
+    periodo: "PÉRIODE", asalto: "RELAIS",
+    prioridad: "PRIORITÉ:", sin_asignar: "NON ASSIGNÉ", asignar: "⚡ ASSIGNER",
+    prio_activa: "⚡ TEMPS SUPPLÉMENTAIRE — PRIORITÉ ACTIVE",
+    listo: "PRÊT À DÉMARRER", btn_iniciar: "▶ DÉMARRER",
+    btn_pausa: "⏸ PAUSE", btn_reset: "↺ RÉINIT.",
+    tirador_a: "TIREUR A", tirador_b: "TIREUR B",
+    tarjetas: "CARTONS", amarilla: "JAUNE", roja: "ROUGE", negra: "NOIRE",
+    aplicar_sancion: "APPLIQUER SANCTION",
+    chrono: "CHRONOMÈTRE D'ASSAUT",
+    per_activo_indiv: "PÉRIODE ACTIVE", per_activo_team: "N° RELAIS ACTIF",
+    btn_nuevo_indiv: "NOUVELLE PÉRIODE", btn_nuevo_team: "NOUVEAU RELAIS",
+    btn_aplicar: "APPLIQUER",
+    descanso_title: "TEMPS DE PAUSE", btn_continuar: "▶ CONTINUER", btn_pausar: "⏸ PAUSE",
+    log_title: "HISTORIQUE", log_bloqueado: "⛔ Bloqué: Pause active",
+    sis_listo: "SYSTÈME PRÊT", en_pausa: "EN PAUSE",
+    victoria_prio: "VICTOIRE PAR PRIORITÉ", t_finalizado: "TEMPS ÉCOULÉ — HALTE!", t_esperando: "ATTENTE DE REPRISE",
+    lang_blocked_tit: "LANGUE VERROUILLÉE", lang_blocked_desc: "La langue ne peut être modifiée qu'avant le début de l'assaut.\nAppliquez RÉINITIALISER pour déverrouiller.",
+    prio_blocked_tit: "PRIORITÉ VERROUILLÉE", prio_blocked_desc: "La priorité a déjà été attribuée automatiquement après la première action.\nElle ne peut être modifiée qu'en appliquant une RÉINITIALISATION.",
+    excluido: "EXCLU", roja_prox: "ROUGE(S) — proc. = +ROUGE", adv_prox: "AVERTI — proc. = ROUGE", tarjeta_negra: "⬛ CARTON NOIR", exc_torneo: "a été exclu du tournoi.",
+    
+    prio_modal_tit: "⚡ PRIORITÉ", prio_modal_sub: "Attribuer la priorité pour le temps supplémentaire (t.116 FIE)", sort_aleatorio: "🎲 TIRAGE", aleatorio_sub: "Aléatoire FIE",
+    izq_rojo: "GAUCHE 🔴", der_verde: "DROITE 🟢", cancel: "ANNULER",
+    name_lbl: "NOM DU TIREUR", save: "SAUVEGARDER",
+    pen_modal_tit: "🃏 APPLIQUER SANCTION", pen_opt_y: "CARTON JAUNE — Avertissement (1er groupe)", pen_opt_r: "CARTON ROUGE — Touche de pénalité", pen_opt_b: "CARTON NOIR — Exclusion du tournoi",
+    comandos: "RACCOURCIS", cmd_espacio: "Démarrer / Pause", cmd_izq: "Touche Gauche 🔴", cmd_der: "Touche Droite 🟢", cmd_halt: "HALTE", cmd_reset: "Réinit Timer", cmd_nuevo: "Nouveau Relais", cmd_pto_izq: "+1 Pt Gauche", cmd_pto_der: "+1 Pt Droite", cmd_esc: "Fermer modals", cmd_armas: "Fleuret / Épée / Sabre",
+    stats: "STATISTIQUES", stat_toc_izq: "TOUCHES 🔴", stat_toc_der: "TOUCHES 🟢", stat_pausas: "PAUSES", stat_asaltos: "RELAIS",
+    registro: "HISTORIQUE", limpiar_reg: "EFFACER HISTO", alerta_halt: "⏱️ HALTE", alerta_fin: "Fin du temps d'assaut", alerta_cont: "CONTINUER",
+    conf1: "⚠️ RÉINITIALISATION COMPLÈTE\n\nTemps, scores, cartons et relais seront effacés.\n\nVoulez-vous continuer?",
+    conf2: "🛑 CONFIRMATION FINALE\n\nÊtes-vous absolument sûr de RÉINITIALISER? Ceci ne peut être annulé.",
+    log_max_bouts: "La limite maximale de relais/périodes a déjà été atteinte.",
+    log_nuevo_asalto: "🗡️ NOUVEAU RELAIS / PÉRIODE #", log_arma: "⚔️ Arme: ", log_reset: "🔄 RÉINITIALISATION COMPLÈTE exécutée",
+    
+    tiempo_lbl: "TEMPS:", lado_izq: "◀ Gauche — Rouge", lado_der: "Droite — Vert ▶", btn_tocado_izq: "🔴 TOUCHE GAUCHE", btn_tocado_der: "TOUCHE DROITE 🟢", tecla_barra: "[espace]",
+    prioridad_auto: "⚡ Priorité assignée auto.: ", seg_restantes_30: "⚠️ 30 secondes restantes",
+    log_pausa: "⏸ Pause — ", log_pausa_restantes: " restantes", log_vic_prio: "🏆 VICTOIRE PAR PRIORITÉ → ",
+    alert_empate_tit: "⚡ ÉGALITÉ — PRIORITÉ", alert_empate_sub: "Égalité au temps.\nAttribuez la PRIORITÉ (t.116 FIE)\net 1 minute supp. sera accordée.",
+    alert_fin_tiempo_tit: "⏳ FIN DU TEMPS", alert_fin_tiempo_sub: "Le relais/période est terminé.\nPassage automatique au suivant.",
+    log_halt_arb: "🛑 HALTE de l'arbitre", log_tiempo_conf: "⏱ Temps configuré: ",
+    log_modalidad_team: "📋 Modalité: ÉQUIPE (45 touches)", log_modalidad_indiv: "📋 Modalité: INDIVIDUEL (15 touches)",
+    alert_prio_tit: "🏆 PRIORITÉ", log_prio_asig: "⚡ Priorité assignée: ",
+    alert_prio_sub: "VICTOIRE PAR PRIORITÉ:\n",
+    log_tocado_izq: "💡 TOUCHE GAUCHE 🔴 → +1 point ", log_tocado_der: "💡 TOUCHE DROITE 🟢 → +1 point ",
+    log_punto_pos: "+1 point → ", log_ya_tiene_negra: "⛔ {N} a déjà un carton noir",
+    log_amarilla_1: "🟡 JAUNE (1er) → {N} — avertissement", log_roja_auto: "🔴 2e JAUNE → ROUGE automatique → {N} — +1 pour {O}", log_roja_dir: "🔴 ROUGE → {N} — +1 pour {O}",
+    log_descanso_pau: "⏸ Pause interrompue — {T} restantes", log_descanso_run: "🧘 Repos: ", log_descanso_fin: "🔔 REPOS TERMINÉ!",
+    alert_descanso_tit: "REPOS TERMINÉ!", alert_descanso_sub: "Temps de repos terminé.\nPréparez le nouveau relais.",
+    log_init_1: "✅ Fencing Timer FIE v3 — Règles FIE t.113/t.116/t.170", log_init_2: "📋 Indiv=15pts | Équipe=45pts | Priorité aléatoire en cas d'égalité", log_init_3: "⌨️ ESPACE=démarrer | Q=gauche | W=droite | H=halte | F=arme | ←/→=pts",
+    log_sup: "⚡ 1 min SUPPLÉMENTAIRE — ", empate: "Égalité {L}—{R}", log_empate: "⚡ ÉGALITÉ: Attribuez la priorité pour le temps suppl.",
+    tiene_prio: "a la PRIORITÉ", mod_eq: "ÉQUIPE (45 touches)", mod_ind: "INDIVIDUEL (15 touches)", adv_30: "30 secondes restantes"
+  }
+};
+
+function t(key){ return I18N[S.lang][key] || key; }
+
+function setLang(lang){
+  // Enforce match started lock
+  if(S.bout !== 1 || S.timer.secs !== S.timer.init || S.scores.L !== 0 || S.scores.R !== 0 || S.timer.running) {
+    showAlert(t('lang_blocked_tit'), t('lang_blocked_desc'));
+    beep(300,.1,.3,'sawtooth');
+    document.getElementById('langSel').value = S.lang; // revert select UI
+    return;
+  }
+
+  S.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(el.tagName==='INPUT' && el.type==='button') el.value = t(key);
+    else el.textContent = t(key);
+  });
+  // Force update dynamic labels
+  setMatchType(S.matchType);
+  setWeapon(S.weapon);
+  updateBadges();
+  updatePriorityBadge();
+  if(S.timer.running) {
+    document.getElementById('timerSub').textContent=t('asalto_en_curso');
+    document.getElementById('statusTxt').textContent=`${t('asalto_en_curso')} • ${t('wpn_'+S.weapon).toUpperCase()}`;
+    document.getElementById('btnPlay').textContent=t('btn_pausar');
+  } else if(S.timer.secs===S.timer.init && !S.isOvertime) {
+    document.getElementById('timerSub').textContent=t('listo');
+    document.getElementById('btnPlay').textContent=t('btn_iniciar');
+    document.getElementById('statusTxt').textContent=`${t('sis_listo')} • ${t('wpn_'+S.weapon).toUpperCase()}`;
+  }
+  logEv('🌐 Idioma / Language / Langue: ' + lang.toUpperCase(), 'ld-blue');
+}
 
 function checkRestLocked(){
   if(S.rest.running){
-    logEv('\u26d4 Bloqueado: Descanso activo','ld-dim');
+    logEv(t('log_bloqueado'),'ld-dim');
     beep(300,.1,.3,'sawtooth');
     return true;
   }
   return false;
 }
 
-// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+// ══════════════════════════════
 // AUDIO
 // ══════════════════════════════
 function ac(){
@@ -1115,6 +1326,14 @@ function updateStatusDot(state){
   d.className='status-dot '+state;
 }
 
+function checkAutoAssignPriority(){
+  if(S.priority === null){
+    S.priority = Math.random() < 0.5 ? 'L' : 'R';
+    updatePriorityBadge();
+    logEv(t('prioridad_auto')+S.names[S.priority],'ld-yellow');
+  }
+}
+
 function toggleTimer(){
   if(checkRestLocked()) return;
   if(S.timer.secs===0){ resetTimer(); return; }
@@ -1123,12 +1342,7 @@ function toggleTimer(){
 function startTimer(){
   if(S.timer.secs===0) return;
   
-  // Auto-assign priority on first bout start if not assigned
-  if(S.bout===1 && S.timer.secs===S.timer.init && S.scores.L===0 && S.scores.R===0 && S.priority===null){
-    S.priority = Math.random() < 0.5 ? 'L' : 'R';
-    updatePriorityBadge();
-    logEv('\u26a1 Prioridad auto-asignada al iniciar: '+S.names[S.priority],'ld-yellow');
-  }
+  checkAutoAssignPriority();
 
   S.timer.running=true;
   document.getElementById('btnPlay').textContent='⏸ PAUSAR';
@@ -1143,7 +1357,7 @@ function startTimer(){
   S.timer.iv=setInterval(()=>{
     S.timer.secs--;
     updateTimerDisplay();
-    if(S.timer.secs===30){ setTimerState('warn'); beep(1320,.04,.3); logEv('⚠️ 30 segundos restantes','ld-yellow'); }
+    if(S.timer.secs===30){ setTimerState('warn'); beep(1320,.04,.3); logEv(t('seg_restantes_30'),'ld-yellow'); }
     if(S.timer.secs===0){ finishTimer(); }
   },1000);
 }
@@ -1153,14 +1367,14 @@ function pauseTimer(){
   S.timer.running=false;
   S.stats.pauses++;
   document.getElementById('stPauses').textContent=S.stats.pauses;
-  document.getElementById('btnPlay').textContent='▶ CONTINUAR';
+  document.getElementById('btnPlay').textContent=t('btn_continuar');
   document.getElementById('btnPlay').className='btn btn-play';
-  document.getElementById('timerSub').textContent='PAUSADO — ESPERANDO REANUDACIÓN';
-  document.getElementById('statusTxt').textContent='EN PAUSA';
+  document.getElementById('timerSub').textContent=t('t_esperando');
+  document.getElementById('statusTxt').textContent=t('en_pausa');
   setTimerState('pause');
   updateStatusDot('pause');
   beep(440,.15,.35,'sine');
-  logEv(`⏸ Pausa — ${fmt(S.timer.secs)} restantes`,'ld-yellow');
+  logEv(`${t('log_pausa')}${fmt(S.timer.secs)}`,'ld-yellow');
 }
 function finishTimer(){
   clearInterval(S.timer.iv);
@@ -1173,14 +1387,14 @@ function finishTimer(){
     S.isOvertime=false;
     document.getElementById('overtimeBadge').classList.remove('show');
     if(S.scores.L===S.scores.R){
-      const winName=S.priority?S.names[S.priority]:'SIN PRIORIDAD';
-      document.getElementById('btnPlay').textContent='\u21ba NUEVO';
+      const winName=S.priority?S.names[S.priority]:t('sin_asignar');
+      document.getElementById('btnPlay').textContent=t('btn_reset');
       document.getElementById('btnPlay').className='btn btn-reset';
-      document.getElementById('timerSub').textContent='\u23f1 TIEMPO SUPLEMENTARIO FINALIZADO';
-      document.getElementById('statusTxt').textContent='VICTORIA POR PRIORIDAD';
+      document.getElementById('timerSub').textContent=t('t_finalizado');
+      document.getElementById('statusTxt').textContent=t('victoria_prio');
       setTimerState('done'); updateStatusDot('done');
-      logEv('\ud83c\udfc6 VICTORIA POR PRIORIDAD \u2192 '+winName,'ld-yellow');
-      setTimeout(()=>showAlert('\ud83c\udfc6 PRIORIDAD','Empate '+S.scores.L+'\u2014'+S.scores.R+'\nVICTORIA POR PRIORIDAD:\n'+winName),400);
+      logEv(t('log_vic_prio')+winName,'ld-yellow');
+      setTimeout(()=>showAlert(t('alert_prio_tit'), t('empate').replace('{L}',S.scores.L).replace('{R}',S.scores.R) + '\n' + t('alert_prio_sub') + winName),400);
     } else {
       const w=S.scores.L>S.scores.R?'L':'R';
       setTimeout(()=>endMatchWinner(w),400);
@@ -1188,12 +1402,12 @@ function finishTimer(){
     return;
   }
 
-  document.getElementById('btnPlay').textContent='\u21ba NUEVO';
+  document.getElementById('btnPlay').textContent=t('btn_reset');
   document.getElementById('btnPlay').className='btn btn-reset';
-  document.getElementById('timerSub').textContent='\u23f1 TIEMPO FINALIZADO';
-  document.getElementById('statusTxt').textContent='TIEMPO FINALIZADO \u2014 HALT!';
+  document.getElementById('timerSub').textContent=t('t_finalizado');
+  document.getElementById('statusTxt').textContent=t('t_finalizado');
   setTimerState('done'); updateStatusDot('done');
-  logEv('\ud83d\udd14 TIEMPO FINALIZADO \u2014 HALT!','ld-red');
+  logEv('🔔 TIEMPO FINALIZADO — HALT!','ld-red');
 
   if(S.scores.L>=S.maxScore||S.scores.R>=S.maxScore){
     const w=S.scores.L>=S.maxScore?'L':'R';
@@ -1203,7 +1417,7 @@ function finishTimer(){
   // FIE: Automatic bout advance if time runs out before last bout
   if(S.bout < S.maxBouts){
     setTimeout(()=>{
-      showAlert('\u23f1 FIN DEL TIEMPO',`El asalto / per\u00edodo ${S.bout} ha terminado.\\nSe avanza autom\u00e1ticamente al siguiente.`);
+      showAlert(t('alert_fin_tiempo_tit'), t('alert_fin_tiempo_sub'));
       newBout();
     }, 800);
     return;
@@ -1212,8 +1426,8 @@ function finishTimer(){
   if(S.scores.L===S.scores.R){
     setTimeout(()=>{
       if(S.priority===null){
-        showAlert('\u26a1 EMPATE \u2014 PRIORIDAD','Score: '+S.scores.L+' \u2014 '+S.scores.R+'\n\nEmpate al tiempo.\nAsigna PRIORIDAD (t.116 FIE)\ny se dar\u00e1n60 seg adicionales.');
-        logEv('\u26a1 EMPATE: Asignar prioridad para tiempo suplementario','ld-yellow');
+        showAlert(t('alert_empate_tit'), t('alert_empate_sub'));
+        logEv(t('log_empate'),'ld-yellow');
       } else {
         startOvertime();
       }
@@ -1225,18 +1439,18 @@ function finishTimer(){
   setTimeout(()=>endMatchWinner(w),400);
 }
 function haltAction(){
-  if(S.timer.running){ pauseTimer(); logEv('🛑 HALT por árbitro','ld-red'); beep(500,.3,.5,'sawtooth'); }
+  if(S.timer.running){ pauseTimer(); logEv(t('log_halt_arb'),'ld-red'); beep(500,.3,.5,'sawtooth'); }
 }
 function resetTimer(){
   if(checkRestLocked()) return;
   clearInterval(S.timer.iv);
   S.timer.running=false;
   S.timer.secs=S.timer.init;
-  document.getElementById('btnPlay').textContent='▶ INICIAR';
+  document.getElementById('btnPlay').textContent=t('btn_iniciar');
   document.getElementById('btnPlay').className='btn btn-play';
   document.getElementById('btnPause').disabled=true;
-  document.getElementById('timerSub').textContent='LISTO PARA INICIAR';
-  document.getElementById('statusTxt').textContent=`SISTEMA LISTO • ${S.weapon.toUpperCase()}`;
+  document.getElementById('timerSub').textContent=t('listo');
+  document.getElementById('statusTxt').textContent=`${t('sis_listo')} \u2022 ${t('wpn_'+S.weapon).toUpperCase()}`;
   setTimerState('idle');
   updateStatusDot('idle');
   updateTimerDisplay();
@@ -1248,7 +1462,7 @@ function setPreset(m,s){
   document.getElementById('tMin').value=m;
   document.getElementById('tSec').value=String(s).padStart(2,'0');
   if(!S.timer.running){ updateTimerDisplay(); setTimerState('idle'); }
-  logEv(`⏱ Tiempo configurado: ${fmt(t)}`,'ld-blue');
+  logEv(`${t('log_tiempo_conf')}${fmt(t)}`,'ld-blue');
 }
 function setTimeFromInputs(){
   if(checkRestLocked()) return;
@@ -1266,10 +1480,10 @@ function setTimeFromInputs(){
 function endMatchWinner(side){
   const winName=S.names[side];
   setTimerState('done'); updateStatusDot('done');
-  document.getElementById('btnPlay').textContent='\u21ba NUEVO';
+  document.getElementById('btnPlay').textContent=t('btn_reset');
   document.getElementById('btnPlay').className='btn btn-reset';
-  logEv('\ud83c\udfc6 COMBAT FINALIZADO \u2192 '+winName+' ('+S.scores.L+'\u2014'+S.scores.R+')','ld-yellow');
-  showAlert('\ud83c\udfc6 COMBATE',winName+'\n\n'+S.scores.L+' \u2014 '+S.scores.R+'\n\nFIN DEL COMBATE');
+  logEv('🏆 '+t('alerta_fin')+' → '+winName+' ('+S.scores.L+'—'+S.scores.R+')','ld-yellow');
+  showAlert('🏆 ' + t('victoria_prio'), winName+'\n\n'+S.scores.L+' — '+S.scores.R+'\n\n'+t('alerta_fin'));
   alarm();
 }
 
@@ -1279,14 +1493,14 @@ function startOvertime(){
   updateTimerDisplay();
   setTimerState('idle');
   document.getElementById('overtimeBadge').classList.add('show');
-  document.getElementById('btnPlay').textContent='\u25b6 TIEMPO SUPLEMENTARIO';
+  document.getElementById('btnPlay').textContent=t('prio_activa');
   document.getElementById('btnPlay').className='btn btn-play';
   document.getElementById('btnPause').disabled=true;
-  document.getElementById('timerSub').textContent='\u26a1 1 MINUTO SUPLEMENTARIO \u2014 PRIORIDAD: '+S.names[S.priority];
+  document.getElementById('timerSub').textContent='⚡ 1 MINUTO — ' + t('prioridad').toUpperCase() + ' ' + S.names[S.priority];
   document.getElementById('tMin').value='1';
   document.getElementById('tSec').value='00';
-  document.getElementById('statusTxt').textContent='TIEMPO SUPLEMENTARIO \u2022 PRIORIDAD: '+S.names[S.priority];
-  logEv('\u26a1 1 min SUPLEMENTARIO \u2014 Prioridad: '+S.names[S.priority],'ld-yellow');
+  document.getElementById('statusTxt').textContent=t('prio_activa') + ' • ' + S.names[S.priority];
+  logEv('⚡ 1 min SUPLEMENTARIO — ' + t('prioridad').toUpperCase() + ' ' + S.names[S.priority],'ld-yellow');
   alarm();
 }
 
@@ -1299,16 +1513,16 @@ function setMatchType(type){
   S.maxBouts=(type==='team')?9:3;
   document.getElementById('btnIndiv').classList.toggle('active',type==='individual');
   document.getElementById('btnTeam').classList.toggle('active',type==='team');
-  const term = type==='team'?' ASALTOS':' PER\u00cdODOS';
-  document.getElementById('maxScoreBadge').textContent=S.maxScore+' TOCADOS / '+S.maxBouts+term;
+  const term = type==='team'?' '+t('asaltos'):' '+t('periodos');
+  document.getElementById('maxScoreBadge').textContent=S.maxScore+' '+t('tocados')+' / '+S.maxBouts+term;
   
   // Update sidebar text
-  document.getElementById('boutCardTitle').textContent=type==='team'?'ASALTO':'PER\u00cdODO';
-  document.getElementById('boutInfo').textContent=type==='team'?'N\u00b0 ASALTO ACTIVO':'PER\u00cdODO ACTIVO';
-  document.getElementById('btnNewBout').textContent=type==='team'?'NUEVO ASALTO':'NUEVO PER\u00cdODO';
+  document.getElementById('boutCardTitle').textContent=type==='team'?t('asalto'):t('periodo');
+  document.getElementById('boutInfo').textContent=type==='team'?t('per_activo_team'):t('per_activo_indiv');
+  document.getElementById('btnNewBout').textContent=type==='team'?t('btn_nuevo_team'):t('btn_nuevo_indiv');
   
   updateBadges();
-  logEv('\ud83d\udccb Modalidad: '+(type==='team'?'EQUIPO (45 tocados)':'INDIVIDUAL (15 tocados)'),'ld-blue');
+  logEv(type==='team'?t('log_modalidad_team'):t('log_modalidad_indiv'),'ld-blue');
 }
 
 // ══════════════════════════════
@@ -1316,8 +1530,8 @@ function setMatchType(type){
 // ══════════════════════════════
 function openPrioModal(){
   if(S.priority !== null){
-    logEv('\u26d4 Prioridad ya asignada. Requiere RESET TOTAL para cambiarla.','ld-dim');
-    showAlert('PRIORIDAD BLOQUEADA', 'La prioridad ya est\u00e1 asignada.\\n\\nSeg\u00fan el reglamento FIE no se debe cambiar en curso.\\n\\nSi hay un error de arbitraje, aplica RESET TOTAL.');
+    logEv('⛔ ' + t('prio_blocked_tit') + ' — BLOQUEADA','ld-dim');
+    showAlert(t('prio_blocked_tit'), t('prio_blocked_desc'));
     return;
   }
   document.getElementById('prioNameL').textContent=S.names.L;
@@ -1361,19 +1575,19 @@ function showPriorityResult(side,resultEl){
   const name=S.names[side];
   const color=side==='L'?'#e84050':'#38e87a';
   resultEl.style.display='block';
-  resultEl.innerHTML='<div style="font-family:\'Bebas Neue\';font-size:32px;color:'+color+'">'+name+'</div><div style="color:var(--text2);font-size:12px;margin-top:4px;">tiene la PRIORIDAD</div>';
+  resultEl.innerHTML='<div style="font-family:\'Bebas Neue\';font-size:32px;color:'+color+'">'+name+'</div><div style="color:var(--text2);font-size:12px;margin-top:4px;">'+t('tiene_prio')+'</div>';
   updatePriorityBadge();
-  logEv('\u26a1 Prioridad asignada: '+name,'ld-yellow');
+  logEv(t('log_prio_asig')+name,'ld-yellow');
   setTimeout(function(){closePrioModal();},1800);
 }
 function updatePriorityBadge(){
   const badge=document.getElementById('priorityBadge');
   if(!S.priority){
-    badge.textContent='SIN ASIGNAR'; badge.className='priority-badge none';
+    badge.textContent=t('sin_asignar'); badge.className='priority-badge none';
   } else if(S.priority==='L'){
-    badge.textContent='\ud83d\udd34 '+S.names.L; badge.className='priority-badge left';
+    badge.textContent='🔴 '+S.names.L; badge.className='priority-badge left';
   } else {
-    badge.textContent='\ud83d\udfe2 '+S.names.R; badge.className='priority-badge right';
+    badge.textContent='🟢 '+S.names.R; badge.className='priority-badge right';
   }
 }
 
@@ -1382,6 +1596,7 @@ function updatePriorityBadge(){
 // ══════════════════════════════
 function registerHit(side){
   if(checkRestLocked()) return;
+  checkAutoAssignPriority();
   const freq=side==='L'?660:880;
   beep(freq,.1,.5,'square');
   setTimeout(()=>beep(freq*1.5,.07,.3),70);
@@ -1400,7 +1615,7 @@ function registerHit(side){
   // +1 point to the fencer who scored the touch (capped at maxScore)
   S.scores[side]=Math.max(0, Math.min(S.maxScore, S.scores[side]+1));
   document.getElementById('score'+side).textContent=S.scores[side];
-  logEv(`💡 TOCADO ${side==='L'?'IZQUIERDO 🔴':'DERECHO 🟢'} → +1 punto ${S.names[side]}`,side==='L'?'ld-red':'ld-green');
+  logEv(`${side==='L'?t('log_tocado_izq'):t('log_tocado_der')}${S.names[side]}`,side==='L'?'ld-red':'ld-green');
 
   // Stats
   if(side==='L'){ S.stats.hL++; document.getElementById('stHL').textContent=S.stats.hL; }
@@ -1421,9 +1636,10 @@ function registerHit(side){
 // ══════════════════════════════
 function changeScore(side,delta){
   if(checkRestLocked()) return;
+  checkAutoAssignPriority();
   S.scores[side]=Math.max(0, Math.min(S.maxScore, S.scores[side]+delta));
   document.getElementById('score'+side).textContent=S.scores[side];
-  if(delta>0) logEv('+1 punto → '+S.names[side],side==='L'?'ld-red':'ld-green');
+  if(delta>0) logEv(t('log_punto_pos')+S.names[side],side==='L'?'ld-red':'ld-green');
   updateBadges();
   beep(side==='L'?550:770,.07);
   if(delta>0 && S.scores[side]>=S.maxScore) setTimeout(()=>endMatchWinner(side),300);
@@ -1431,7 +1647,7 @@ function changeScore(side,delta){
 function updateBadges(){
   document.getElementById('scoreBadgeL').textContent=S.scores.L;
   document.getElementById('scoreBadgeR').textContent=S.scores.R;
-  const term = S.matchType==='team'?'ASALTO ':'PER\u00cdODO ';
+  const term = S.matchType==='team'?t('asalto')+' ':t('periodo')+' ';
   document.getElementById('periodBadge').textContent=term+S.bout;
   document.getElementById('boutNum').innerHTML=S.bout+'<span style="font-size:22px;color:var(--dim);opacity:.7">/'+S.maxBouts+'</span>';
 }
@@ -1478,12 +1694,13 @@ function applyPenDirect(side, type){
 function applyPenCard(type){
   const side=S.penTarget;
   if(!side){ closePenModal(); return; }
+  checkAutoAssignPriority();
   const pen=S.penalties[side];
   const opp=side==='L'?'R':'L';
   const hasBlack=pen.some(c=>c.type==='black');
 
   if(hasBlack){
-    logEv(`⛔ ${S.names[side]} ya tiene tarjeta negra`,'ld-dim');
+    logEv(t('log_ya_tiene_negra').replace('{N}', S.names[side]), 'ld-dim');
     closePenModal(); return;
   }
 
@@ -1497,14 +1714,14 @@ function applyPenCard(type){
       // 1ª amarilla: advertencia, sin punto
       S.yellowCount[side]++;
       pen.push({type:'yellow'});
-      logEv(`🟡 AMARILLA (1ª) → ${S.names[side]} — advertencia`,'ld-yellow');
+      logEv(t('log_amarilla_1').replace('{N}', S.names[side]), 'ld-yellow');
       beep(660,.12,.4,'sine');
     } else {
       // 2ª o más amarilla → se convierte en ROJA automáticamente (+1 oponente)
       pen.push({type:'red'});
       S.scores[opp]=Math.max(0,S.scores[opp]+1);
       document.getElementById('score'+opp).textContent=S.scores[opp];
-      logEv(`🔴 2ª AMARILLA → ROJA automática → ${S.names[side]} — +1 para ${S.names[opp]}`,'ld-red');
+      logEv(t('log_roja_auto').replace('{N}', S.names[side]).replace('{O}', S.names[opp]), 'ld-red');
       beep(330,.2,.5,'sawtooth');
     }
   } else if(type==='red'){
@@ -1512,14 +1729,14 @@ function applyPenCard(type){
     pen.push({type:'red'});
     S.scores[opp]=Math.max(0,S.scores[opp]+1);
     document.getElementById('score'+opp).textContent=S.scores[opp];
-    logEv(`🔴 ROJA → ${S.names[side]} — +1 para ${S.names[opp]}`,'ld-red');
+    logEv(t('log_roja_dir').replace('{N}', S.names[side]).replace('{O}', S.names[opp]), 'ld-red');
     beep(330,.2,.5,'sawtooth');
   } else if(type==='black'){
     // Tarjeta negra: exclusión
     pen.push({type:'black'});
-    logEv(`⬛ NEGRA → ${S.names[side]} — EXCLUIDO DEL TORNEO`,'ld-dim');
+    logEv(`⬛ ${t('negra')} → ${S.names[side]} — ${t('excluido')}`,'ld-dim');
     alarm();
-    showAlert('⬛ TARJETA NEGRA',`${S.names[side]} ha sido excluido del torneo.`);
+    showAlert(t('tarjeta_negra'), `${S.names[side]} ${t('exc_torneo')}`);
   }
 
   updateBadges();
@@ -1549,11 +1766,11 @@ function renderPenalties(side){
   const yellowCount=pen.filter(c=>c.type==='yellow').length;
 
   if(hasBlack){
-    status.textContent='EXCLUIDO'; status.className='pen-status out';
+    status.textContent=t('excluido'); status.className='pen-status out';
   } else if(redCount>0){
-    status.textContent=`${redCount} ROJA(S) — próx. falta = +ROJA`; status.className='pen-status danger';
+    status.textContent=`${redCount} ${t('roja_prox')}`; status.className='pen-status danger';
   } else if(yellowCount>0){
-    status.textContent='ADVERTIDO — próx. falta = ROJA'; status.className='pen-status warn';
+    status.textContent=t('adv_prox'); status.className='pen-status warn';
   } else {
     status.textContent=''; status.className='pen-status';
   }
@@ -1573,14 +1790,14 @@ function toggleRest(){
   if(S.rest.running){
     clearInterval(S.rest.iv); S.rest.running=false;
     document.getElementById('btnRest').textContent='▶ CONTINUAR';
-    logEv('⏸ Descanso pausado — '+fmt(S.rest.secs)+' restantes','ld-blue');
+    logEv(t('log_descanso_pau').replace('{T}', fmt(S.rest.secs)), 'ld-blue');
   } else {
     if(S.rest.secs===0){ resetRest(); return; }
     S.rest.running=true;
     document.getElementById('btnRest').textContent='⏸ PAUSAR';
     document.getElementById('restDigits').className='rest-digits';
     beep(440,.1,.3,'sine');
-    logEv('🧘 Descanso: '+fmt(S.rest.secs),'ld-blue');
+    logEv(t('log_descanso_run')+fmt(S.rest.secs), 'ld-blue');
     S.rest.iv=setInterval(()=>{
       S.rest.secs--;
       document.getElementById('restDigits').textContent=fmt(S.rest.secs);
@@ -1588,8 +1805,8 @@ function toggleRest(){
         clearInterval(S.rest.iv); S.rest.running=false;
         document.getElementById('btnRest').textContent='▶ INICIAR';
         document.getElementById('restDigits').className='rest-digits done';
-        alarm(); logEv('🔔 ¡DESCANSO TERMINADO!','ld-blue');
-        showAlert('¡DESCANSO!','Tiempo de descanso finalizado.\nPreparar nuevo asalto.');
+        alarm(); logEv(t('log_descanso_fin'),'ld-blue');
+        showAlert(t('alert_descanso_tit'), t('alert_descanso_sub'));
       }
     },1000);
   }
@@ -1608,14 +1825,14 @@ function resetRest(){
 function newBout(){
   if(checkRestLocked()) return;
   if(S.bout >= S.maxBouts) {
-    logEv('Ya se alcanz\u00f3 el \u00faltimo per\u00edodo/asalto m\u00e1ximo permitido.','ld-dim');
+    logEv(t('log_max_bouts'),'ld-dim');
     return;
   }
-  const prev=`${S.scores.L} \u2014 ${S.scores.R}`;
+  const prev=`${S.scores.L} — ${S.scores.R}`;
   S.bout++;
   document.getElementById('stBouts').textContent=S.bout;
   resetTimer();
-  logEv(`\ud83d\udde1 NUEVO ASALTO / PER\u00cdODO #${S.bout} (anterior: ${prev})`,'ld-yellow');
+  logEv(`${t('log_nuevo_asalto')}${S.bout} (anterior: ${prev})`,'ld-yellow');
   updateBadges();
   beep(660,.05); setTimeout(()=>beep(880,.05),100);
 }
@@ -1627,9 +1844,9 @@ function setWeapon(w){
   S.weapon=w;
   document.querySelectorAll('.wpn').forEach(b=>b.classList.remove('active'));
   document.getElementById('wpn-'+w).classList.add('active');
-  document.getElementById('weaponPill').textContent=w.toUpperCase();
-  document.getElementById('statusTxt').textContent=`SISTEMA LISTO • ${w.toUpperCase()}`;
-  logEv(`⚔️ Arma: ${w.toUpperCase()}`,'ld-yellow');
+  document.getElementById('weaponPill').textContent=t('wpn_'+w).toUpperCase();
+  document.getElementById('statusTxt').textContent=`${t('sis_listo')} \u2022 ${t('wpn_'+w).toUpperCase()}`;
+  logEv(`${t('log_arma')}${t('wpn_'+w).toUpperCase()}`,'ld-yellow');
   S.weaponIdx=S.weaponCycle.indexOf(w);
 }
 
@@ -1637,8 +1854,8 @@ function setWeapon(w){
 // FULL RESET
 // ══════════════════════════════
 function confirmFullReset(){
-  if(confirm('\u26a0\ufe0f RESET TOTAL\n\nSe borrar\u00e1n tiempos, puntajes, tarjetas y asaltos.\n\n\u00bfDeseas continuar?')){
-    if(confirm('\ud83d\uded1 CONFIRMACI\u00d3N FINAL\n\n\u00bfEst\u00e1s absolutamente seguro de aplicar el RESET TOTAL? Esto no se puede deshacer.')){
+  if(confirm(t('conf1'))){
+    if(confirm(t('conf2'))){
       fullReset();
     }
   }
@@ -1680,7 +1897,7 @@ function fullReset(){
   resetRest();
   updateBadges();
 
-  logEv('⟳ RESET TOTAL ejecutado','ld-dim');
+  logEv(t('log_reset'),'ld-dim');
   beep(440,.05); setTimeout(()=>beep(550,.05),80); setTimeout(()=>beep(660,.1),160);
 }
 
@@ -1777,9 +1994,10 @@ updateTimerDisplay();
 setWeapon('florete');
 setMatchType('individual');
 updatePriorityBadge();
-logEv('✅ Fencing Timer FIE v3 — Reglamento FIE t.113/t.116/t.170','ld-green');
-logEv('📋 Individual=15pts | Equipo=45pts | Prioridad sorteo en empate (t.116)','ld-blue');
-logEv('⌨️ ESPACIO=iniciar | Q=izq | W=der | H=halt | F=arma | ←/→=puntos','ld-dim');
+setLang('es');
+logEv(t('log_init_1'),'ld-green');
+logEv(t('log_init_2'),'ld-blue');
+logEv(t('log_init_3'),'ld-dim');
 </script>
 </body>
 </html>
