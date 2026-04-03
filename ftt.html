@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>FENCING TIMER — TEPUY</title>
+<title>FENCING TIMER FIE — TEPUY</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Share+Tech+Mono&display=swap');
 
@@ -460,6 +460,78 @@ header{
 .stat-val.g{color:var(--green);}
 
 /* ═══════════════════════════════════════
+   MATCH CONFIG BAR (FIE)
+═══════════════════════════════════════ */
+.match-cfg{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding:8px 14px;background:rgba(255,255,255,0.025);
+  border-bottom:1px solid var(--border);
+}
+.match-cfg-label{font-size:10px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;flex-shrink:0;}
+.match-type-btn{
+  font-family:'Bebas Neue';font-size:13px;letter-spacing:1px;
+  padding:4px 12px;border:1px solid var(--border);
+  background:transparent;color:var(--dim);cursor:pointer;transition:all .15s;
+  clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+}
+.match-type-btn:hover{border-color:var(--accent);color:var(--accent);}
+.match-type-btn.active{background:var(--accent);color:#000;border-color:var(--accent);}
+.match-cfg-sep{color:var(--border2);font-size:14px;}
+.priority-row{display:flex;align-items:center;gap:6px;margin-left:auto;flex-wrap:wrap;}
+.priority-badge{
+  font-family:'Bebas Neue';font-size:12px;letter-spacing:1px;
+  padding:4px 10px;border:1px solid;
+  transition:all .2s;cursor:default;
+}
+.priority-badge.none{border-color:var(--border);color:var(--dim);}
+.priority-badge.left{border-color:var(--red);color:var(--red);background:var(--red-dim);}
+.priority-badge.right{border-color:var(--green);color:var(--green);background:var(--green-dim);}
+.btn-priority{
+  font-family:'Bebas Neue';font-size:12px;letter-spacing:1px;
+  padding:4px 10px;border:1px solid var(--blue);
+  background:transparent;color:var(--blue);cursor:pointer;transition:all .15s;
+  clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+}
+.btn-priority:hover{background:var(--blue-dim);}
+
+/* Priority modal */
+.prio-modal-box{
+  background:var(--panel);border:2px solid var(--accent);
+  padding:28px 36px;text-align:center;min-width:300px;max-width:400px;width:92%;
+  animation:pop-in .3s ease;
+}
+.prio-modal-title{font-family:'Bebas Neue';font-size:30px;color:var(--accent);margin-bottom:6px;}
+.prio-modal-sub{font-size:12px;color:var(--text2);margin-bottom:20px;line-height:1.5;}
+.prio-opts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
+.prio-opt{
+  font-family:'Bebas Neue';font-size:16px;letter-spacing:1px;
+  padding:12px 20px;border:2px solid;cursor:pointer;
+  background:transparent;transition:all .15s;
+  display:flex;flex-direction:column;align-items:center;gap:4px;min-width:110px;
+}
+.prio-opt.left-opt{color:var(--red);border-color:var(--red);}
+.prio-opt.left-opt:hover{background:var(--red-dim);}
+.prio-opt.right-opt{color:var(--green);border-color:var(--green);}
+.prio-opt.right-opt:hover{background:var(--green-dim);}
+.prio-opt.rand-opt{color:var(--accent);border-color:var(--accent);}
+.prio-opt.rand-opt:hover{background:var(--accent-dim);}
+.prio-opt small{font-size:10px;opacity:.7;font-family:'Barlow Condensed';letter-spacing:.5px;}
+.prio-spinner{
+  font-family:'Bebas Neue';font-size:48px;color:var(--accent);
+  animation:spin-num .08s steps(1) infinite;display:none;margin:10px 0;
+}
+@keyframes spin-num{0%{content:'L';}50%{content:'R';}}
+.prio-result{
+  font-family:'Bebas Neue';font-size:24px;margin:10px 0;display:none;
+}
+.overtime-badge{
+  display:none;text-align:center;padding:5px 12px;
+  font-family:'Bebas Neue';font-size:14px;letter-spacing:2px;
+  color:#000;background:var(--accent);margin-bottom:4px;
+}
+.overtime-badge.show{display:block;}
+
+/* ═══════════════════════════════════════
    STATUS BAR
 ═══════════════════════════════════════ */
 .status-bar{
@@ -650,6 +722,31 @@ header{
   </div>
 </div>
 
+<!-- Priority modal -->
+<div class="overlay" id="prioOverlay">
+  <div class="prio-modal-box">
+    <div class="prio-modal-title">⚡ PRIORIDAD</div>
+    <div class="prio-modal-sub" id="prioModalSub">Asignar prioridad para tiempo suplementario (t.116 FIE)</div>
+    <div class="prio-spin" id="prioSpin" style="font-family:'Bebas Neue';font-size:52px;color:var(--accent);display:none;margin:10px 0;">?</div>
+    <div class="prio-result" id="prioResult"></div>
+    <div class="prio-opts" id="prioOpts">
+      <button class="prio-opt left-opt" id="prioOptL" onclick="assignPriority('L')">
+        <span id="prioNameL">TIRADOR A</span>
+        <small>IZQUIERDO 🔴</small>
+      </button>
+      <button class="prio-opt rand-opt" onclick="assignPriority('random')">
+        <span>🎲 SORTEO</span>
+        <small>Aleatorio FIE</small>
+      </button>
+      <button class="prio-opt right-opt" id="prioOptR" onclick="assignPriority('R')">
+        <span id="prioNameR">TIRADOR B</span>
+        <small>DERECHO 🟢</small>
+      </button>
+    </div>
+    <button class="pen-opt-btn cancel" style="width:100%;justify-content:center;margin-top:8px;" onclick="closePrioModal()">CANCELAR</button>
+  </div>
+</div>
+
 <!-- Name edit modal -->
 <div class="overlay" id="nameOverlay">
   <div class="name-box">
@@ -692,9 +789,9 @@ header{
     </div>
   </div>
   <div class="weapon-tabs">
-    <button class="wpn" id="wpn-florete" onclick="setWeapon('florete')">FLORETE</button>
-    <button class="wpn active" id="wpn-espada" onclick="setWeapon('espada')">ESPADA</button>
+    <button class="wpn active" id="wpn-florete" onclick="setWeapon('florete')">FLORETE</button>
     <button class="wpn" id="wpn-sable" onclick="setWeapon('sable')">SABLE</button>
+    <button class="wpn" id="wpn-espada" onclick="setWeapon('espada')">ESPADA</button>
   </div>
   <div class="header-actions">
     <button class="btn-full-reset" onclick="confirmFullReset()">⟳ RESET TOTAL</button>
@@ -709,6 +806,24 @@ header{
 
     <!-- Timer card -->
     <div class="card" style="margin-bottom:12px;">
+
+      <!-- FIE Match Config Bar -->
+      <div class="match-cfg" id="matchCfgBar">
+        <span class="match-cfg-label">MODALIDAD:</span>
+        <button class="match-type-btn active" id="btnIndiv" onclick="setMatchType('individual')">INDIVIDUAL</button>
+        <button class="match-type-btn" id="btnTeam" onclick="setMatchType('team')">EQUIPO</button>
+        <span class="match-cfg-sep">|</span>
+        <span class="match-cfg-label" style="font-size:9px;">MÁX:</span>
+        <span id="maxScoreBadge" style="font-family:'Bebas Neue';font-size:15px;color:var(--accent);">15 TOCADOS / 3 PERÍODOS</span>
+        <div class="priority-row">
+          <span class="match-cfg-label">PRIORIDAD:</span>
+          <span class="priority-badge none" id="priorityBadge">SIN ASIGNAR</span>
+          <button class="btn-priority" onclick="openPrioModal()">⚡ ASIGNAR</button>
+        </div>
+      </div>
+      <!-- Overtime indicator -->
+      <div class="overtime-badge" id="overtimeBadge">⚡ TIEMPO SUPLEMENTARIO — PRIORIDAD ACTIVA</div>
+
       <div class="timer-wrap">
 
         <div class="period-row">
@@ -830,13 +945,13 @@ header{
 
     <!-- Bout counter -->
     <div class="card">
-      <div class="card-title">🗡 <span class="accent">ASALTO</span></div>
+      <div class="card-title">🗡 <span class="accent" id="boutCardTitle">PERÍODO</span></div>
       <div class="bout-row">
         <div>
-          <div class="bout-info">N° ASALTO ACTIVO</div>
-          <div class="bout-num" id="boutNum">1</div>
+          <div class="bout-info" id="boutInfo">PERÍODO ACTIVO</div>
+          <div class="bout-num" id="boutNum">1<span style="font-size:22px;color:var(--dim);opacity:.7">/3</span></div>
         </div>
-        <button class="btn-newbout" onclick="newBout()">NUEVO ASALTO</button>
+        <button class="btn-newbout" id="btnNewBout" onclick="newBout()">NUEVO PERÍODO</button>
       </div>
     </div>
 
@@ -907,7 +1022,7 @@ header{
 <div class="status-bar">
   <div class="status-dot idle" id="statusDot"></div>
   <div class="status-text" id="statusTxt">SISTEMA LISTO • MODO MANUAL • PBT MULTITALENT BASIC</div>
-  <div class="weapon-pill" id="weaponPill">ESPADA</div>
+  <div class="weapon-pill" id="weaponPill">FLORETE</div>
 </div>
 
 <!-- ═══════════════════════════════════════════
@@ -918,29 +1033,40 @@ header{
 // STATE
 // ══════════════════════════════
 const S = {
-  weapon: 'espada',
+  weapon: 'florete',
+  // FIE match config
+  matchType: 'individual',
+  maxScore: 15,
+  maxBouts: 3,           // 3 períodos individual, 9 asaltos equipo
+  priority: null,
+  isOvertime: false,
   timer: { secs: 180, init: 180, running: false, iv: null },
   rest:  { secs: 60,  init: 60,  running: false, iv: null },
   scores: { L: 0, R: 0 },
   names:  { L: 'TIRADOR A', R: 'TIRADOR B' },
   bout: 1,
   stats: { hL: 0, hR: 0, pauses: 0 },
-  // FIE Penalty state per fencer
-  // penalties[side] = array of card objects {type:'yellow'|'red'|'black', ts}
   penalties: { L: [], R: [] },
-  // group1 sanction counter (resets per match per fencer in group1 logic)
-  // 'yellow' warnings earned in current match
   yellowCount: { L: 0, R: 0 },
-  penTarget: null,  // which side is being penalized
+  penTarget: null,
   editTarget: null,
   logOpen: false,
   logCount: 0,
   audioCtx: null,
-  weaponCycle: ['florete','espada','sable'],
-  weaponIdx: 1,
+  weaponCycle: ['florete','sable','espada'],
+  weaponIdx: 0,
 };
 
-// ══════════════════════════════
+function checkRestLocked(){
+  if(S.rest.running){
+    logEv('\u26d4 Bloqueado: Descanso activo','ld-dim');
+    beep(300,.1,.3,'sawtooth');
+    return true;
+  }
+  return false;
+}
+
+// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 // AUDIO
 // ══════════════════════════════
 function ac(){
@@ -990,11 +1116,20 @@ function updateStatusDot(state){
 }
 
 function toggleTimer(){
+  if(checkRestLocked()) return;
   if(S.timer.secs===0){ resetTimer(); return; }
   if(S.timer.running) pauseTimer(); else startTimer();
 }
 function startTimer(){
   if(S.timer.secs===0) return;
+  
+  // Auto-assign priority on first bout start if not assigned
+  if(S.bout===1 && S.timer.secs===S.timer.init && S.scores.L===0 && S.scores.R===0 && S.priority===null){
+    S.priority = Math.random() < 0.5 ? 'L' : 'R';
+    updatePriorityBadge();
+    logEv('\u26a1 Prioridad auto-asignada al iniciar: '+S.names[S.priority],'ld-yellow');
+  }
+
   S.timer.running=true;
   document.getElementById('btnPlay').textContent='⏸ PAUSAR';
   document.getElementById('btnPlay').className='btn btn-pause-main';
@@ -1031,21 +1166,69 @@ function finishTimer(){
   clearInterval(S.timer.iv);
   S.timer.running=false;
   S.timer.secs=0;
-  document.getElementById('btnPlay').textContent='↺ NUEVO';
-  document.getElementById('btnPlay').className='btn btn-reset';
-  document.getElementById('timerSub').textContent='⏱ TIEMPO FINALIZADO';
-  document.getElementById('statusTxt').textContent='TIEMPO FINALIZADO — HALT!';
-  setTimerState('done');
-  updateStatusDot('done');
   updateTimerDisplay();
   alarm();
-  logEv('🔔 TIEMPO FINALIZADO — HALT!','ld-red');
-  setTimeout(()=>showAlert('⏱ HALT!',`Tiempo finalizado\nScore: ${S.scores.L} — ${S.scores.R}`),400);
+
+  if(S.isOvertime){
+    S.isOvertime=false;
+    document.getElementById('overtimeBadge').classList.remove('show');
+    if(S.scores.L===S.scores.R){
+      const winName=S.priority?S.names[S.priority]:'SIN PRIORIDAD';
+      document.getElementById('btnPlay').textContent='\u21ba NUEVO';
+      document.getElementById('btnPlay').className='btn btn-reset';
+      document.getElementById('timerSub').textContent='\u23f1 TIEMPO SUPLEMENTARIO FINALIZADO';
+      document.getElementById('statusTxt').textContent='VICTORIA POR PRIORIDAD';
+      setTimerState('done'); updateStatusDot('done');
+      logEv('\ud83c\udfc6 VICTORIA POR PRIORIDAD \u2192 '+winName,'ld-yellow');
+      setTimeout(()=>showAlert('\ud83c\udfc6 PRIORIDAD','Empate '+S.scores.L+'\u2014'+S.scores.R+'\nVICTORIA POR PRIORIDAD:\n'+winName),400);
+    } else {
+      const w=S.scores.L>S.scores.R?'L':'R';
+      setTimeout(()=>endMatchWinner(w),400);
+    }
+    return;
+  }
+
+  document.getElementById('btnPlay').textContent='\u21ba NUEVO';
+  document.getElementById('btnPlay').className='btn btn-reset';
+  document.getElementById('timerSub').textContent='\u23f1 TIEMPO FINALIZADO';
+  document.getElementById('statusTxt').textContent='TIEMPO FINALIZADO \u2014 HALT!';
+  setTimerState('done'); updateStatusDot('done');
+  logEv('\ud83d\udd14 TIEMPO FINALIZADO \u2014 HALT!','ld-red');
+
+  if(S.scores.L>=S.maxScore||S.scores.R>=S.maxScore){
+    const w=S.scores.L>=S.maxScore?'L':'R';
+    setTimeout(()=>endMatchWinner(w),400); return;
+  }
+
+  // FIE: Automatic bout advance if time runs out before last bout
+  if(S.bout < S.maxBouts){
+    setTimeout(()=>{
+      showAlert('\u23f1 FIN DEL TIEMPO',`El asalto / per\u00edodo ${S.bout} ha terminado.\\nSe avanza autom\u00e1ticamente al siguiente.`);
+      newBout();
+    }, 800);
+    return;
+  }
+
+  if(S.scores.L===S.scores.R){
+    setTimeout(()=>{
+      if(S.priority===null){
+        showAlert('\u26a1 EMPATE \u2014 PRIORIDAD','Score: '+S.scores.L+' \u2014 '+S.scores.R+'\n\nEmpate al tiempo.\nAsigna PRIORIDAD (t.116 FIE)\ny se dar\u00e1n60 seg adicionales.');
+        logEv('\u26a1 EMPATE: Asignar prioridad para tiempo suplementario','ld-yellow');
+      } else {
+        startOvertime();
+      }
+    },400);
+    return;
+  }
+
+  const w=S.scores.L>S.scores.R?'L':'R';
+  setTimeout(()=>endMatchWinner(w),400);
 }
 function haltAction(){
   if(S.timer.running){ pauseTimer(); logEv('🛑 HALT por árbitro','ld-red'); beep(500,.3,.5,'sawtooth'); }
 }
 function resetTimer(){
+  if(checkRestLocked()) return;
   clearInterval(S.timer.iv);
   S.timer.running=false;
   S.timer.secs=S.timer.init;
@@ -1059,6 +1242,7 @@ function resetTimer(){
   updateTimerDisplay();
 }
 function setPreset(m,s){
+  if(checkRestLocked()) return;
   const t=m*60+s;
   S.timer.init=t; S.timer.secs=t;
   document.getElementById('tMin').value=m;
@@ -1067,6 +1251,7 @@ function setPreset(m,s){
   logEv(`⏱ Tiempo configurado: ${fmt(t)}`,'ld-blue');
 }
 function setTimeFromInputs(){
+  if(checkRestLocked()) return;
   const m=Math.max(0,parseInt(document.getElementById('tMin').value)||0);
   const s=Math.max(0,Math.min(59,parseInt(document.getElementById('tSec').value)||0));
   const t=Math.min(m*60+s,599);
@@ -1074,10 +1259,129 @@ function setTimeFromInputs(){
   if(!S.timer.running) updateTimerDisplay();
 }
 
+
+// ══════════════════════════════
+// FIE MATCH HELPERS
+// ══════════════════════════════
+function endMatchWinner(side){
+  const winName=S.names[side];
+  setTimerState('done'); updateStatusDot('done');
+  document.getElementById('btnPlay').textContent='\u21ba NUEVO';
+  document.getElementById('btnPlay').className='btn btn-reset';
+  logEv('\ud83c\udfc6 COMBAT FINALIZADO \u2192 '+winName+' ('+S.scores.L+'\u2014'+S.scores.R+')','ld-yellow');
+  showAlert('\ud83c\udfc6 COMBATE',winName+'\n\n'+S.scores.L+' \u2014 '+S.scores.R+'\n\nFIN DEL COMBATE');
+  alarm();
+}
+
+function startOvertime(){
+  S.isOvertime=true;
+  S.timer.init=60; S.timer.secs=60;
+  updateTimerDisplay();
+  setTimerState('idle');
+  document.getElementById('overtimeBadge').classList.add('show');
+  document.getElementById('btnPlay').textContent='\u25b6 TIEMPO SUPLEMENTARIO';
+  document.getElementById('btnPlay').className='btn btn-play';
+  document.getElementById('btnPause').disabled=true;
+  document.getElementById('timerSub').textContent='\u26a1 1 MINUTO SUPLEMENTARIO \u2014 PRIORIDAD: '+S.names[S.priority];
+  document.getElementById('tMin').value='1';
+  document.getElementById('tSec').value='00';
+  document.getElementById('statusTxt').textContent='TIEMPO SUPLEMENTARIO \u2022 PRIORIDAD: '+S.names[S.priority];
+  logEv('\u26a1 1 min SUPLEMENTARIO \u2014 Prioridad: '+S.names[S.priority],'ld-yellow');
+  alarm();
+}
+
+// ══════════════════════════════
+// MATCH TYPE (FIE)
+// ══════════════════════════════
+function setMatchType(type){
+  S.matchType=type;
+  S.maxScore=(type==='team')?45:15;
+  S.maxBouts=(type==='team')?9:3;
+  document.getElementById('btnIndiv').classList.toggle('active',type==='individual');
+  document.getElementById('btnTeam').classList.toggle('active',type==='team');
+  const term = type==='team'?' ASALTOS':' PER\u00cdODOS';
+  document.getElementById('maxScoreBadge').textContent=S.maxScore+' TOCADOS / '+S.maxBouts+term;
+  
+  // Update sidebar text
+  document.getElementById('boutCardTitle').textContent=type==='team'?'ASALTO':'PER\u00cdODO';
+  document.getElementById('boutInfo').textContent=type==='team'?'N\u00b0 ASALTO ACTIVO':'PER\u00cdODO ACTIVO';
+  document.getElementById('btnNewBout').textContent=type==='team'?'NUEVO ASALTO':'NUEVO PER\u00cdODO';
+  
+  updateBadges();
+  logEv('\ud83d\udccb Modalidad: '+(type==='team'?'EQUIPO (45 tocados)':'INDIVIDUAL (15 tocados)'),'ld-blue');
+}
+
+// ══════════════════════════════
+// PRIORITY SYSTEM (FIE t.116)
+// ══════════════════════════════
+function openPrioModal(){
+  if(S.priority !== null){
+    logEv('\u26d4 Prioridad ya asignada. Requiere RESET TOTAL para cambiarla.','ld-dim');
+    showAlert('PRIORIDAD BLOQUEADA', 'La prioridad ya est\u00e1 asignada.\\n\\nSeg\u00fan el reglamento FIE no se debe cambiar en curso.\\n\\nSi hay un error de arbitraje, aplica RESET TOTAL.');
+    return;
+  }
+  document.getElementById('prioNameL').textContent=S.names.L;
+  document.getElementById('prioNameR').textContent=S.names.R;
+  document.getElementById('prioResult').style.display='none';
+  document.getElementById('prioSpin').style.display='none';
+  document.getElementById('prioOpts').style.display='flex';
+  document.getElementById('prioOverlay').classList.add('vis');
+}
+function closePrioModal(){
+  document.getElementById('prioOverlay').classList.remove('vis');
+}
+function assignPriority(who){
+  const opts=document.getElementById('prioOpts');
+  const spin=document.getElementById('prioSpin');
+  const result=document.getElementById('prioResult');
+  if(who==='random'){
+    opts.style.display='none';
+    spin.style.display='block';
+    let count=0;
+    const names=[S.names.L,S.names.R];
+    const iv=setInterval(function(){
+      spin.textContent=names[count%2];
+      count++;
+      if(count>16){
+        clearInterval(iv);
+        spin.style.display='none';
+        const chosen=Math.random()<0.5?'L':'R';
+        S.priority=chosen;
+        showPriorityResult(chosen,result);
+        beep(880,.15,.4,'sine');
+      }
+    },100);
+  } else {
+    S.priority=who;
+    opts.style.display='none';
+    showPriorityResult(who,result);
+  }
+}
+function showPriorityResult(side,resultEl){
+  const name=S.names[side];
+  const color=side==='L'?'#e84050':'#38e87a';
+  resultEl.style.display='block';
+  resultEl.innerHTML='<div style="font-family:\'Bebas Neue\';font-size:32px;color:'+color+'">'+name+'</div><div style="color:var(--text2);font-size:12px;margin-top:4px;">tiene la PRIORIDAD</div>';
+  updatePriorityBadge();
+  logEv('\u26a1 Prioridad asignada: '+name,'ld-yellow');
+  setTimeout(function(){closePrioModal();},1800);
+}
+function updatePriorityBadge(){
+  const badge=document.getElementById('priorityBadge');
+  if(!S.priority){
+    badge.textContent='SIN ASIGNAR'; badge.className='priority-badge none';
+  } else if(S.priority==='L'){
+    badge.textContent='\ud83d\udd34 '+S.names.L; badge.className='priority-badge left';
+  } else {
+    badge.textContent='\ud83d\udfe2 '+S.names.R; badge.className='priority-badge right';
+  }
+}
+
 // ══════════════════════════════
 // HIT REGISTRATION
 // ══════════════════════════════
 function registerHit(side){
+  if(checkRestLocked()) return;
   const freq=side==='L'?660:880;
   beep(freq,.1,.5,'square');
   setTimeout(()=>beep(freq*1.5,.07,.3),70);
@@ -1093,8 +1397,8 @@ function registerHit(side){
     pauseTimer();
   }
 
-  // +1 point to the fencer who scored the touch
-  S.scores[side]=Math.max(0,S.scores[side]+1);
+  // +1 point to the fencer who scored the touch (capped at maxScore)
+  S.scores[side]=Math.max(0, Math.min(S.maxScore, S.scores[side]+1));
   document.getElementById('score'+side).textContent=S.scores[side];
   logEv(`💡 TOCADO ${side==='L'?'IZQUIERDO 🔴':'DERECHO 🟢'} → +1 punto ${S.names[side]}`,side==='L'?'ld-red':'ld-green');
 
@@ -1108,22 +1412,28 @@ function registerHit(side){
   setTimeout(()=>fc.classList.remove('scored'),450);
 
   updateBadges();
+  // FIE: check max score
+  if(S.scores[side]>=S.maxScore) setTimeout(()=>endMatchWinner(side),300);
 }
 
 // ══════════════════════════════
 // SCORE
 // ══════════════════════════════
 function changeScore(side,delta){
-  S.scores[side]=Math.max(0,S.scores[side]+delta);
+  if(checkRestLocked()) return;
+  S.scores[side]=Math.max(0, Math.min(S.maxScore, S.scores[side]+delta));
   document.getElementById('score'+side).textContent=S.scores[side];
-  if(delta>0) logEv(`+1 punto → ${S.names[side]}`,side==='L'?'ld-red':'ld-green');
+  if(delta>0) logEv('+1 punto → '+S.names[side],side==='L'?'ld-red':'ld-green');
   updateBadges();
   beep(side==='L'?550:770,.07);
+  if(delta>0 && S.scores[side]>=S.maxScore) setTimeout(()=>endMatchWinner(side),300);
 }
 function updateBadges(){
   document.getElementById('scoreBadgeL').textContent=S.scores.L;
   document.getElementById('scoreBadgeR').textContent=S.scores.R;
-  document.getElementById('periodBadge').textContent=`ASALTO ${S.bout}`;
+  const term = S.matchType==='team'?'ASALTO ':'PER\u00cdODO ';
+  document.getElementById('periodBadge').textContent=term+S.bout;
+  document.getElementById('boutNum').innerHTML=S.bout+'<span style="font-size:22px;color:var(--dim);opacity:.7">/'+S.maxBouts+'</span>';
 }
 
 // ══════════════════════════════
@@ -1147,6 +1457,7 @@ function updateBadges(){
 */
 
 function openPenModal(side){
+  if(checkRestLocked()) return;
   S.penTarget=side;
   document.getElementById('penModalFencer').textContent=S.names[side];
   document.getElementById('penOverlay').classList.add('vis');
@@ -1158,6 +1469,7 @@ function closePenModal(){
 
 // Direct penalty application (no modal)
 function applyPenDirect(side, type){
+  if(checkRestLocked()) return;
   S.penTarget = side;
   applyPenCard(type);
   S.penTarget = null;
@@ -1294,12 +1606,16 @@ function resetRest(){
 // BOUT
 // ══════════════════════════════
 function newBout(){
-  const prev=`${S.scores.L} — ${S.scores.R}`;
+  if(checkRestLocked()) return;
+  if(S.bout >= S.maxBouts) {
+    logEv('Ya se alcanz\u00f3 el \u00faltimo per\u00edodo/asalto m\u00e1ximo permitido.','ld-dim');
+    return;
+  }
+  const prev=`${S.scores.L} \u2014 ${S.scores.R}`;
   S.bout++;
-  document.getElementById('boutNum').textContent=S.bout;
   document.getElementById('stBouts').textContent=S.bout;
   resetTimer();
-  logEv(`🗡 NUEVO ASALTO #${S.bout} (anterior: ${prev})`,'ld-yellow');
+  logEv(`\ud83d\udde1 NUEVO ASALTO / PER\u00cdODO #${S.bout} (anterior: ${prev})`,'ld-yellow');
   updateBadges();
   beep(660,.05); setTimeout(()=>beep(880,.05),100);
 }
@@ -1321,8 +1637,10 @@ function setWeapon(w){
 // FULL RESET
 // ══════════════════════════════
 function confirmFullReset(){
-  if(confirm('⚠️ RESET TOTAL\n\nSe borrarán tiempos, puntajes, tarjetas y asaltos.\n\n¿Confirmar?')){
-    fullReset();
+  if(confirm('\u26a0\ufe0f RESET TOTAL\n\nSe borrar\u00e1n tiempos, puntajes, tarjetas y asaltos.\n\n\u00bfDeseas continuar?')){
+    if(confirm('\ud83d\uded1 CONFIRMACI\u00d3N FINAL\n\n\u00bfEst\u00e1s absolutamente seguro de aplicar el RESET TOTAL? Esto no se puede deshacer.')){
+      fullReset();
+    }
   }
 }
 function fullReset(){
@@ -1350,6 +1668,12 @@ function fullReset(){
   document.getElementById('stHR').textContent='0';
   document.getElementById('stPauses').textContent='0';
   document.getElementById('stBouts').textContent='1';
+
+  // Reset FIE priority/overtime
+  S.priority=null;
+  S.isOvertime=false;
+  document.getElementById('overtimeBadge').classList.remove('show');
+  updatePriorityBadge();
 
   // Reset timer
   resetTimer();
@@ -1381,6 +1705,7 @@ document.getElementById('nameInp').addEventListener('keydown',e=>{if(e.key==='En
 document.getElementById('nameOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove('vis');});
 document.getElementById('penOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closePenModal();});
 document.getElementById('alertOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAlert();});
+document.getElementById('prioOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closePrioModal();});
 
 // ══════════════════════════════
 // ALERT
@@ -1439,6 +1764,7 @@ document.addEventListener('keydown',e=>{
       closeAlert();
       document.getElementById('nameOverlay').classList.remove('vis');
       closePenModal();
+      closePrioModal();
       break;
   }
 });
@@ -1448,8 +1774,12 @@ document.addEventListener('keydown',e=>{
 // ══════════════════════════════
 updateTimerDisplay();
 ['L','R'].forEach(s=>renderPenalties(s));
-logEv('✅ Fencing Timer v2 listo — PBT MultiTalent BASIC','ld-green');
-logEv('⌨️ ESPACIO=play/pause | Q=rojo | W=verde | H=halt | F=arma | ←/→=puntos','ld-dim');
+setWeapon('florete');
+setMatchType('individual');
+updatePriorityBadge();
+logEv('✅ Fencing Timer FIE v3 — Reglamento FIE t.113/t.116/t.170','ld-green');
+logEv('📋 Individual=15pts | Equipo=45pts | Prioridad sorteo en empate (t.116)','ld-blue');
+logEv('⌨️ ESPACIO=iniciar | Q=izq | W=der | H=halt | F=arma | ←/→=puntos','ld-dim');
 </script>
 </body>
 </html>
