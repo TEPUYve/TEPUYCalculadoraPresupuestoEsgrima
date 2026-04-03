@@ -1088,6 +1088,7 @@ const I18N = {
     victoria_prio: "VICTORIA POR PRIORIDAD", t_finalizado: "TIEMPO FINALIZADO — HALT!", t_esperando: "ESPERANDO REANUDACIÓN",
     lang_blocked_tit: "IDIOMA BLOQUEADO", lang_blocked_desc: "El idioma solo se puede cambiar antes de iniciar el asalto.\nAplica RESET TOTAL para desbloquear.",
     prio_blocked_tit: "PRIORIDAD BLOQUEADA", prio_blocked_desc: "La prioridad ya ha sido asignada automáticamente tras la primera acción.\nSolo puede cambiarse aplicando un RESET TOTAL.",
+    match_type_blocked_tit: "MODALIDAD BLOQUEADA", match_type_blocked_desc: "La modalidad (Individual/Equipo) solo se puede cambiar antes de iniciar el asalto.\nAplica RESET TOTAL para desbloquear.",
     excluido: "EXCLUIDO", roja_prox: "ROJA(S) — próx. falta = +ROJA", adv_prox: "ADVERTIDO — próx. falta = ROJA", tarjeta_negra: "⬛ TARJETA NEGRA", exc_torneo: "ha sido excluido del torneo.",
     
     prio_modal_tit: "⚡ PRIORIDAD", prio_modal_sub: "Asignar prioridad para tiempo suplementario (t.116 FIE)", sort_aleatorio: "🎲 SORTEO", aleatorio_sub: "Aleatorio FIE",
@@ -1144,6 +1145,7 @@ const I18N = {
     victoria_prio: "PRIORITY VICTORY", t_finalizado: "TIME UP — HALT!", t_esperando: "WAITING TO RESUME",
     lang_blocked_tit: "LANGUAGE LOCKED", lang_blocked_desc: "Language can only be changed before starting the bout.\nApply FULL RESET to unlock.",
     prio_blocked_tit: "PRIORITY LOCKED", prio_blocked_desc: "Priority has already been automatically assigned after the first action.\nIt can only be changed by applying a FULL RESET.",
+    match_type_blocked_tit: "MATCH TYPE LOCKED", match_type_blocked_desc: "Match type (Individual/Team) can only be changed before starting the bout.\nApply FULL RESET to unlock.",
     excluido: "EXCLUDED", roja_prox: "RED(S) — next = +RED", adv_prox: "WARNED — next = RED", tarjeta_negra: "⬛ BLACK CARD", exc_torneo: "has been excluded from tournament.",
     
     prio_modal_tit: "⚡ PRIORITY", prio_modal_sub: "Assign priority for overtime (t.116 FIE)", sort_aleatorio: "🎲 DRAW", aleatorio_sub: "Random FIE",
@@ -1200,6 +1202,7 @@ const I18N = {
     victoria_prio: "VICTOIRE PAR PRIORITÉ", t_finalizado: "TEMPS ÉCOULÉ — HALTE!", t_esperando: "ATTENTE DE REPRISE",
     lang_blocked_tit: "LANGUE VERROUILLÉE", lang_blocked_desc: "La langue ne peut être modifiée qu'avant le début de l'assaut.\nAppliquez RÉINITIALISER pour déverrouiller.",
     prio_blocked_tit: "PRIORITÉ VERROUILLÉE", prio_blocked_desc: "La priorité a déjà été attribuée automatiquement après la première action.\nElle ne peut être modifiée qu'en appliquant une RÉINITIALISATION.",
+    match_type_blocked_tit: "MODALITÉ VERROUILLÉE", match_type_blocked_desc: "La modalité (Individuel/Équipe) ne peut être modifiée qu'avant le début de l'assaut.\nAppliquez RÉINITIALISER pour déverrouiller.",
     excluido: "EXCLU", roja_prox: "ROUGE(S) — proc. = +ROUGE", adv_prox: "AVERTI — proc. = ROUGE", tarjeta_negra: "⬛ CARTON NOIR", exc_torneo: "a été exclu du tournoi.",
     
     prio_modal_tit: "⚡ PRIORITÉ", prio_modal_sub: "Attribuer la priorité pour le temps supplémentaire (t.116 FIE)", sort_aleatorio: "🎲 TIRAGE", aleatorio_sub: "Aléatoire FIE",
@@ -1236,9 +1239,13 @@ const I18N = {
 
 function t(key){ return I18N[S.lang][key] || key; }
 
+function isMatchStarted(){
+  return (S.bout !== 1 || S.timer.secs !== S.timer.init || S.scores.L !== 0 || S.scores.R !== 0 || S.timer.running || S.priority !== null || S.penalties.L.length > 0 || S.penalties.R.length > 0);
+}
+
 function setLang(lang){
   // Enforce match started lock
-  if(S.bout !== 1 || S.timer.secs !== S.timer.init || S.scores.L !== 0 || S.scores.R !== 0 || S.timer.running) {
+  if(isMatchStarted()) {
     showAlert(t('lang_blocked_tit'), t('lang_blocked_desc'));
     beep(300,.1,.3,'sawtooth');
     document.getElementById('langSel').value = S.lang; // revert select UI
@@ -1508,6 +1515,12 @@ function startOvertime(){
 // MATCH TYPE (FIE)
 // ══════════════════════════════
 function setMatchType(type){
+  if(isMatchStarted() && type !== S.matchType) {
+    showAlert(t('match_type_blocked_tit'), t('match_type_blocked_desc'));
+    logEv('⛔ ' + t('match_type_blocked_tit'), 'ld-dim');
+    beep(300,.1,.3,'sawtooth');
+    return;
+  }
   S.matchType=type;
   S.maxScore=(type==='team')?45:15;
   S.maxBouts=(type==='team')?9:3;
@@ -1841,6 +1854,10 @@ function newBout(){
 // WEAPON
 // ══════════════════════════════
 function setWeapon(w){
+  if(isMatchStarted() && w !== S.weapon) {
+     // Optional: Weapon is also key to match identity under FIE. We keep it consistent with Modalidad.
+     logEv('⛔ ' + t('stat_asaltos') + ' ' + t('asalto_en_curso'), 'ld-dim');
+  }
   S.weapon=w;
   document.querySelectorAll('.wpn').forEach(b=>b.classList.remove('active'));
   document.getElementById('wpn-'+w).classList.add('active');
